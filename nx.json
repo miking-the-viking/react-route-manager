@@ -1,13 +1,17 @@
 {
   "npmScope": "react-route-manager",
+  "affected": {
+    "defaultBase": "master"
+  },
   "implicitDependencies": {
     "workspace.json": "*",
     "package.json": {
       "dependencies": "*",
       "devDependencies": "*"
     },
-    "tsconfig.json": "*",
+    "tsconfig.base.json": "*",
     "tslint.json": "*",
+    ".eslintrc.json": "*",
     "nx.json": "*"
   },
   "tasksRunnerOptions": {
@@ -19,8 +23,12 @@
     }
   },
   "projects": {
-    "route-manager": {
+    "react-route-manager-demo": {
       "tags": []
+    },
+    "react-route-manager-demo-e2e": {
+      "tags": [],
+      "implicitDependencies": ["react-route-manager-demo"]
     }
   }
 }
