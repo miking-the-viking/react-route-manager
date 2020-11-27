@@ -15,7 +15,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@react-route-manager/react-route-manager": [
+        "libs/react-route-manager/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

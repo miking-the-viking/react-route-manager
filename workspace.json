@@ -103,6 +103,53 @@
           }
         }
       }
+    },
+    "react-route-manager": {
+      "root": "libs/react-route-manager",
+      "sourceRoot": "libs/react-route-manager/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/react-route-manager/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "build": {
+          "builder": "@nrwl/web:package",
+          "options": {
+            "outputPath": "dist/libs/react-route-manager",
+            "tsConfig": "libs/react-route-manager/tsconfig.lib.json",
+            "project": "libs/react-route-manager/package.json",
+            "entryFile": "libs/react-route-manager/src/index.ts",
+            "external": [
+              "react",
+              "react-dom",
+              "@emotion/styled",
+              "@emotion/core"
+            ],
+            "babelConfig": "@nrwl/react/plugins/bundle-babel",
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/react-route-manager/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

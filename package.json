@@ -27,12 +27,16 @@
   },
   "private": true,
   "dependencies": {
+    "@chakra-ui/core": "^0.8.0",
     "@emotion/core": "10.0.28",
     "@emotion/styled": "10.0.27",
     "document-register-element": "1.13.1",
+    "history": "^5.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-router": "^6.0.0-beta.0"
+    "react-helmet-async": "^1.0.7",
+    "react-router": "^6.0.0-beta.0",
+    "react-router-dom": "^6.0.0-beta.0"
   },
   "devDependencies": {
     "@babel/core": "7.9.6",

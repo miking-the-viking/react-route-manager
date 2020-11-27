@@ -29,6 +29,9 @@
     "react-route-manager-demo-e2e": {
       "tags": [],
       "implicitDependencies": ["react-route-manager-demo"]
+    },
+    "react-route-manager": {
+      "tags": []
     }
   }
 }

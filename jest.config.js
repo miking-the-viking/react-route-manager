@@ -1,3 +1,6 @@
 module.exports = {
-  projects: ['<rootDir>/apps/react-route-manager-demo'],
+  projects: [
+    "<rootDir>/apps/react-route-manager-demo",
+    "<rootDir>/libs/react-route-manager",
+  ],
 };
