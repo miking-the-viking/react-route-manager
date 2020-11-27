@@ -1,5 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import IndexRouter from "./router/IndexRouter";
+import App from "./app/App";
 
-ReactDOM.render(<IndexRouter />, document.getElementById("root"));
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById("root")
+);

@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import { RouteConfig } from "@react-route-manager/react-route-manager";
 
-export const WELCOME: RouteConfig<any> = {
+export const WELCOME: RouteConfig = {
   path: "/",
   lazyLoadedComponent: lazy(() => import("./Welcome")),
   description: "Main Welcome page for all visitors",

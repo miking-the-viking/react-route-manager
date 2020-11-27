@@ -32,6 +32,12 @@
     },
     "react-route-manager": {
       "tags": []
+    },
+    "ui-components": {
+      "tags": []
+    },
+    "ui-state": {
+      "tags": []
     }
   }
 }

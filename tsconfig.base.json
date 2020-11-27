@@ -18,7 +18,9 @@
     "paths": {
       "@react-route-manager/react-route-manager": [
         "libs/react-route-manager/src/index.ts"
-      ]
+      ],
+      "@react-route-manager/ui-components": ["libs/ui-components/src/index.ts"],
+      "@react-route-manager/ui-state": ["libs/ui-state/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

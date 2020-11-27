@@ -4,7 +4,7 @@ import { RouteRule } from "./RouteRule";
  * RouteBaseType extends the generic application state in order to ensure type safety on the route's rules
  */
 export interface RouteConfig<
-  RouteManagerState extends Record<string, unknown>
+  RouteManagerState extends Record<string, unknown> = Record<string, unknown>
 > {
   /**
    * The relative url path that router should match to

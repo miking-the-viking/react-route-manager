@@ -1,9 +1,8 @@
 import React, { Suspense } from "react";
 import { Navigate, PartialRouteObject, useRoutes } from "react-router";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserProvider } from "./BrowserProvider";
 import { RouteConfig } from "./types/RouteConfig";
 import { RouteManagerProviderProps } from "./types/RouteManagerProviderProps";
-import { HelmetProvider } from "react-helmet-async";
 
 export const AsyncComponent: React.FC<Pick<
   RouteConfig<Record<string, unknown>>,
@@ -45,10 +44,8 @@ export const IndexRouter: React.FC<Pick<
     },
   ];
   return (
-    <BrowserRouter>
-      <HelmetProvider>
-        <AppRouter routes={r} />
-      </HelmetProvider>
-    </BrowserRouter>
+    <BrowserProvider>
+      <AppRouter routes={r} />
+    </BrowserProvider>
   );
 };

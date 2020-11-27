@@ -4,7 +4,7 @@ import { routes } from "./routes";
 
 const LoadingFallback = () => <p>Loading</p>;
 
-const IndexRouter = () => {
+const Router = () => {
   //   const dispatch = useDispatch();
   //   const state = useSelector((state: AppState) => state);
 
@@ -53,4 +53,4 @@ const IndexRouter = () => {
   );
 };
 
-export default IndexRouter;
+export default Router;
