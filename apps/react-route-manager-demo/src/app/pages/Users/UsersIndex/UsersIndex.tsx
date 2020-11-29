@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/core";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
 import { USERS } from "../Users.route";

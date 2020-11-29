@@ -5,7 +5,7 @@ import {
   ListIcon,
   ListItem,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import {
   faChevronDown,
   faChevronRight,
@@ -21,7 +21,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const NestedNavListItem: React.FC<{
   handleDrawerClose: () => void;
-  navItem: EvaluatedRouteManagerRoute<AppState>;
+  navItem: any;
+  // navItem: EvaluatedRouteManagerRoute<AppState>;
 }> = ({ handleDrawerClose, navItem }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -50,7 +51,7 @@ const NestedNavListItem: React.FC<{
         />
         <Text>{navItem.name}</Text>
       </Button>
-      <Collapse isOpen={open}>
+      <Collapse in={open}>
         <List pl={"2"}>
           {navItem.children &&
             navItem.children.map((route) => {
@@ -71,7 +72,8 @@ const NestedNavListItem: React.FC<{
 
 const NoSubrouteNavListItem: React.FC<{
   handleDrawerClose: () => void;
-  navItem: Partial<EvaluatedRouteManagerRoute<AppState>>;
+  // navItem: Partial<EvaluatedRouteManagerRoute<AppState>>;
+  navItem: any;
 }> = ({ navItem, handleDrawerClose }) => {
   const navigate = useNavigate();
 
@@ -109,7 +111,8 @@ const NoSubrouteNavListItem: React.FC<{
 };
 
 const ComputedNavRoute: React.FC<{
-  navItem: EvaluatedRouteManagerRoute<AppState>;
+  navItem: any;
+  // navItem: EvaluatedRouteManagerRoute<AppState>;
   handleDrawerClose: () => void;
 }> = ({ navItem, handleDrawerClose }) => {
   // console.log(
@@ -140,7 +143,8 @@ interface NavListProps {
 }
 
 export const NavList: React.FC<NavListProps> = ({ handleDrawerClose }) => {
-  const routes = useEvaluatedRoutesFromCollection("nav");
+  // const routes = useEvaluatedRoutesFromCollection("nav");
+  const routes = [];
   return (
     <List className="navList" as="nav">
       {routes.map((navItem) => {

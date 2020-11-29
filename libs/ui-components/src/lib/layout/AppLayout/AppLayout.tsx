@@ -10,7 +10,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { AppState, SetNavExpanded } from "@react-route-manager/ui-state";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import { ThemeProvider, CSSReset } from '@chakra-ui/core';
+import { ChakraProvider, CSSReset } from "@chakra-ui/react";
 
 export const WebThemeProvider: React.FC = ({ children }) => (
-    <ThemeProvider>
-        <CSSReset />
+  <ChakraProvider>
+    <CSSReset />
 
-        {children}
-    </ThemeProvider>
+    {children}
+  </ChakraProvider>
 );
 
 export default WebThemeProvider;

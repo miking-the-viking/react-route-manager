@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/core";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { AppState, SetNavExpanded } from "@react-route-manager/ui-state";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
