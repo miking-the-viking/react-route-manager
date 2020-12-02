@@ -28,7 +28,7 @@ export interface RouteConfig<
   //  * that can return the same route for instance. For instance the main nav "home" and an admin's sub-nav
   //  *
   //  */
-  // collections?: string[];
+  collections?: string[];
 
   // /**
   //  * Optional icon component function for use in the UI
@@ -52,4 +52,16 @@ export interface RouteConfig<
   rules?: RouteRule<RouteManagerState>[];
 
   children?: RouteConfig<RouteManagerState>[];
+}
+
+export interface ProcessedRouteConfig<
+  RouteManagerState extends Record<string, unknown> = Record<string, unknown>
+> extends RouteConfig<RouteManagerState> {
+  /**
+   * Computed absolute path within the route object
+   *
+   */
+  absolutePath: string;
+
+  children?: ProcessedRouteConfig<RouteManagerState>[];
 }

@@ -2,8 +2,8 @@ import { RouteRule } from "@react-route-manager/react-route-manager";
 import { AppState } from "@react-route-manager/ui-state";
 import { AppRuleEvaluator } from "../../route-manager.config";
 
-export const RequiresGuest: AppRuleEvaluator = ({}) => {
-  return false;
+export const RequiresGuest: AppRuleEvaluator = ({ authenticated }) => {
+  return !authenticated;
 };
 
 export const DEFAULT_AUTHENTICATED_PATH = "/whoami";

@@ -11,18 +11,17 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import {
-//   EvaluatedRouteManagerRoute,
-//   useEvaluatedRoutesFromCollection,
-// } from '@react-route-manager/react-route-manager';
-import { AppState } from "@react-route-manager/ui-state";
+import {
+  ProcessedRouteConfig,
+  useAllowedRoutesFromCollection,
+} from "@react-route-manager/react-route-manager";
 import React, { useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AppState } from "@react-route-manager/ui-state";
 
 const NestedNavListItem: React.FC<{
   handleDrawerClose: () => void;
-  navItem: any;
-  // navItem: EvaluatedRouteManagerRoute<AppState>;
+  navItem: ProcessedRouteConfig<AppState>;
 }> = ({ handleDrawerClose, navItem }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -30,8 +29,6 @@ const NestedNavListItem: React.FC<{
     setOpen(!open);
     e.stopPropagation();
   };
-
-  // console.log('NestedNavListItem', navItem.subRoutes);
 
   return (
     <ListItem>
@@ -55,7 +52,6 @@ const NestedNavListItem: React.FC<{
         <List pl={"2"}>
           {navItem.children &&
             navItem.children.map((route) => {
-              // console.log(`NestedNavListItem: `, route);
               return (
                 <ComputedNavRoute
                   key={`${route.name}${route.path}`}
@@ -72,8 +68,7 @@ const NestedNavListItem: React.FC<{
 
 const NoSubrouteNavListItem: React.FC<{
   handleDrawerClose: () => void;
-  // navItem: Partial<EvaluatedRouteManagerRoute<AppState>>;
-  navItem: any;
+  navItem: ProcessedRouteConfig<AppState>;
 }> = ({ navItem, handleDrawerClose }) => {
   const navigate = useNavigate();
 
@@ -84,12 +79,10 @@ const NoSubrouteNavListItem: React.FC<{
     navItem.path,
   ]);
 
-  // TODO: Styling for thel ist item that is active
-
   return (
     <Link
       key={navItem.name}
-      to={navItem.computedPath}
+      to={navItem.absolutePath}
       onClick={(evt) => {
         handleDrawerClose();
         navigate(navItem.path);
@@ -102,7 +95,7 @@ const NoSubrouteNavListItem: React.FC<{
         justifyContent={"space-between"}
         my={"1rem"}
       >
-        {navItem.icon && <ListIcon title={navItem.name} icon={navItem.icon} />}
+        {/* {navItem.icon && <ListIcon title={navItem.name} icon={navItem.icon} />} */}
 
         <Text>{navItem.name}</Text>
       </ListItem>
@@ -111,16 +104,11 @@ const NoSubrouteNavListItem: React.FC<{
 };
 
 const ComputedNavRoute: React.FC<{
-  navItem: any;
-  // navItem: EvaluatedRouteManagerRoute<AppState>;
+  // navItem: any;
+  navItem: ProcessedRouteConfig<AppState>;
   handleDrawerClose: () => void;
 }> = ({ navItem, handleDrawerClose }) => {
-  // console.log(
-  //   `ComputedNavRoute`,
-  //   navItem.subRoutes ? Object.keys(navItem.subRoutes) : null
-  // );
   if (navItem.children && navItem.children.length > 0) {
-    // console.log(`${navItem.name} has subroutes and keys`);
     return (
       <NestedNavListItem
         handleDrawerClose={handleDrawerClose}
@@ -143,12 +131,10 @@ interface NavListProps {
 }
 
 export const NavList: React.FC<NavListProps> = ({ handleDrawerClose }) => {
-  // const routes = useEvaluatedRoutesFromCollection("nav");
-  const routes = [];
+  const routes = useAllowedRoutesFromCollection("nav");
   return (
     <List className="navList" as="nav">
       {routes.map((navItem) => {
-        // console.log('NavList:', navItem);
         return (
           <ComputedNavRoute
             key={navItem.name + navItem.path}

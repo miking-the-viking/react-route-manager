@@ -8,4 +8,5 @@ export const USERS_INDEX: RouteConfig = {
   description: "Main Users page",
   name: "Users",
   rules: [REQUIRES_AUTH_LOGIN_REDIRECT],
+  collections: ["nav"],
 };

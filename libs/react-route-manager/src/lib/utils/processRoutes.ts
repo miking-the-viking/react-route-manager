@@ -1,4 +1,4 @@
-import { RouteConfig } from "../types/RouteConfig";
+import { ProcessedRouteConfig, RouteConfig } from "../types/RouteConfig";
 import { RouteRule } from "../types/RouteRule";
 import { RouteRuleEvaluator } from "../types/RouteRuleEvaluator";
 
@@ -10,16 +10,29 @@ import { RouteRuleEvaluator } from "../types/RouteRuleEvaluator";
  */
 export const processRoutes = <StateType extends Record<string, unknown>>(
   routes: RouteConfig<StateType>[],
-  state: StateType
+  state: StateType,
+  parentPath = "/"
 ) =>
   routes
     .filter((route) => !processRules(state, route.rules))
-    .map((route) => ({
-      ...route,
-      children: route.children
-        ? processRoutes<StateType>(route.children, state)
-        : undefined,
-    }));
+    .map((route) => {
+      const baseAbsolutePath =
+        parentPath + (route.path !== "/" ? route.path : "");
+
+      const absolutePath =
+        baseAbsolutePath +
+        (baseAbsolutePath.lastIndexOf("/") === baseAbsolutePath.length - 1
+          ? ""
+          : "/");
+
+      return {
+        ...route,
+        absolutePath,
+        children: route.children
+          ? processRoutes<StateType>(route.children, state, absolutePath)
+          : undefined,
+      } as ProcessedRouteConfig<StateType>;
+    });
 
 const processRules = <StateType extends Record<string, unknown>>(
   state: StateType,

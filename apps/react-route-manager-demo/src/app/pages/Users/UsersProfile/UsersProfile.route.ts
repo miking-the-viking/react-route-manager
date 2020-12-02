@@ -6,4 +6,5 @@ export const USERS_PROFILE: RouteConfig = {
   lazyLoadedComponent: lazy(() => import("./UsersProfile")),
   description: "Users Profile",
   name: "Users Profile",
+  collections: ["nav"],
 };

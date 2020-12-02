@@ -11,4 +11,5 @@ export const USERS: RouteConfig = {
   name: "Users",
   children: [USERS_INDEX, USERS_PROFILE],
   rules: [REQUIRES_AUTH_LOGIN_REDIRECT],
+  collections: ["nav"],
 };
