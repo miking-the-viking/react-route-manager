@@ -1,0 +1,45 @@
+{
+  "is_token_endpoint_ip_header_trusted": false,
+  "name": "Hasura-Auth0-Demo",
+  "is_first_party": true,
+  "oidc_conformant": true,
+  "sso_disabled": false,
+  "cross_origin_auth": false,
+  "allowed_clients": [],
+  "allowed_logout_urls": [
+    "http://localhost:4200/logout"
+  ],
+  "callbacks": [
+    "http://localhost:4200/login"
+  ],
+  "native_social_login": {
+    "apple": {
+      "enabled": false
+    },
+    "facebook": {
+      "enabled": false
+    }
+  },
+  "allowed_origins": [
+    "http://localhost:4200"
+  ],
+  "client_id": "lAmzdf1134QThOwJmqI9rlTiqTNoI945",
+  "client_secret": "QFSLViu9uys_6uAQ_g36-W_TKp-EJDShlE2AG54Iwy96fVDsaCFb3lnYj6D-FQB3",
+  "jwt_configuration": {
+    "alg": "RS256",
+    "lifetime_in_seconds": 36001,
+    "secret_encoded": false
+  },
+  "client_aliases": [],
+  "token_endpoint_auth_method": "none",
+  "app_type": "spa",
+  "grant_types": [
+    "authorization_code",
+    "implicit",
+    "refresh_token"
+  ],
+  "web_origins": [
+    "http://localhost:4200"
+  ],
+  "custom_login_page_on": true
+}

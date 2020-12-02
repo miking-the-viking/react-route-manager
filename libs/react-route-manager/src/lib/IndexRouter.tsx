@@ -43,9 +43,5 @@ export const IndexRouter: React.FC<Pick<
       element: <Navigate to="/" />,
     },
   ];
-  return (
-    <BrowserProvider>
-      <AppRouter routes={r} />
-    </BrowserProvider>
-  );
+  return <AppRouter routes={r} />;
 };

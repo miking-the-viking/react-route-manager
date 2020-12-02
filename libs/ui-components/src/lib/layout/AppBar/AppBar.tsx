@@ -51,7 +51,7 @@ export const AppBar: React.FC = () => {
         </Box>
         <Box ml={2}>
           <Heading as="h1" size="lg" ml="3">
-            Hauthura
+            React Route Manager
           </Heading>
         </Box>
       </Flex>

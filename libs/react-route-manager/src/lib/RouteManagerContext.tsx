@@ -3,7 +3,7 @@ import { RouteManagerState } from "./types/RouteManagerState";
 
 export const RouteManagerContext = React.createContext<RouteManagerState<any>>({
   routes: [],
-  // allowedRoutes: [],
+  allowedRoutes: [],
   // activeRoute: null,
   setRoutes: () => {
     //

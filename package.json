@@ -23,7 +23,17 @@
     "update": "nx migrate latest",
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "ngrok": "ngrok start -config $PATH_TO_ROOT_NGROK -config ./ngrok.yml $NGROK_DOMAIN",
+    "up": "docker-compose up -d",
+    "down": "docker-compose down",
+    "downv": "docker-compose down -v",
+    "hasura:console": "hasura --project ./data console",
+    "hasura:migrate": "hasura --project ./data migrate",
+    "hasura:console:secure": "hasura --project ./data console --admin-secret $HASURA_ADMIN_SECRET --no-browser",
+    "hasura:migrate:secure": "hasura --project ./data migrate --admin-secret $HASURA_ADMIN_SECRET",
+    "hasura:generate": "graphql-codegen --config ./graphql/codegen.hasura.yml",
+    "auth0:export": "a0deploy export --config_file config.json --format directory --output_folder auth0"
   },
   "private": true,
   "dependencies": {
@@ -84,6 +94,7 @@
     "eslint-plugin-jsx-a11y": "6.3.1",
     "eslint-plugin-react": "7.20.0",
     "eslint-plugin-react-hooks": "4.0.4",
+    "hasura-cli": "^1.3.3",
     "jest": "26.2.2",
     "prettier": "2.0.4",
     "ts-jest": "26.4.0",

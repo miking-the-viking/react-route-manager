@@ -1,0 +1,10 @@
+{
+  "id": "5f8b94884255f50043212e0e",
+  "name": "Hauthura",
+  "identifier": "http://localhost:4200",
+  "allow_offline_access": false,
+  "skip_consent_for_verifiable_first_party_clients": true,
+  "token_lifetime": 86400,
+  "token_lifetime_for_web": 7200,
+  "signing_alg": "RS256"
+}

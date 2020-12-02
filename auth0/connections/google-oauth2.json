@@ -1,0 +1,20 @@
+{
+  "id": "con_9k3U6RmhL0UYvVuM",
+  "options": {
+    "email": true,
+    "scope": [
+      "email",
+      "profile"
+    ],
+    "profile": true
+  },
+  "strategy": "google-oauth2",
+  "name": "google-oauth2",
+  "is_domain_connection": false,
+  "enabled_clients": [
+    "Hasura-Auth0-Demo",
+    "auth0-deploy-cli-extension",
+    "Hauthura (Test Application)",
+    "Default App"
+  ]
+}

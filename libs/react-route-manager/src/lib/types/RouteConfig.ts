@@ -49,7 +49,7 @@ export interface RouteConfig<
    *   - Fallback path
    *
    */
-  // rules?: RouteRule<RouteManagerState>[];
+  rules?: RouteRule<RouteManagerState>[];
 
   children?: RouteConfig<RouteManagerState>[];
 }

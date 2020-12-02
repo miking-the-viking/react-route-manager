@@ -1,0 +1,8 @@
+{
+  "id": "rul_VvRKUPwkCLpa5LFg",
+  "enabled": true,
+  "script": "./Sync User.js",
+  "name": "Sync User",
+  "order": 3,
+  "stage": "login_success"
+}

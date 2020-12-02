@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import React from "react";
+import React, { useMemo } from "react";
 import { useState } from "react";
+import BrowserProvider from "./BrowserProvider";
 import { IndexRouter } from "./IndexRouter";
 import { RouteManagerContext } from "./RouteManagerContext";
 import { RouteManagerProviderProps } from "./types/RouteManagerProviderProps";
 import { RouteManagerState } from "./types/RouteManagerState";
+import { processRoutes } from "./utils/processRoutes";
 
 /**
  *
@@ -42,6 +44,17 @@ export const RouteManagerProviderFactory: <R extends Record<
       />
     );
 
+    const allowedRoutes = useMemo(() => {
+      const { routes } = routeState;
+      console.log("to evaluate for allowance: ", routes);
+      return processRoutes<any>(routes, {} as any);
+    }, [routeState]);
+
+    console.log("allowedRoutes = ", allowedRoutes);
+    console.log("Wrapper = ", Wrapper);
+
+    // If there is a Wrapper, then
+
     return (
       <Context.Provider
         value={{
@@ -51,7 +64,7 @@ export const RouteManagerProviderFactory: <R extends Record<
               routes: coreRoutes,
             });
           },
-          //   evaluatedRoutes,
+          allowedRoutes,
           state,
           //   activeRoute,
         }}

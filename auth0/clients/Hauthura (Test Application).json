@@ -1,0 +1,20 @@
+{
+  "is_token_endpoint_ip_header_trusted": false,
+  "name": "Hauthura (Test Application)",
+  "is_first_party": true,
+  "oidc_conformant": true,
+  "sso_disabled": false,
+  "cross_origin_auth": false,
+  "client_id": "4hSsvcuClyY5a38SJwngq1FxwulAClmg",
+  "client_secret": "XwLik7RXLlzQaKSbh35QfT0LaM9av3pat_pPIcszAoR_sZekKKkQKasIIwQtzHZL",
+  "jwt_configuration": {
+    "alg": "RS256",
+    "lifetime_in_seconds": 36000,
+    "secret_encoded": false
+  },
+  "app_type": "non_interactive",
+  "grant_types": [
+    "client_credentials"
+  ],
+  "custom_login_page_on": true
+}

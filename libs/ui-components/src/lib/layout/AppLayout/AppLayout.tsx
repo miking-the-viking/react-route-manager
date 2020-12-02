@@ -47,7 +47,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ hideNav, children }) => {
               borderBottomColor={"black.100"}
             >
               <Text as="h2" fontSize={"2xl"} textAlign="center">
-                Hauthura
+                React Route Manager
               </Text>
             </DrawerHeader>
 
@@ -56,12 +56,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ hideNav, children }) => {
             </DrawerBody>
 
             <DrawerFooter>
-              <Button
-                variant="solid"
-                variantColor="blue"
-                w={"100%"}
-                onClick={() => logout()}
-              >
+              <Button variant="solid" w={"100%"} onClick={() => logout()}>
                 Logout
               </Button>
             </DrawerFooter>

@@ -1,0 +1,38 @@
+{
+  "id": "con_5FkcRJ3dFroOu523",
+  "options": {
+    "gist": false,
+    "repo": false,
+    "email": true,
+    "scope": [
+      "user:email",
+      "read:user"
+    ],
+    "follow": false,
+    "profile": true,
+    "read_org": false,
+    "admin_org": false,
+    "client_id": "76ab6ec4293aed7e7e43",
+    "read_user": true,
+    "write_org": false,
+    "delete_repo": false,
+    "public_repo": false,
+    "repo_status": false,
+    "notifications": false,
+    "read_repo_hook": false,
+    "admin_repo_hook": false,
+    "read_public_key": false,
+    "repo_deployment": false,
+    "write_repo_hook": false,
+    "admin_public_key": false,
+    "write_public_key": false
+  },
+  "strategy": "github",
+  "name": "github",
+  "is_domain_connection": false,
+  "enabled_clients": [
+    "auth0-deploy-cli-extension",
+    "Hauthura (Test Application)",
+    "Hasura-Auth0-Demo"
+  ]
+}

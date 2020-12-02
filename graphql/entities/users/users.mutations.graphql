@@ -1,0 +1,24 @@
+# TODO: use this mutation's generated SDK in the Auth0 Sync User
+mutation InsertUser(
+  $user_id: String!
+  $email: String!
+  $name: String!
+  $picture: String!
+  $locale: String!
+) {
+  insert_users_one(
+    object: {
+      email: $email
+      id: $user_id
+      name: $name
+      picture: $picture
+      locale: $locale
+    }
+    on_conflict: {
+      constraint: users_pkey
+      update_columns: [name, picture, locale]
+    }
+  ) {
+    ...UserComplete
+  }
+}

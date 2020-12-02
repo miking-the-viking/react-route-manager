@@ -1,5 +1,6 @@
 import {
   apolloClient,
+  AuthProvider,
   WebThemeProvider,
 } from "@react-route-manager/ui-components";
 import { GlobalStoreProviderFactory } from "@react-route-manager/ui-state";

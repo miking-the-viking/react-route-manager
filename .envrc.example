@@ -1,0 +1,44 @@
+# Dev Variables
+## -------------------------------------------
+## -------------------------------------------
+
+# NGROK
+## -------------------------------------------
+export PATH_TO_ROOT_NGROK=/home/somewhere/.ngrok2/ngrok.yml
+export NGROK_DOMAIN=somedomain
+
+
+## Database
+## -------------------------------------------
+export DB_USER=king
+export DB_PASSWORD=miking
+export DB_HOST=postgres
+export DB_PORT=5432
+export DB_NAME=hauthura
+
+# HASURA
+## -------------------------------------------
+export HASURA_GRAPHQL_DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+export HASURA_GRAPHQL_ENABLE_CONSOLE=true
+export HASURA_GRAPHQL_ENABLED_LOG_TYPES='startup, http-log, webhook-log, websocket-log, query-log'
+export HASURA_GRAPHQL_MIGRATIONS_DIR=$PWD/hasura/migrations
+export HASURA_PORT=8081
+export HASURA_ENDPOINT=http://localhost:8081/v1/graphql
+export HASURA_ADMIN_SECRET=secret
+export HASURA_JWT_SECRET='{"type": "RS512", "key": "-----BEGIN CERTIFICATE-----\nBLAHBLAHBLAH\n-----END CERTIFICATE-----"}'
+
+
+
+# NX Application Variables
+## -------------------------------------------
+## -------------------------------------------
+
+# Auth0
+## -------------------------------------------
+export NX_AUTH0_DOMAIN=acoobydooby.us.auth0.com
+export NX_AUTH0_CLIENT_ID=ljkabwelr48fhap989era
+export NX_AUTH0_REDIRECT=http://localhost:4200/login
+export NX_AUTH0_AUDIENCE=http://localhost:4200
+
+
+

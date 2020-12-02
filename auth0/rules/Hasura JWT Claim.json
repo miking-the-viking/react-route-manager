@@ -1,0 +1,8 @@
+{
+  "id": "rul_8IzW6CdyQJOnEC7m",
+  "enabled": true,
+  "script": "./Hasura JWT Claim.js",
+  "name": "Hasura JWT Claim",
+  "order": 2,
+  "stage": "login_success"
+}

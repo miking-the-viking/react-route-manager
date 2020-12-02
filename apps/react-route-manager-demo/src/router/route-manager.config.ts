@@ -1,9 +1,9 @@
 import {
-  // PageWrapper,
   RouteManagerProviderFactory,
-  // RouteRule,
-  // RouteRuleEvaluator,
+  RouteRule,
+  RouteRuleEvaluator,
 } from "@react-route-manager/react-route-manager";
+import { AppState } from "@react-route-manager/ui-state";
 
 // ----------------------------------------------------------------------
 // Types
@@ -13,41 +13,22 @@ import {
 /**
  * Shape of the Application State that will be used for Route Rule evaluation
  */
-export type RouterState = Record<string, unknown>;
-// export type RouterState = AppState & { authenticated: boolean };
+export type RouterState = AppState & {
+  authenticated: boolean;
+};
 
 /**
  * Convenience type to have a generic type-safe RouteRule without the repetition of the generic
  */
-// export type HauthuraRule = RouteRule<RouterState>;
+export type AppRule = RouteRule<RouterState>;
 /**
  * Convenience type to have a generic type-safe RouteRuleEvaluator without the repetition of the generic
  */
-// export type HauthuraRuleEvaluator = RouteRuleEvaluator<RouterState>;
+export type AppRuleEvaluator = RouteRuleEvaluator<RouterState>;
 
 // ----------------------------------------------------------------------
 // Variables
 // ----------------------------------------------------------------------
-
-/**
- * The PageWrapper is a convenience component for using the predefined route configuration defined in `PATH`
- * and automatically updating meta fields such as title and description.
- * 
- * ```
-<PageWrapper config={PATH.ABOUT}>
-...
-</PageWrapper>
-
-```
- */
-// export const PageWrapper = PageWrapperFactory<RouterState>();
-
-// /**
-//  *
-//  */
-// export const HauthuraManagerContext = RouteManagerContext as React.Context<
-//   RouteManagerState<RouterState>
-// >;
 
 /**
  * Application-specific, generically type-safe React Route Manager Context Provider

@@ -1,0 +1,43 @@
+fragment UserBase on users {
+  id
+  name
+  picture
+}
+
+fragment UserComplete on users {
+  ...UserBase
+  email
+  locale
+}
+
+# email is kinda personal, maybe should only be exposed when an admin?
+fragment User on users {
+  ...UserBase
+  email
+  locale
+}
+
+fragment FriendCountAndIds on users {
+  friends_aggregate {
+    aggregate {
+      count
+    }
+    nodes {
+      friend_id
+    }
+  }
+}
+
+fragment WithFriends on users {
+  friends {
+    friend_id
+    user {
+      ...UserBase
+    }
+  }
+}
+
+fragment UserWithFriendIds on users {
+  ...UserBase
+  ...FriendCountAndIds
+}

@@ -1,0 +1,22 @@
+query Users {
+  users {
+    ...User
+  }
+}
+
+query UserByPk($id: String!) {
+  users_by_pk(id: $id) {
+    ...User
+  }
+}
+
+query UserByEmail($email: String!) {
+  users(where: { email: { _eq: $email } }) {
+    ...User
+  }
+}
+query Friends($userId: String!) {
+  users(where: { friends: { friend_id: { _eq: $userId } } }) {
+    ...UserBase
+  }
+}
