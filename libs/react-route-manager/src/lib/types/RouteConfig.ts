@@ -22,18 +22,18 @@ export interface RouteConfig<
    */
   description: string;
 
-  // /**
-  //  * A string of collections that the route belongs to,
-  //  * this is helpful if there are multuple navigation components in an application
-  //  * that can return the same route for instance. For instance the main nav "home" and an admin's sub-nav
-  //  *
-  //  */
+  /**
+   * A string of collections that the route belongs to,
+   * this is helpful if there are multuple navigation components in an application
+   * that can return the same route for instance. For instance the main nav "home" and an admin's sub-nav
+   *
+   */
   collections?: string[];
 
-  // /**
-  //  * Optional icon component function for use in the UI
-  //  */
-  // icon: (props: any) => JSX.Element | null;
+  /**
+   * Optional icon component function for use in the UI
+   */
+  icon: (props: any) => JSX.Element | null;
 
   /**
    * React Lazy loaded page component

@@ -5,4 +5,5 @@ export interface RouteManagerState<i extends Record<string, unknown>> {
   setRoutes: (coreRoute: RouteConfig<i>[]) => void;
   allowedRoutes: ProcessedRouteConfig<i>[];
   state: i;
+  activeRoute: string | null;
 }

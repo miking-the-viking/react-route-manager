@@ -1,11 +1,4 @@
-import {
-  Button,
-  Collapse,
-  List,
-  ListIcon,
-  ListItem,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Collapse, List, ListItem, Text } from "@chakra-ui/react";
 import {
   faChevronDown,
   faChevronRight,
@@ -15,9 +8,9 @@ import {
   ProcessedRouteConfig,
   useAllowedRoutesFromCollection,
 } from "@react-route-manager/react-route-manager";
+import { AppState } from "@react-route-manager/ui-state";
 import React, { useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AppState } from "@react-route-manager/ui-state";
 
 const NestedNavListItem: React.FC<{
   handleDrawerClose: () => void;
@@ -104,7 +97,6 @@ const NoSubrouteNavListItem: React.FC<{
 };
 
 const ComputedNavRoute: React.FC<{
-  // navItem: any;
   navItem: ProcessedRouteConfig<AppState>;
   handleDrawerClose: () => void;
 }> = ({ navItem, handleDrawerClose }) => {

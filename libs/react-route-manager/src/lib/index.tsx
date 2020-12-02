@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IndexRouter } from "./IndexRouter";
 import { RouteManagerContext } from "./RouteManagerContext";
 import { RouteManagerProviderProps } from "./types/RouteManagerProviderProps";
 import { RouteManagerState } from "./types/RouteManagerState";
+import { allowedRoutesActiveRoute } from "./utils/allowedRoutesActiveRoute";
 import { processRoutes } from "./utils/processRoutes";
 
 /**
@@ -25,9 +27,11 @@ export const RouteManagerProviderFactory: <R extends Record<
     Wrapper,
     state,
     routes: inputRoutes,
-    LoadingIndicator,
+    // LoadingIndicator,
   }) => {
     const Context = RouteManagerContext as React.Context<RouteManagerState<Ri>>;
+    const { pathname: path } = useLocation();
+    const navigate = useNavigate();
 
     const [routeState, setRouteState] = useState<
       Pick<RouteManagerState<Ri>, "routes">
@@ -42,14 +46,28 @@ export const RouteManagerProviderFactory: <R extends Record<
       />
     );
 
-    const allowedRoutes = useMemo(() => {
-      const { routes } = routeState;
-      console.log("to evaluate for allowance: ", routes);
-      return processRoutes<any>(routes, state);
-    }, [routeState, state]);
+    const allowedRoutes = useMemo(
+      () => processRoutes<Ri>(routeState.routes, state),
+      [routeState, state]
+    );
 
-    console.log("allowedRoutes = ", allowedRoutes);
+    const activeRoute = useMemo(() => {
+      if (!allowedRoutes || allowedRoutes.length === 0) return null;
 
+      return allowedRoutesActiveRoute<Ri>(allowedRoutes, path);
+    }, [allowedRoutes, path]);
+
+    console.log("activeRoute = ", activeRoute);
+    useEffect(() => {
+      if (!activeRoute) {
+        // there was no found activeRoute, this requires a redirect.
+        console.log(`No active route computed for ${path} - should redirect`);
+        navigate("/");
+        // navigate(redirect());
+      } else {
+        console.log("Active route", activeRoute);
+      }
+    }, [activeRoute]);
     return (
       <Context.Provider
         value={{
@@ -61,7 +79,7 @@ export const RouteManagerProviderFactory: <R extends Record<
           },
           allowedRoutes,
           state,
-          //   activeRoute,
+          activeRoute,
         }}
       >
         {Wrapper ? <Wrapper>{router}</Wrapper> : { router }}

@@ -1,5 +1,5 @@
 export * from "./lib";
-export * from "./lib/factories/PageWrapperFactory";
+export * from "./lib/RouterMetaWrap";
 export * from "./lib/types/RouteConfig";
 export * from "./lib/types";
 export * from "./lib/RouteManagerContext";

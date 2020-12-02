@@ -9,11 +9,24 @@ const Welcome: React.FC = () => {
   const { loginWithPopup } = useAuth0();
 
   return (
-    <>
-      <p>Welcome</p>
-      <Button onClick={() => loginWithPopup()}>Login</Button>
-      <Link to={"/users"}>USERS</Link>
-    </>
+    <Flex justifyContent="space-between" flexDir="column" minH="100vh">
+      <Box>
+        <Box id="header" p="6">
+          <Text fontSize="xl" fontWeight="bold">
+            React Route Manager Demo App Welcome
+          </Text>
+        </Box>
+        <Box id="content" background={"cornflowerblue"} p="0" m="0">
+          <Box p="0" m="0" maxW="66%" minW="10rem">
+            <Box px="6" py="6" color="white">
+              <Button onClick={() => loginWithPopup()}>Login</Button>
+              <br />
+              <Link to={"/users"}>Try to access Users</Link>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Flex>
   );
 };
 

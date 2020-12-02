@@ -1,12 +1,12 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import { RouteConfig } from "../types/RouteConfig";
+import { RouteConfig } from "./types/RouteConfig";
 
 type PageWrapperProps = {
   config: Pick<RouteConfig<Record<string, unknown>>, "description" | "name">;
 };
 
-export const PageWrapper: React.FC<PageWrapperProps> = ({
+const PageWrapper: React.FC<PageWrapperProps> = ({
   children,
   config: { name, description },
 }) => {
