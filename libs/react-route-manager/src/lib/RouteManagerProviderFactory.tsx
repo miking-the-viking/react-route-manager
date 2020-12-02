@@ -57,17 +57,6 @@ export const RouteManagerProviderFactory: <R extends Record<
       return allowedRoutesActiveRoute<Ri>(allowedRoutes, path);
     }, [allowedRoutes, path]);
 
-    console.log("activeRoute = ", activeRoute);
-    useEffect(() => {
-      if (!activeRoute) {
-        // there was no found activeRoute, this requires a redirect.
-        console.log(`No active route computed for ${path} - should redirect`);
-        // navigate("/");
-        // navigate(redirect());
-      } else {
-        console.log("Active route", activeRoute);
-      }
-    }, [activeRoute, path]);
     return (
       <Context.Provider
         value={{
