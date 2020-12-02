@@ -36,8 +36,19 @@ export const IndexRouter: React.FC<Pick<
   RouteManagerProviderProps<Record<string, unknown>>,
   "routes"
 >> = ({ routes }) => {
+  /**
+   * Bad behaviour:
+   *
+   * Login, redirect from Auth0 back to non-existant page, default redirect is `/` which is Welcome and not accessible by authed users.
+   *
+   * `Welcome` is not returned from accessibleRoutes, so redirect needs to be computed from bare RouteConfig value as that is where the redirect will be evaluated.
+   *
+   * Alternatively, RouterMetaWrap may invoke an immedaite evaluation since it knows the route?
+   *
+   */
+
   const r = [
-    ...generateRoutes(routes),
+    ...generateRoutes(routes), // Todo: sensible fallback or computed "to" value?
     {
       path: "*",
       element: <Navigate to="/" />,

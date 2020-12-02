@@ -6,7 +6,7 @@ export const RequiresGuest: AppRuleEvaluator = ({ authenticated }) => {
   return !authenticated;
 };
 
-export const DEFAULT_AUTHENTICATED_PATH = "/whoami";
+export const DEFAULT_AUTHENTICATED_PATH = "/users/";
 
 export const REQUIRES_GUEST_LOGIN_REDIRECT: RouteRule<AppState> = [
   [RequiresGuest],

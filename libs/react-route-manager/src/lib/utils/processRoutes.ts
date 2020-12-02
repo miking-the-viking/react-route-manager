@@ -34,7 +34,7 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
       } as ProcessedRouteConfig<StateType>;
     });
 
-const processRules = <StateType extends Record<string, unknown>>(
+export const processRules = <StateType extends Record<string, unknown>>(
   state: StateType,
   ruleConfigs?: RouteRule<StateType>[]
 ) => {

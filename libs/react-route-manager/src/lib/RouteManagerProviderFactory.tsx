@@ -62,12 +62,12 @@ export const RouteManagerProviderFactory: <R extends Record<
       if (!activeRoute) {
         // there was no found activeRoute, this requires a redirect.
         console.log(`No active route computed for ${path} - should redirect`);
-        navigate("/");
+        // navigate("/");
         // navigate(redirect());
       } else {
         console.log("Active route", activeRoute);
       }
-    }, [activeRoute]);
+    }, [activeRoute, path]);
     return (
       <Context.Provider
         value={{

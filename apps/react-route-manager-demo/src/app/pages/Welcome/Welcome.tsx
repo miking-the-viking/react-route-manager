@@ -21,7 +21,7 @@ const Welcome: React.FC = () => {
             <Box px="6" py="6" color="white">
               <Button onClick={() => loginWithPopup()}>Login</Button>
               <br />
-              <Link to={"/users"}>Try to access Users</Link>
+              <Link to={"/users/"}>Try to access Users</Link>
             </Box>
           </Box>
         </Box>
