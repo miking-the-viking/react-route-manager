@@ -1,0 +1,1 @@
+CREATE TABLE "public"."followers"("user" text NOT NULL, "follower_id" text NOT NULL, PRIMARY KEY ("user","follower_id") , FOREIGN KEY ("user") REFERENCES "public"."users"("id") ON UPDATE no action ON DELETE cascade, FOREIGN KEY ("follower_id") REFERENCES "public"."users"("id") ON UPDATE restrict ON DELETE cascade);

@@ -2,6 +2,8 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -30,157 +32,157 @@ export type String_Comparison_Exp = {
   _similar?: Maybe<Scalars['String']>;
 };
 
-/** columns and relationships of "friends" */
-export type Friends = {
-  __typename?: 'friends';
-  friend_id: Scalars['String'];
+/** columns and relationships of "followers" */
+export type Followers = {
+  __typename?: 'followers';
   /** An object relationship */
-  user: Users;
+  follower: Users;
+  follower_id: Scalars['String'];
   /** An object relationship */
-  userByUserId: Users;
+  following: Users;
   user_id: Scalars['String'];
 };
 
-/** aggregated selection of "friends" */
-export type Friends_Aggregate = {
-  __typename?: 'friends_aggregate';
-  aggregate?: Maybe<Friends_Aggregate_Fields>;
-  nodes: Array<Friends>;
+/** aggregated selection of "followers" */
+export type Followers_Aggregate = {
+  __typename?: 'followers_aggregate';
+  aggregate?: Maybe<Followers_Aggregate_Fields>;
+  nodes: Array<Followers>;
 };
 
-/** aggregate fields of "friends" */
-export type Friends_Aggregate_Fields = {
-  __typename?: 'friends_aggregate_fields';
+/** aggregate fields of "followers" */
+export type Followers_Aggregate_Fields = {
+  __typename?: 'followers_aggregate_fields';
   count?: Maybe<Scalars['Int']>;
-  max?: Maybe<Friends_Max_Fields>;
-  min?: Maybe<Friends_Min_Fields>;
+  max?: Maybe<Followers_Max_Fields>;
+  min?: Maybe<Followers_Min_Fields>;
 };
 
 
-/** aggregate fields of "friends" */
-export type Friends_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Friends_Select_Column>>;
+/** aggregate fields of "followers" */
+export type Followers_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Followers_Select_Column>>;
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
-/** order by aggregate values of table "friends" */
-export type Friends_Aggregate_Order_By = {
+/** order by aggregate values of table "followers" */
+export type Followers_Aggregate_Order_By = {
   count?: Maybe<Order_By>;
-  max?: Maybe<Friends_Max_Order_By>;
-  min?: Maybe<Friends_Min_Order_By>;
+  max?: Maybe<Followers_Max_Order_By>;
+  min?: Maybe<Followers_Min_Order_By>;
 };
 
-/** input type for inserting array relation for remote table "friends" */
-export type Friends_Arr_Rel_Insert_Input = {
-  data: Array<Friends_Insert_Input>;
-  on_conflict?: Maybe<Friends_On_Conflict>;
+/** input type for inserting array relation for remote table "followers" */
+export type Followers_Arr_Rel_Insert_Input = {
+  data: Array<Followers_Insert_Input>;
+  on_conflict?: Maybe<Followers_On_Conflict>;
 };
 
-/** Boolean expression to filter rows from the table "friends". All fields are combined with a logical 'AND'. */
-export type Friends_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Friends_Bool_Exp>>>;
-  _not?: Maybe<Friends_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Friends_Bool_Exp>>>;
-  friend_id?: Maybe<String_Comparison_Exp>;
-  user?: Maybe<Users_Bool_Exp>;
-  userByUserId?: Maybe<Users_Bool_Exp>;
+/** Boolean expression to filter rows from the table "followers". All fields are combined with a logical 'AND'. */
+export type Followers_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Followers_Bool_Exp>>>;
+  _not?: Maybe<Followers_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Followers_Bool_Exp>>>;
+  follower?: Maybe<Users_Bool_Exp>;
+  follower_id?: Maybe<String_Comparison_Exp>;
+  following?: Maybe<Users_Bool_Exp>;
   user_id?: Maybe<String_Comparison_Exp>;
 };
 
-/** unique or primary key constraints on table "friends" */
-export enum Friends_Constraint {
+/** unique or primary key constraints on table "followers" */
+export enum Followers_Constraint {
   /** unique or primary key constraint */
-  FriendsPkey = 'friends_pkey'
+  FollowersPkey = 'followers_pkey'
 }
 
-/** input type for inserting data into table "friends" */
-export type Friends_Insert_Input = {
-  friend_id?: Maybe<Scalars['String']>;
-  user?: Maybe<Users_Obj_Rel_Insert_Input>;
-  userByUserId?: Maybe<Users_Obj_Rel_Insert_Input>;
+/** input type for inserting data into table "followers" */
+export type Followers_Insert_Input = {
+  follower?: Maybe<Users_Obj_Rel_Insert_Input>;
+  follower_id?: Maybe<Scalars['String']>;
+  following?: Maybe<Users_Obj_Rel_Insert_Input>;
   user_id?: Maybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
-export type Friends_Max_Fields = {
-  __typename?: 'friends_max_fields';
-  friend_id?: Maybe<Scalars['String']>;
+export type Followers_Max_Fields = {
+  __typename?: 'followers_max_fields';
+  follower_id?: Maybe<Scalars['String']>;
   user_id?: Maybe<Scalars['String']>;
 };
 
-/** order by max() on columns of table "friends" */
-export type Friends_Max_Order_By = {
-  friend_id?: Maybe<Order_By>;
+/** order by max() on columns of table "followers" */
+export type Followers_Max_Order_By = {
+  follower_id?: Maybe<Order_By>;
   user_id?: Maybe<Order_By>;
 };
 
 /** aggregate min on columns */
-export type Friends_Min_Fields = {
-  __typename?: 'friends_min_fields';
-  friend_id?: Maybe<Scalars['String']>;
+export type Followers_Min_Fields = {
+  __typename?: 'followers_min_fields';
+  follower_id?: Maybe<Scalars['String']>;
   user_id?: Maybe<Scalars['String']>;
 };
 
-/** order by min() on columns of table "friends" */
-export type Friends_Min_Order_By = {
-  friend_id?: Maybe<Order_By>;
+/** order by min() on columns of table "followers" */
+export type Followers_Min_Order_By = {
+  follower_id?: Maybe<Order_By>;
   user_id?: Maybe<Order_By>;
 };
 
-/** response of any mutation on the table "friends" */
-export type Friends_Mutation_Response = {
-  __typename?: 'friends_mutation_response';
+/** response of any mutation on the table "followers" */
+export type Followers_Mutation_Response = {
+  __typename?: 'followers_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
-  returning: Array<Friends>;
+  returning: Array<Followers>;
 };
 
-/** input type for inserting object relation for remote table "friends" */
-export type Friends_Obj_Rel_Insert_Input = {
-  data: Friends_Insert_Input;
-  on_conflict?: Maybe<Friends_On_Conflict>;
+/** input type for inserting object relation for remote table "followers" */
+export type Followers_Obj_Rel_Insert_Input = {
+  data: Followers_Insert_Input;
+  on_conflict?: Maybe<Followers_On_Conflict>;
 };
 
-/** on conflict condition type for table "friends" */
-export type Friends_On_Conflict = {
-  constraint: Friends_Constraint;
-  update_columns: Array<Friends_Update_Column>;
-  where?: Maybe<Friends_Bool_Exp>;
+/** on conflict condition type for table "followers" */
+export type Followers_On_Conflict = {
+  constraint: Followers_Constraint;
+  update_columns: Array<Followers_Update_Column>;
+  where?: Maybe<Followers_Bool_Exp>;
 };
 
-/** ordering options when selecting data from "friends" */
-export type Friends_Order_By = {
-  friend_id?: Maybe<Order_By>;
-  user?: Maybe<Users_Order_By>;
-  userByUserId?: Maybe<Users_Order_By>;
+/** ordering options when selecting data from "followers" */
+export type Followers_Order_By = {
+  follower?: Maybe<Users_Order_By>;
+  follower_id?: Maybe<Order_By>;
+  following?: Maybe<Users_Order_By>;
   user_id?: Maybe<Order_By>;
 };
 
-/** primary key columns input for table: "friends" */
-export type Friends_Pk_Columns_Input = {
-  friend_id: Scalars['String'];
+/** primary key columns input for table: "followers" */
+export type Followers_Pk_Columns_Input = {
+  follower_id: Scalars['String'];
   user_id: Scalars['String'];
 };
 
-/** select columns of table "friends" */
-export enum Friends_Select_Column {
+/** select columns of table "followers" */
+export enum Followers_Select_Column {
   /** column name */
-  FriendId = 'friend_id',
+  FollowerId = 'follower_id',
   /** column name */
   UserId = 'user_id'
 }
 
-/** input type for updating data in table "friends" */
-export type Friends_Set_Input = {
-  friend_id?: Maybe<Scalars['String']>;
+/** input type for updating data in table "followers" */
+export type Followers_Set_Input = {
+  follower_id?: Maybe<Scalars['String']>;
   user_id?: Maybe<Scalars['String']>;
 };
 
-/** update columns of table "friends" */
-export enum Friends_Update_Column {
+/** update columns of table "followers" */
+export enum Followers_Update_Column {
   /** column name */
-  FriendId = 'friend_id',
+  FollowerId = 'follower_id',
   /** column name */
   UserId = 'user_id'
 }
@@ -188,26 +190,26 @@ export enum Friends_Update_Column {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
-  /** delete data from the table: "friends" */
-  delete_friends?: Maybe<Friends_Mutation_Response>;
-  /** delete single row from the table: "friends" */
-  delete_friends_by_pk?: Maybe<Friends>;
+  /** delete data from the table: "followers" */
+  delete_followers?: Maybe<Followers_Mutation_Response>;
+  /** delete single row from the table: "followers" */
+  delete_followers_by_pk?: Maybe<Followers>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
   delete_users_by_pk?: Maybe<Users>;
-  /** insert data into the table: "friends" */
-  insert_friends?: Maybe<Friends_Mutation_Response>;
-  /** insert a single row into the table: "friends" */
-  insert_friends_one?: Maybe<Friends>;
+  /** insert data into the table: "followers" */
+  insert_followers?: Maybe<Followers_Mutation_Response>;
+  /** insert a single row into the table: "followers" */
+  insert_followers_one?: Maybe<Followers>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
   insert_users_one?: Maybe<Users>;
-  /** update data of the table: "friends" */
-  update_friends?: Maybe<Friends_Mutation_Response>;
-  /** update single row of the table: "friends" */
-  update_friends_by_pk?: Maybe<Friends>;
+  /** update data of the table: "followers" */
+  update_followers?: Maybe<Followers_Mutation_Response>;
+  /** update single row of the table: "followers" */
+  update_followers_by_pk?: Maybe<Followers>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -216,14 +218,14 @@ export type Mutation_Root = {
 
 
 /** mutation root */
-export type Mutation_RootDelete_FriendsArgs = {
-  where: Friends_Bool_Exp;
+export type Mutation_RootDelete_FollowersArgs = {
+  where: Followers_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Friends_By_PkArgs = {
-  friend_id: Scalars['String'];
+export type Mutation_RootDelete_Followers_By_PkArgs = {
+  follower_id: Scalars['String'];
   user_id: Scalars['String'];
 };
 
@@ -236,21 +238,21 @@ export type Mutation_RootDelete_UsersArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Users_By_PkArgs = {
-  id: Scalars['String'];
+  email: Scalars['String'];
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_FriendsArgs = {
-  objects: Array<Friends_Insert_Input>;
-  on_conflict?: Maybe<Friends_On_Conflict>;
+export type Mutation_RootInsert_FollowersArgs = {
+  objects: Array<Followers_Insert_Input>;
+  on_conflict?: Maybe<Followers_On_Conflict>;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Friends_OneArgs = {
-  object: Friends_Insert_Input;
-  on_conflict?: Maybe<Friends_On_Conflict>;
+export type Mutation_RootInsert_Followers_OneArgs = {
+  object: Followers_Insert_Input;
+  on_conflict?: Maybe<Followers_On_Conflict>;
 };
 
 
@@ -269,16 +271,16 @@ export type Mutation_RootInsert_Users_OneArgs = {
 
 
 /** mutation root */
-export type Mutation_RootUpdate_FriendsArgs = {
-  _set?: Maybe<Friends_Set_Input>;
-  where: Friends_Bool_Exp;
+export type Mutation_RootUpdate_FollowersArgs = {
+  _set?: Maybe<Followers_Set_Input>;
+  where: Followers_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Friends_By_PkArgs = {
-  _set?: Maybe<Friends_Set_Input>;
-  pk_columns: Friends_Pk_Columns_Input;
+export type Mutation_RootUpdate_Followers_By_PkArgs = {
+  _set?: Maybe<Followers_Set_Input>;
+  pk_columns: Followers_Pk_Columns_Input;
 };
 
 
@@ -314,12 +316,12 @@ export enum Order_By {
 /** query root */
 export type Query_Root = {
   __typename?: 'query_root';
-  /** fetch data from the table: "friends" */
-  friends: Array<Friends>;
-  /** fetch aggregated fields from the table: "friends" */
-  friends_aggregate: Friends_Aggregate;
-  /** fetch data from the table: "friends" using primary key columns */
-  friends_by_pk?: Maybe<Friends>;
+  /** fetch data from the table: "followers" */
+  followers: Array<Followers>;
+  /** fetch aggregated fields from the table: "followers" */
+  followers_aggregate: Followers_Aggregate;
+  /** fetch data from the table: "followers" using primary key columns */
+  followers_by_pk?: Maybe<Followers>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -330,28 +332,28 @@ export type Query_Root = {
 
 
 /** query root */
-export type Query_RootFriendsArgs = {
-  distinct_on?: Maybe<Array<Friends_Select_Column>>;
+export type Query_RootFollowersArgs = {
+  distinct_on?: Maybe<Array<Followers_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Friends_Order_By>>;
-  where?: Maybe<Friends_Bool_Exp>;
+  order_by?: Maybe<Array<Followers_Order_By>>;
+  where?: Maybe<Followers_Bool_Exp>;
 };
 
 
 /** query root */
-export type Query_RootFriends_AggregateArgs = {
-  distinct_on?: Maybe<Array<Friends_Select_Column>>;
+export type Query_RootFollowers_AggregateArgs = {
+  distinct_on?: Maybe<Array<Followers_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Friends_Order_By>>;
-  where?: Maybe<Friends_Bool_Exp>;
+  order_by?: Maybe<Array<Followers_Order_By>>;
+  where?: Maybe<Followers_Bool_Exp>;
 };
 
 
 /** query root */
-export type Query_RootFriends_By_PkArgs = {
-  friend_id: Scalars['String'];
+export type Query_RootFollowers_By_PkArgs = {
+  follower_id: Scalars['String'];
   user_id: Scalars['String'];
 };
 
@@ -378,18 +380,18 @@ export type Query_RootUsers_AggregateArgs = {
 
 /** query root */
 export type Query_RootUsers_By_PkArgs = {
-  id: Scalars['String'];
+  email: Scalars['String'];
 };
 
 /** subscription root */
 export type Subscription_Root = {
   __typename?: 'subscription_root';
-  /** fetch data from the table: "friends" */
-  friends: Array<Friends>;
-  /** fetch aggregated fields from the table: "friends" */
-  friends_aggregate: Friends_Aggregate;
-  /** fetch data from the table: "friends" using primary key columns */
-  friends_by_pk?: Maybe<Friends>;
+  /** fetch data from the table: "followers" */
+  followers: Array<Followers>;
+  /** fetch aggregated fields from the table: "followers" */
+  followers_aggregate: Followers_Aggregate;
+  /** fetch data from the table: "followers" using primary key columns */
+  followers_by_pk?: Maybe<Followers>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -400,28 +402,28 @@ export type Subscription_Root = {
 
 
 /** subscription root */
-export type Subscription_RootFriendsArgs = {
-  distinct_on?: Maybe<Array<Friends_Select_Column>>;
+export type Subscription_RootFollowersArgs = {
+  distinct_on?: Maybe<Array<Followers_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Friends_Order_By>>;
-  where?: Maybe<Friends_Bool_Exp>;
+  order_by?: Maybe<Array<Followers_Order_By>>;
+  where?: Maybe<Followers_Bool_Exp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootFriends_AggregateArgs = {
-  distinct_on?: Maybe<Array<Friends_Select_Column>>;
+export type Subscription_RootFollowers_AggregateArgs = {
+  distinct_on?: Maybe<Array<Followers_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Friends_Order_By>>;
-  where?: Maybe<Friends_Bool_Exp>;
+  order_by?: Maybe<Array<Followers_Order_By>>;
+  where?: Maybe<Followers_Bool_Exp>;
 };
 
 
 /** subscription root */
-export type Subscription_RootFriends_By_PkArgs = {
-  friend_id: Scalars['String'];
+export type Subscription_RootFollowers_By_PkArgs = {
+  follower_id: Scalars['String'];
   user_id: Scalars['String'];
 };
 
@@ -448,7 +450,7 @@ export type Subscription_RootUsers_AggregateArgs = {
 
 /** subscription root */
 export type Subscription_RootUsers_By_PkArgs = {
-  id: Scalars['String'];
+  email: Scalars['String'];
 };
 
 /**
@@ -461,13 +463,13 @@ export type Users = {
   __typename?: 'users';
   email: Scalars['String'];
   /** An array relationship */
-  friends: Array<Friends>;
+  followers: Array<Followers>;
+  /** An aggregated array relationship */
+  followers_aggregate: Followers_Aggregate;
   /** An array relationship */
-  friendsByFriendId: Array<Friends>;
+  following: Array<Followers>;
   /** An aggregated array relationship */
-  friendsByFriendId_aggregate: Friends_Aggregate;
-  /** An aggregated array relationship */
-  friends_aggregate: Friends_Aggregate;
+  following_aggregate: Followers_Aggregate;
   id: Scalars['String'];
   locale: Scalars['String'];
   name?: Maybe<Scalars['String']>;
@@ -481,12 +483,12 @@ export type Users = {
  * 
  * columns and relationships of "users"
  */
-export type UsersFriendsArgs = {
-  distinct_on?: Maybe<Array<Friends_Select_Column>>;
+export type UsersFollowersArgs = {
+  distinct_on?: Maybe<Array<Followers_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Friends_Order_By>>;
-  where?: Maybe<Friends_Bool_Exp>;
+  order_by?: Maybe<Array<Followers_Order_By>>;
+  where?: Maybe<Followers_Bool_Exp>;
 };
 
 
@@ -496,12 +498,12 @@ export type UsersFriendsArgs = {
  * 
  * columns and relationships of "users"
  */
-export type UsersFriendsByFriendIdArgs = {
-  distinct_on?: Maybe<Array<Friends_Select_Column>>;
+export type UsersFollowers_AggregateArgs = {
+  distinct_on?: Maybe<Array<Followers_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Friends_Order_By>>;
-  where?: Maybe<Friends_Bool_Exp>;
+  order_by?: Maybe<Array<Followers_Order_By>>;
+  where?: Maybe<Followers_Bool_Exp>;
 };
 
 
@@ -511,12 +513,12 @@ export type UsersFriendsByFriendIdArgs = {
  * 
  * columns and relationships of "users"
  */
-export type UsersFriendsByFriendId_AggregateArgs = {
-  distinct_on?: Maybe<Array<Friends_Select_Column>>;
+export type UsersFollowingArgs = {
+  distinct_on?: Maybe<Array<Followers_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Friends_Order_By>>;
-  where?: Maybe<Friends_Bool_Exp>;
+  order_by?: Maybe<Array<Followers_Order_By>>;
+  where?: Maybe<Followers_Bool_Exp>;
 };
 
 
@@ -526,12 +528,12 @@ export type UsersFriendsByFriendId_AggregateArgs = {
  * 
  * columns and relationships of "users"
  */
-export type UsersFriends_AggregateArgs = {
-  distinct_on?: Maybe<Array<Friends_Select_Column>>;
+export type UsersFollowing_AggregateArgs = {
+  distinct_on?: Maybe<Array<Followers_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Friends_Order_By>>;
-  where?: Maybe<Friends_Bool_Exp>;
+  order_by?: Maybe<Array<Followers_Order_By>>;
+  where?: Maybe<Followers_Bool_Exp>;
 };
 
 /** aggregated selection of "users" */
@@ -575,8 +577,8 @@ export type Users_Bool_Exp = {
   _not?: Maybe<Users_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Users_Bool_Exp>>>;
   email?: Maybe<String_Comparison_Exp>;
-  friends?: Maybe<Friends_Bool_Exp>;
-  friendsByFriendId?: Maybe<Friends_Bool_Exp>;
+  followers?: Maybe<Followers_Bool_Exp>;
+  following?: Maybe<Followers_Bool_Exp>;
   id?: Maybe<String_Comparison_Exp>;
   locale?: Maybe<String_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
@@ -588,14 +590,16 @@ export enum Users_Constraint {
   /** unique or primary key constraint */
   UsersEmailKey = 'users_email_key',
   /** unique or primary key constraint */
+  UsersIdKey = 'users_id_key',
+  /** unique or primary key constraint */
   UsersPkey = 'users_pkey'
 }
 
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
   email?: Maybe<Scalars['String']>;
-  friends?: Maybe<Friends_Arr_Rel_Insert_Input>;
-  friendsByFriendId?: Maybe<Friends_Arr_Rel_Insert_Input>;
+  followers?: Maybe<Followers_Arr_Rel_Insert_Input>;
+  following?: Maybe<Followers_Arr_Rel_Insert_Input>;
   id?: Maybe<Scalars['String']>;
   locale?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -665,8 +669,8 @@ export type Users_On_Conflict = {
 /** ordering options when selecting data from "users" */
 export type Users_Order_By = {
   email?: Maybe<Order_By>;
-  friendsByFriendId_aggregate?: Maybe<Friends_Aggregate_Order_By>;
-  friends_aggregate?: Maybe<Friends_Aggregate_Order_By>;
+  followers_aggregate?: Maybe<Followers_Aggregate_Order_By>;
+  following_aggregate?: Maybe<Followers_Aggregate_Order_By>;
   id?: Maybe<Order_By>;
   locale?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
@@ -675,7 +679,7 @@ export type Users_Order_By = {
 
 /** primary key columns input for table: "users" */
 export type Users_Pk_Columns_Input = {
-  id: Scalars['String'];
+  email: Scalars['String'];
 };
 
 /** select columns of table "users" */
@@ -723,6 +727,19 @@ export type UserBaseFragment = (
 export type UserCompleteFragment = (
   { __typename?: 'users' }
   & Pick<Users, 'email' | 'locale'>
+  & { followers_aggregate: (
+    { __typename?: 'followers_aggregate' }
+    & { aggregate?: Maybe<(
+      { __typename?: 'followers_aggregate_fields' }
+      & Pick<Followers_Aggregate_Fields, 'count'>
+    )> }
+  ), following_aggregate: (
+    { __typename?: 'followers_aggregate' }
+    & { aggregate?: Maybe<(
+      { __typename?: 'followers_aggregate_fields' }
+      & Pick<Followers_Aggregate_Fields, 'count'>
+    )> }
+  ) }
   & UserBaseFragment
 );
 
@@ -730,38 +747,6 @@ export type UserFragment = (
   { __typename?: 'users' }
   & Pick<Users, 'email' | 'locale'>
   & UserBaseFragment
-);
-
-export type FriendCountAndIdsFragment = (
-  { __typename?: 'users' }
-  & { friends_aggregate: (
-    { __typename?: 'friends_aggregate' }
-    & { aggregate?: Maybe<(
-      { __typename?: 'friends_aggregate_fields' }
-      & Pick<Friends_Aggregate_Fields, 'count'>
-    )>, nodes: Array<(
-      { __typename?: 'friends' }
-      & Pick<Friends, 'friend_id'>
-    )> }
-  ) }
-);
-
-export type WithFriendsFragment = (
-  { __typename?: 'users' }
-  & { friends: Array<(
-    { __typename?: 'friends' }
-    & Pick<Friends, 'friend_id'>
-    & { user: (
-      { __typename?: 'users' }
-      & UserBaseFragment
-    ) }
-  )> }
-);
-
-export type UserWithFriendIdsFragment = (
-  { __typename?: 'users' }
-  & UserBaseFragment
-  & FriendCountAndIdsFragment
 );
 
 export type InsertUserMutationVariables = Exact<{
@@ -781,19 +766,53 @@ export type InsertUserMutation = (
   )> }
 );
 
-export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
+export type FollowUserMutationVariables = Exact<{
+  userId: Scalars['String'];
+  followerId: Scalars['String'];
+}>;
 
 
-export type UsersQuery = (
+export type FollowUserMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_followers_one?: Maybe<(
+    { __typename?: 'followers' }
+    & Pick<Followers, 'follower_id' | 'user_id'>
+  )> }
+);
+
+export type UnfollowUserMutationVariables = Exact<{
+  userId: Scalars['String'];
+  followerId: Scalars['String'];
+}>;
+
+
+export type UnfollowUserMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_followers?: Maybe<(
+    { __typename?: 'followers_mutation_response' }
+    & Pick<Followers_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'followers' }
+      & Pick<Followers, 'follower_id' | 'user_id'>
+    )> }
+  )> }
+);
+
+export type OtherUsersQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type OtherUsersQuery = (
   { __typename?: 'query_root' }
   & { users: Array<(
     { __typename?: 'users' }
-    & UserFragment
+    & UserCompleteFragment
   )> }
 );
 
 export type UserByPkQueryVariables = Exact<{
-  id: Scalars['String'];
+  email: Scalars['String'];
 }>;
 
 
@@ -805,12 +824,12 @@ export type UserByPkQuery = (
   )> }
 );
 
-export type UserByEmailQueryVariables = Exact<{
-  email: Scalars['String'];
+export type UserByIdQueryVariables = Exact<{
+  id: Scalars['String'];
 }>;
 
 
-export type UserByEmailQuery = (
+export type UserByIdQuery = (
   { __typename?: 'query_root' }
   & { users: Array<(
     { __typename?: 'users' }
@@ -818,16 +837,32 @@ export type UserByEmailQuery = (
   )> }
 );
 
-export type FriendsQueryVariables = Exact<{
+export type UserFollowersQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
 
-export type FriendsQuery = (
+export type UserFollowersQuery = (
   { __typename?: 'query_root' }
   & { users: Array<(
     { __typename?: 'users' }
-    & UserBaseFragment
+    & UserCompleteFragment
+  )> }
+);
+
+export type UserFollowingQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type UserFollowingQuery = (
+  { __typename?: 'query_root' }
+  & { followers: Array<(
+    { __typename?: 'followers' }
+    & { following: (
+      { __typename?: 'users' }
+      & UserCompleteFragment
+    ) }
   )> }
 );
 
@@ -843,6 +878,16 @@ export const UserCompleteFragmentDoc = gql`
   ...UserBase
   email
   locale
+  followers_aggregate {
+    aggregate {
+      count
+    }
+  }
+  following_aggregate {
+    aggregate {
+      count
+    }
+  }
 }
     ${UserBaseFragmentDoc}`;
 export const UserFragmentDoc = gql`
@@ -852,38 +897,12 @@ export const UserFragmentDoc = gql`
   locale
 }
     ${UserBaseFragmentDoc}`;
-export const WithFriendsFragmentDoc = gql`
-    fragment WithFriends on users {
-  friends {
-    friend_id
-    user {
-      ...UserBase
-    }
-  }
-}
-    ${UserBaseFragmentDoc}`;
-export const FriendCountAndIdsFragmentDoc = gql`
-    fragment FriendCountAndIds on users {
-  friends_aggregate {
-    aggregate {
-      count
-    }
-    nodes {
-      friend_id
-    }
-  }
-}
-    `;
-export const UserWithFriendIdsFragmentDoc = gql`
-    fragment UserWithFriendIds on users {
-  ...UserBase
-  ...FriendCountAndIds
-}
-    ${UserBaseFragmentDoc}
-${FriendCountAndIdsFragmentDoc}`;
 export const InsertUserDocument = gql`
     mutation InsertUser($user_id: String!, $email: String!, $name: String!, $picture: String!, $locale: String!) {
-  insert_users_one(object: {email: $email, id: $user_id, name: $name, picture: $picture, locale: $locale}, on_conflict: {constraint: users_pkey, update_columns: [name, picture, locale]}) {
+  insert_users_one(
+    object: {email: $email, id: $user_id, name: $name, picture: $picture, locale: $locale}
+    on_conflict: {constraint: users_pkey, update_columns: [name, picture, locale]}
+  ) {
     ...UserComplete
   }
 }
@@ -917,41 +936,115 @@ export function useInsertUserMutation(baseOptions?: Apollo.MutationHookOptions<I
 export type InsertUserMutationHookResult = ReturnType<typeof useInsertUserMutation>;
 export type InsertUserMutationResult = Apollo.MutationResult<InsertUserMutation>;
 export type InsertUserMutationOptions = Apollo.BaseMutationOptions<InsertUserMutation, InsertUserMutationVariables>;
-export const UsersDocument = gql`
-    query Users {
-  users {
-    ...User
+export const FollowUserDocument = gql`
+    mutation FollowUser($userId: String!, $followerId: String!) {
+  insert_followers_one(object: {user_id: $userId, follower_id: $followerId}) {
+    follower_id
+    user_id
   }
 }
-    ${UserFragmentDoc}`;
+    `;
+export type FollowUserMutationFn = Apollo.MutationFunction<FollowUserMutation, FollowUserMutationVariables>;
 
 /**
- * __useUsersQuery__
+ * __useFollowUserMutation__
  *
- * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a mutation, you first call `useFollowUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFollowUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [followUserMutation, { data, loading, error }] = useFollowUserMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      followerId: // value for 'followerId'
+ *   },
+ * });
+ */
+export function useFollowUserMutation(baseOptions?: Apollo.MutationHookOptions<FollowUserMutation, FollowUserMutationVariables>) {
+        return Apollo.useMutation<FollowUserMutation, FollowUserMutationVariables>(FollowUserDocument, baseOptions);
+      }
+export type FollowUserMutationHookResult = ReturnType<typeof useFollowUserMutation>;
+export type FollowUserMutationResult = Apollo.MutationResult<FollowUserMutation>;
+export type FollowUserMutationOptions = Apollo.BaseMutationOptions<FollowUserMutation, FollowUserMutationVariables>;
+export const UnfollowUserDocument = gql`
+    mutation UnfollowUser($userId: String!, $followerId: String!) {
+  delete_followers(
+    where: {_and: [{user_id: {_eq: $userId}}, {follower_id: {_eq: $followerId}}]}
+  ) {
+    affected_rows
+    returning {
+      follower_id
+      user_id
+    }
+  }
+}
+    `;
+export type UnfollowUserMutationFn = Apollo.MutationFunction<UnfollowUserMutation, UnfollowUserMutationVariables>;
+
+/**
+ * __useUnfollowUserMutation__
+ *
+ * To run a mutation, you first call `useUnfollowUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnfollowUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unfollowUserMutation, { data, loading, error }] = useUnfollowUserMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      followerId: // value for 'followerId'
+ *   },
+ * });
+ */
+export function useUnfollowUserMutation(baseOptions?: Apollo.MutationHookOptions<UnfollowUserMutation, UnfollowUserMutationVariables>) {
+        return Apollo.useMutation<UnfollowUserMutation, UnfollowUserMutationVariables>(UnfollowUserDocument, baseOptions);
+      }
+export type UnfollowUserMutationHookResult = ReturnType<typeof useUnfollowUserMutation>;
+export type UnfollowUserMutationResult = Apollo.MutationResult<UnfollowUserMutation>;
+export type UnfollowUserMutationOptions = Apollo.BaseMutationOptions<UnfollowUserMutation, UnfollowUserMutationVariables>;
+export const OtherUsersDocument = gql`
+    query OtherUsers($userId: String!) {
+  users(where: {id: {_neq: $userId}}) {
+    ...UserComplete
+  }
+}
+    ${UserCompleteFragmentDoc}`;
+
+/**
+ * __useOtherUsersQuery__
+ *
+ * To run a query within a React component, call `useOtherUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOtherUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUsersQuery({
+ * const { data, loading, error } = useOtherUsersQuery({
  *   variables: {
+ *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useUsersQuery(baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
-        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, baseOptions);
+export function useOtherUsersQuery(baseOptions: Apollo.QueryHookOptions<OtherUsersQuery, OtherUsersQueryVariables>) {
+        return Apollo.useQuery<OtherUsersQuery, OtherUsersQueryVariables>(OtherUsersDocument, baseOptions);
       }
-export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
-          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, baseOptions);
+export function useOtherUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OtherUsersQuery, OtherUsersQueryVariables>) {
+          return Apollo.useLazyQuery<OtherUsersQuery, OtherUsersQueryVariables>(OtherUsersDocument, baseOptions);
         }
-export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
-export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
-export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
+export type OtherUsersQueryHookResult = ReturnType<typeof useOtherUsersQuery>;
+export type OtherUsersLazyQueryHookResult = ReturnType<typeof useOtherUsersLazyQuery>;
+export type OtherUsersQueryResult = Apollo.QueryResult<OtherUsersQuery, OtherUsersQueryVariables>;
 export const UserByPkDocument = gql`
-    query UserByPk($id: String!) {
-  users_by_pk(id: $id) {
+    query UserByPk($email: String!) {
+  users_by_pk(email: $email) {
     ...User
   }
 }
@@ -969,11 +1062,11 @@ export const UserByPkDocument = gql`
  * @example
  * const { data, loading, error } = useUserByPkQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      email: // value for 'email'
  *   },
  * });
  */
-export function useUserByPkQuery(baseOptions?: Apollo.QueryHookOptions<UserByPkQuery, UserByPkQueryVariables>) {
+export function useUserByPkQuery(baseOptions: Apollo.QueryHookOptions<UserByPkQuery, UserByPkQueryVariables>) {
         return Apollo.useQuery<UserByPkQuery, UserByPkQueryVariables>(UserByPkDocument, baseOptions);
       }
 export function useUserByPkLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserByPkQuery, UserByPkQueryVariables>) {
@@ -982,69 +1075,104 @@ export function useUserByPkLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<U
 export type UserByPkQueryHookResult = ReturnType<typeof useUserByPkQuery>;
 export type UserByPkLazyQueryHookResult = ReturnType<typeof useUserByPkLazyQuery>;
 export type UserByPkQueryResult = Apollo.QueryResult<UserByPkQuery, UserByPkQueryVariables>;
-export const UserByEmailDocument = gql`
-    query UserByEmail($email: String!) {
-  users(where: {email: {_eq: $email}}) {
+export const UserByIdDocument = gql`
+    query UserById($id: String!) {
+  users(where: {id: {_eq: $id}}) {
     ...User
   }
 }
     ${UserFragmentDoc}`;
 
 /**
- * __useUserByEmailQuery__
+ * __useUserByIdQuery__
  *
- * To run a query within a React component, call `useUserByEmailQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserByEmailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUserByEmailQuery({
+ * const { data, loading, error } = useUserByIdQuery({
  *   variables: {
- *      email: // value for 'email'
+ *      id: // value for 'id'
  *   },
  * });
  */
-export function useUserByEmailQuery(baseOptions?: Apollo.QueryHookOptions<UserByEmailQuery, UserByEmailQueryVariables>) {
-        return Apollo.useQuery<UserByEmailQuery, UserByEmailQueryVariables>(UserByEmailDocument, baseOptions);
+export function useUserByIdQuery(baseOptions: Apollo.QueryHookOptions<UserByIdQuery, UserByIdQueryVariables>) {
+        return Apollo.useQuery<UserByIdQuery, UserByIdQueryVariables>(UserByIdDocument, baseOptions);
       }
-export function useUserByEmailLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserByEmailQuery, UserByEmailQueryVariables>) {
-          return Apollo.useLazyQuery<UserByEmailQuery, UserByEmailQueryVariables>(UserByEmailDocument, baseOptions);
+export function useUserByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserByIdQuery, UserByIdQueryVariables>) {
+          return Apollo.useLazyQuery<UserByIdQuery, UserByIdQueryVariables>(UserByIdDocument, baseOptions);
         }
-export type UserByEmailQueryHookResult = ReturnType<typeof useUserByEmailQuery>;
-export type UserByEmailLazyQueryHookResult = ReturnType<typeof useUserByEmailLazyQuery>;
-export type UserByEmailQueryResult = Apollo.QueryResult<UserByEmailQuery, UserByEmailQueryVariables>;
-export const FriendsDocument = gql`
-    query Friends($userId: String!) {
-  users(where: {friends: {friend_id: {_eq: $userId}}}) {
-    ...UserBase
+export type UserByIdQueryHookResult = ReturnType<typeof useUserByIdQuery>;
+export type UserByIdLazyQueryHookResult = ReturnType<typeof useUserByIdLazyQuery>;
+export type UserByIdQueryResult = Apollo.QueryResult<UserByIdQuery, UserByIdQueryVariables>;
+export const UserFollowersDocument = gql`
+    query UserFollowers($userId: String!) {
+  users(where: {following: {user_id: {_eq: $userId}}}) {
+    ...UserComplete
   }
 }
-    ${UserBaseFragmentDoc}`;
+    ${UserCompleteFragmentDoc}`;
 
 /**
- * __useFriendsQuery__
+ * __useUserFollowersQuery__
  *
- * To run a query within a React component, call `useFriendsQuery` and pass it any options that fit your needs.
- * When your component renders, `useFriendsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserFollowersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserFollowersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFriendsQuery({
+ * const { data, loading, error } = useUserFollowersQuery({
  *   variables: {
  *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useFriendsQuery(baseOptions?: Apollo.QueryHookOptions<FriendsQuery, FriendsQueryVariables>) {
-        return Apollo.useQuery<FriendsQuery, FriendsQueryVariables>(FriendsDocument, baseOptions);
+export function useUserFollowersQuery(baseOptions: Apollo.QueryHookOptions<UserFollowersQuery, UserFollowersQueryVariables>) {
+        return Apollo.useQuery<UserFollowersQuery, UserFollowersQueryVariables>(UserFollowersDocument, baseOptions);
       }
-export function useFriendsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FriendsQuery, FriendsQueryVariables>) {
-          return Apollo.useLazyQuery<FriendsQuery, FriendsQueryVariables>(FriendsDocument, baseOptions);
+export function useUserFollowersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserFollowersQuery, UserFollowersQueryVariables>) {
+          return Apollo.useLazyQuery<UserFollowersQuery, UserFollowersQueryVariables>(UserFollowersDocument, baseOptions);
         }
-export type FriendsQueryHookResult = ReturnType<typeof useFriendsQuery>;
-export type FriendsLazyQueryHookResult = ReturnType<typeof useFriendsLazyQuery>;
-export type FriendsQueryResult = Apollo.QueryResult<FriendsQuery, FriendsQueryVariables>;
+export type UserFollowersQueryHookResult = ReturnType<typeof useUserFollowersQuery>;
+export type UserFollowersLazyQueryHookResult = ReturnType<typeof useUserFollowersLazyQuery>;
+export type UserFollowersQueryResult = Apollo.QueryResult<UserFollowersQuery, UserFollowersQueryVariables>;
+export const UserFollowingDocument = gql`
+    query UserFollowing($userId: String!) {
+  followers(where: {follower_id: {_eq: $userId}}) {
+    following {
+      ...UserComplete
+    }
+  }
+}
+    ${UserCompleteFragmentDoc}`;
+
+/**
+ * __useUserFollowingQuery__
+ *
+ * To run a query within a React component, call `useUserFollowingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserFollowingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserFollowingQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUserFollowingQuery(baseOptions: Apollo.QueryHookOptions<UserFollowingQuery, UserFollowingQueryVariables>) {
+        return Apollo.useQuery<UserFollowingQuery, UserFollowingQueryVariables>(UserFollowingDocument, baseOptions);
+      }
+export function useUserFollowingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserFollowingQuery, UserFollowingQueryVariables>) {
+          return Apollo.useLazyQuery<UserFollowingQuery, UserFollowingQueryVariables>(UserFollowingDocument, baseOptions);
+        }
+export type UserFollowingQueryHookResult = ReturnType<typeof useUserFollowingQuery>;
+export type UserFollowingLazyQueryHookResult = ReturnType<typeof useUserFollowingLazyQuery>;
+export type UserFollowingQueryResult = Apollo.QueryResult<UserFollowingQuery, UserFollowingQueryVariables>;

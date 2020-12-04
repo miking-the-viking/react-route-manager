@@ -1,0 +1,1 @@
+CREATE TABLE "public"."user_followers"("user_id" text NOT NULL, "follower_id" text NOT NULL, PRIMARY KEY ("user_id","follower_id") , FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("follower_id") REFERENCES "public"."users"("id") ON UPDATE restrict ON DELETE restrict);

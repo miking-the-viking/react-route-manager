@@ -1,3 +1,74 @@
 - table:
     schema: public
+    name: followers
+  object_relationships:
+  - name: follower
+    using:
+      foreign_key_constraint_on: follower_id
+  - name: following
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        follower_id:
+          _eq: X-Hasura-User-Id
+      columns:
+      - follower_id
+      - user_id
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - follower_id
+      filter: {}
+      allow_aggregations: true
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        follower_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
     name: users
+  array_relationships:
+  - name: followers
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: followers
+  - name: following
+    using:
+      foreign_key_constraint_on:
+        column: follower_id
+        table:
+          schema: public
+          name: followers
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - email
+      - id
+      - locale
+      - name
+      - picture
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - email
+      - name
+      - picture
+      - locale
+      filter: {}
+      allow_aggregations: true

@@ -47,7 +47,11 @@ export const RouteManagerProviderFactory: <R extends Record<
     );
 
     const allowedRoutes = useMemo(
-      () => processRoutes<Ri>(routeState.routes, state),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      () =>
+        processRoutes<Ri>(routeState.routes, {
+          ...state,
+        }),
       [routeState, state]
     );
 

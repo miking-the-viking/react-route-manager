@@ -1,4 +1,5 @@
 import {
+  RouteConfig,
   RouteManagerProviderFactory,
   RouteRule,
   RouteRuleEvaluator,
@@ -15,6 +16,7 @@ import { AppState } from "@react-route-manager/ui-state";
  */
 export type RouterState = AppState & {
   authenticated: boolean;
+  // following?: UserFollowersQuery["users"];
 };
 
 /**
@@ -25,6 +27,10 @@ export type AppRule = RouteRule<RouterState>;
  * Convenience type to have a generic type-safe RouteRuleEvaluator without the repetition of the generic
  */
 export type AppRuleEvaluator = RouteRuleEvaluator<RouterState>;
+
+export type AppRouteConfig<
+  VariantState extends Record<string, unknown>
+> = RouteConfig<RouterState, VariantState>;
 
 // ----------------------------------------------------------------------
 // Variables

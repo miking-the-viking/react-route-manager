@@ -51,7 +51,8 @@
         "serve": {
           "builder": "@nrwl/web:dev-server",
           "options": {
-            "buildTarget": "react-route-manager-demo:build"
+            "buildTarget": "react-route-manager-demo:build",
+            "proxyConfig": "apps/react-route-manager-demo/proxy.conf.json"
           },
           "configurations": {
             "production": {

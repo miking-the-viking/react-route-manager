@@ -4,7 +4,8 @@ import { RouteRule } from "./RouteRule";
  * RouteBaseType extends the generic application state in order to ensure type safety on the route's rules
  */
 export interface RouteConfig<
-  RouteManagerState extends Record<string, unknown> = Record<string, unknown>
+  RouteManagerState extends Record<string, unknown> = Record<string, unknown>,
+  VariantState extends Record<string, unknown> = undefined
 > {
   /**
    * The relative url path that router should match to
@@ -52,10 +53,26 @@ export interface RouteConfig<
   rules?: RouteRule<RouteManagerState>[];
 
   children?: RouteConfig<RouteManagerState>[];
+
+  /**
+   * Function that takes in a given state to compute an array of available absolute paths for a slug based route
+   *
+   * /followers/:id
+   *   - /followers/1
+   *   - /followers/2
+   *   - /followers/10
+   */
+  variants?: (
+    state: RouteManagerState & VariantState
+  ) => Pick<
+    ProcessedRouteConfig<RouteManagerState>,
+    "absolutePath" | "description" | "name"
+  >[];
 }
 
 export interface ProcessedRouteConfig<
-  RouteManagerState extends Record<string, unknown> = Record<string, unknown>
+  RouteManagerState extends Record<string, unknown> = Record<string, unknown>,
+  VariantState extends Record<string, unknown> = undefined
 > extends RouteConfig<RouteManagerState> {
   /**
    * Computed absolute path within the route object
@@ -64,4 +81,9 @@ export interface ProcessedRouteConfig<
   absolutePath: string;
 
   children?: ProcessedRouteConfig<RouteManagerState>[];
+
+  processedVariants?: Pick<
+    ProcessedRouteConfig<RouteManagerState>,
+    "absolutePath" | "description" | "name"
+  >[];
 }

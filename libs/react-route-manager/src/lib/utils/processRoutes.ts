@@ -12,7 +12,7 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
   routes: RouteConfig<StateType>[],
   state: StateType,
   parentPath = "/"
-) =>
+): ProcessedRouteConfig<StateType>[] =>
   routes
     .filter((route) => !processRules(state, route.rules))
     .map((route) => {
@@ -31,6 +31,7 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
         children: route.children
           ? processRoutes<StateType>(route.children, state, absolutePath)
           : undefined,
+        processedVariants: route.variants ? route.variants(state as any) : [],
       } as ProcessedRouteConfig<StateType>;
     });
 

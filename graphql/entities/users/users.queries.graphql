@@ -1,22 +1,29 @@
-query Users {
-  users {
+query OtherUsers($userId: String!) {
+  users(where: { id: { _neq: $userId } }) {
+    ...UserComplete
+  }
+}
+
+query UserByPk($email: String!) {
+  users_by_pk(email: $email) {
     ...User
   }
 }
 
-query UserByPk($id: String!) {
-  users_by_pk(id: $id) {
+query UserById($id: String!) {
+  users(where: { id: { _eq: $id } }) {
     ...User
   }
 }
-
-query UserByEmail($email: String!) {
-  users(where: { email: { _eq: $email } }) {
-    ...User
+query UserFollowers($userId: String!) {
+  users(where: { following: { user_id: { _eq: $userId } } }) {
+    ...UserComplete
   }
 }
-query Friends($userId: String!) {
-  users(where: { friends: { friend_id: { _eq: $userId } } }) {
-    ...UserBase
+query UserFollowing($userId: String!) {
+  followers(where: { follower_id: { _eq: $userId } }) {
+    following {
+      ...UserComplete
+    }
   }
 }

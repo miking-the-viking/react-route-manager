@@ -22,3 +22,27 @@ mutation InsertUser(
     ...UserComplete
   }
 }
+
+mutation FollowUser($userId: String!, $followerId: String!) {
+  insert_followers_one(object: { user_id: $userId, follower_id: $followerId }) {
+    follower_id
+    user_id
+  }
+}
+
+mutation UnfollowUser($userId: String!, $followerId: String!) {
+  delete_followers(
+    where: {
+      _and: [
+        { user_id: { _eq: $userId } }
+        { follower_id: { _eq: $followerId } }
+      ]
+    }
+  ) {
+    affected_rows
+    returning {
+      follower_id
+      user_id
+    }
+  }
+}
