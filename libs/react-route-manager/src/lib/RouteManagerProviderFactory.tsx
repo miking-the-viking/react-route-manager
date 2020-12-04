@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IndexRouter } from "./IndexRouter";
 import { RouteManagerContext } from "./RouteManagerContext";
@@ -33,6 +33,13 @@ export const RouteManagerProviderFactory: <R extends Record<
     const { pathname: path } = useLocation();
     const navigate = useNavigate();
 
+    const [variantState, setVariantState] = useState<Record<string, any>>({});
+    const handleSetVariantState = useCallback(
+      (key: string, value: any) =>
+        setVariantState((currentState) => ({ ...currentState, [key]: value })),
+      [setVariantState]
+    );
+
     const [routeState, setRouteState] = useState<
       Pick<RouteManagerState<Ri>, "routes">
     >({
@@ -48,11 +55,17 @@ export const RouteManagerProviderFactory: <R extends Record<
 
     const allowedRoutes = useMemo(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      () =>
-        processRoutes<Ri>(routeState.routes, {
+      () => {
+        console.log("allowedRoutes re processing");
+        const processedRoutes = processRoutes<Ri>(routeState.routes, {
           ...state,
-        }),
-      [routeState, state]
+          ...variantState,
+        });
+        console.log("processed routes = ", processedRoutes);
+
+        return processedRoutes;
+      },
+      [routeState, state, variantState]
     );
 
     const activeRoute = useMemo(() => {
@@ -71,7 +84,8 @@ export const RouteManagerProviderFactory: <R extends Record<
             });
           },
           allowedRoutes,
-          state,
+          state: { ...state, ...variantState },
+          setVariantState: handleSetVariantState,
           activeRoute,
         }}
       >

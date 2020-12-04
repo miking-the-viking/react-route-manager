@@ -124,6 +124,7 @@ interface NavListProps {
 
 export const NavList: React.FC<NavListProps> = ({ handleDrawerClose }) => {
   const routes = useAllowedRoutesFromCollection("nav");
+  console.log("allowed routes from nav collection = ", routes);
   return (
     <List className="navList" as="nav">
       {routes.map((navItem) => {

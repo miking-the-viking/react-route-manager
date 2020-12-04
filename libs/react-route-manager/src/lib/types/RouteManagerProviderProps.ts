@@ -4,5 +4,6 @@ export type RouteManagerProviderProps<R extends Record<string, unknown>> = {
   state: R;
   routes: RouteConfig<R>[];
   LoadingIndicator?: () => JSX.Element;
+  // setVariantState: (key: string, value: any) => void;
   Wrapper?: React.FC;
 };

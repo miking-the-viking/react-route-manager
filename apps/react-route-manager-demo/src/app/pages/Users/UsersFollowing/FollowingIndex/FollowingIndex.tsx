@@ -1,19 +1,13 @@
-import { Box, Button, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useMemo } from "react";
-import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
-import { FOLLOWING_INDEX } from "./FollowingIndex.route";
-
+import { useAuth0 } from "@auth0/auth0-react";
+import { Button, Grid, GridItem } from "@chakra-ui/react";
 import {
-  useFollowUserMutation,
-  useOtherUsersQuery,
   useUnfollowUserMutation,
-  useUserFollowersLazyQuery,
-  useUserFollowersQuery,
   useUserFollowingLazyQuery,
 } from "@react-route-manager/hooks-api";
-import { useAuth0 } from "@auth0/auth0-react";
+import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
 import { apolloClient } from "@react-route-manager/ui-components";
-import { isCompositeType } from "graphql";
+import React, { useCallback, useEffect } from "react";
+import { FOLLOWING_INDEX } from "./FollowingIndex.route";
 
 const FollowingIndex: React.FC = () => {
   const { user } = useAuth0();

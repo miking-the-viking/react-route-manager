@@ -49,7 +49,7 @@ export const RouterMetaWrap = (
 ) => () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { allowedRoutes, state, routes } = useRouteManagerContext();
-  console.log(state);
+  // console.log(state);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigate = useNavigate();

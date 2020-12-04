@@ -28,6 +28,8 @@ import { isCompositeType } from "graphql";
 const UsersIndex: React.FC = () => {
   const { user } = useAuth0();
 
+  const { setVariantState } = useRouteManagerContext();
+
   const [
     followUserMutation,
     { data, loading: loadingFollowUser, error },
@@ -57,6 +59,13 @@ const UsersIndex: React.FC = () => {
       },
     });
   }, [user, loadFollowing]);
+
+  useEffect(() => {
+    console.log("setVariantState", setVariantState);
+    if (!setVariantState || !following?.followers) return;
+    console.log("Following", following);
+    setVariantState("following", following.followers);
+  }, [following, setVariantState]);
 
   const followableUsers = useMemo(() => {
     const currentlyFollowingIds = following?.followers.map(

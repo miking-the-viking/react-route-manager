@@ -8,6 +8,9 @@ export const RouteManagerContext = React.createContext<RouteManagerState<any>>({
   setRoutes: () => {
     //
   },
+  setVariantState: () => {
+    /** */
+  },
   state: {},
 });
 

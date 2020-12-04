@@ -25,13 +25,24 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
           ? ""
           : "/");
 
+      const processedVariants = route.variants
+        ? route.variants(state as any)
+        : [];
+
+      console.log(
+        "processedVariants for " + route.name,
+        route.variants,
+        state,
+        processedVariants
+      );
+
       return {
         ...route,
         absolutePath,
         children: route.children
           ? processRoutes<StateType>(route.children, state, absolutePath)
           : undefined,
-        processedVariants: route.variants ? route.variants(state as any) : [],
+        processedVariants,
       } as ProcessedRouteConfig<StateType>;
     });
 
