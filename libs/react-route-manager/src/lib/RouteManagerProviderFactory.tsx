@@ -69,21 +69,21 @@ export const RouteManagerProviderFactory: <R extends Record<
     const routeBySymbol = useCallback(
       (key: symbol, params?: Record<string, unknown>) => {
         const resolvedRoute = keyMapping[key];
-        console.log(
-          `${key.toString()} resolved to ${resolvedRoute?.absolutePath}`
-        );
-        console.log(resolvedRoute);
-        // if a variant, then we need to retrieve the correct variant.
 
         if (!resolvedRoute) return null;
 
+        // if a variant, then we need to retrieve the correct variant.
         if (resolvedRoute.variantFilter) {
           return resolvedRoute.variantFilter(
             resolvedRoute.processedVariants,
             params
           )?.absolutePath;
         }
-
+        console.log(
+          `Route Symbol ${key.toString()} resolved to path ${
+            resolvedRoute?.absolutePath
+          }`
+        );
         return resolvedRoute?.absolutePath;
       },
       [keyMapping]

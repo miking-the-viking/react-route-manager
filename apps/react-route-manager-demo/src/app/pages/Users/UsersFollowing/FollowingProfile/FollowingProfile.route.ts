@@ -1,6 +1,5 @@
 import { faBlind } from "@fortawesome/free-solid-svg-icons";
 import { UserFollowingQuery } from "@react-route-manager/hooks-api";
-import { ProcessedRouteConfig } from "@react-route-manager/react-route-manager";
 import { RouterIcon } from "@react-route-manager/ui-components";
 import { lazy } from "react";
 import { AppRouteConfig } from "../../../../../router/route-manager.config";

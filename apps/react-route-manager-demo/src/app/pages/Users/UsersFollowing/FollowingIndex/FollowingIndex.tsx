@@ -6,7 +6,7 @@ import {
   useRouteManagerContext,
 } from "@react-route-manager/react-route-manager";
 import { apolloClient } from "@react-route-manager/ui-components";
-import React, { useContext, useMemo } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UsersContext } from "../../UsersContext";
 import { FOLLOWING_FOLLOWABLE_USERS } from "../FollowingFollowableUsers/FollowingFollowableUsers.route";
@@ -40,16 +40,24 @@ const FollowingIndex: React.FC = () => {
 
       {following &&
         following.map((u) =>
-          FollowedUserGridItem(u.following, unfollowUserMutation, user?.sub)
+          FollowedUserGridItem(
+            u.following,
+            unfollowUserMutation,
+            user?.sub,
+            routeBySymbol(FOLLOWING_PROFILE, { id: u.following.id })
+          )
         )}
       {!(following?.length !== 0) && NoFollowableUsers(followableUrl)}
     </Grid>
   );
 };
 
-const FollowedUserGridItem = (followableUser, unfollowUserMutation, userId) => {
-  const { routeBySymbol } = useRouteManagerContext();
-
+const FollowedUserGridItem = (
+  followableUser,
+  unfollowUserMutation,
+  userId,
+  path
+) => {
   const {
     id,
     email,
@@ -61,11 +69,6 @@ const FollowedUserGridItem = (followableUser, unfollowUserMutation, userId) => {
       aggregate: { count: following_count },
     },
   } = followableUser;
-
-  const followedUserProfileUrl = useMemo(
-    () => routeBySymbol(FOLLOWING_PROFILE, { id }),
-    [id, routeBySymbol]
-  );
 
   return (
     <GridItem key={id}>
@@ -81,12 +84,7 @@ const FollowedUserGridItem = (followableUser, unfollowUserMutation, userId) => {
       >
         Unfollow
       </Button>
-      {/* TODO: Improve routeBySymbol to take optionally resolve a stateful function which returns the correct route */}
-      {/* <Link to={`/users/following/profile/${id}`}>
-        {id} - {email} - {name} - followers: {followers_count}, following:{" "}
-        {following_count}
-      </Link> */}
-      <Link to={followedUserProfileUrl}>
+      <Link to={`${path}`}>
         {id} - {email} - {name} - followers: {followers_count}, following:{" "}
         {following_count}
       </Link>
