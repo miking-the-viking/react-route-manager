@@ -4,7 +4,10 @@ import { RouterIcon } from "@react-route-manager/ui-components";
 import { lazy } from "react";
 import { REQUIRES_GUEST_LOGIN_REDIRECT } from "../../../router/rules/RequiresGuest";
 
-export const WELCOME: RouteConfig = {
+export const WELCOME = Symbol("Welcome");
+
+export const WELCOME_ROUTE: RouteConfig = {
+  key: WELCOME,
   path: "/",
   icon: RouterIcon(faBlind),
   lazyLoadedComponent: lazy(() => import("./Welcome")),

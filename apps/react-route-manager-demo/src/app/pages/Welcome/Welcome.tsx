@@ -1,9 +1,13 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
-import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
-import { WELCOME } from "./Welcome.route";
+import {
+  RouterMetaWrap,
+  useRouteManagerContext,
+} from "@react-route-manager/react-route-manager";
+import { WELCOME_ROUTE } from "./Welcome.route";
 import { useAuth0 } from "@auth0/auth0-react";
+import { USERS_INDEX } from "../Users/UsersIndex/UsersIndex.route";
 
 const Welcome: React.FC = () => {
   const { loginWithPopup } = useAuth0();
@@ -30,4 +34,4 @@ const Welcome: React.FC = () => {
   );
 };
 
-export default RouterMetaWrap(WELCOME, Welcome);
+export default RouterMetaWrap(WELCOME_ROUTE, Welcome);

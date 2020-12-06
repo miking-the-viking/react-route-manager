@@ -11,9 +11,13 @@ import { RouteRuleEvaluator } from "../types/RouteRuleEvaluator";
 export const processRoutes = <StateType extends Record<string, unknown>>(
   routes: RouteConfig<StateType>[],
   state: StateType,
-  parentPath = "/"
-): ProcessedRouteConfig<StateType>[] =>
-  routes
+  parentPath,
+  mapping = {}
+): [
+  Record<symbol, ProcessedRouteConfig<StateType>>,
+  ProcessedRouteConfig<StateType>[]
+] => {
+  const processedRoutes = routes
     .filter((route) => !processRules(state, route.rules))
     .map((route) => {
       const baseAbsolutePath =
@@ -32,15 +36,25 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
           )
         : [];
 
-      return {
+      const [childrenMapping, processedChildren] = route.children
+        ? processRoutes<StateType>(route.children, state, absolutePath)
+        : [{}, undefined];
+
+      const processedRoute = {
         ...route,
         absolutePath,
-        children: route.children
-          ? processRoutes<StateType>(route.children, state, absolutePath)
-          : undefined,
+        children: processedChildren,
         processedVariants,
-      } as ProcessedRouteConfig<StateType>;
+      };
+
+      mapping[route.key] = processedRoute;
+      mapping = { ...mapping, ...childrenMapping };
+
+      return processedRoute;
     });
+
+  return [mapping, processedRoutes];
+};
 
 /**
  *

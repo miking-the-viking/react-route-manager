@@ -8,7 +8,7 @@ import { apolloClient } from "@react-route-manager/ui-components";
 import React, { useCallback, useContext, useMemo } from "react";
 import { useNavigate, useParams } from "react-router";
 import { UsersContext } from "../../UsersContext";
-import { FOLLOWING_PROFILE } from "./FollowingProfile.route";
+import { FOLLOWING_PROFILE_ROUTE } from "./FollowingProfile.route";
 
 const FollowingProfile: React.FC = () => {
   const navigate = useNavigate();
@@ -35,7 +35,6 @@ const FollowingProfile: React.FC = () => {
   const followedUser = useMemo(() => data?.users[0], [data]);
 
   const unfollow = useCallback(async () => {
-    console.log("user =", user);
     await unfollowUserMutation({
       variables: {
         followerId: user.sub,
@@ -60,4 +59,4 @@ const FollowingProfile: React.FC = () => {
   );
 };
 
-export default RouterMetaWrap(FOLLOWING_PROFILE, FollowingProfile);
+export default RouterMetaWrap(FOLLOWING_PROFILE_ROUTE, FollowingProfile);

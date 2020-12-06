@@ -7,4 +7,8 @@ export interface RouteManagerState<i extends Record<string, unknown>> {
   state: i;
   setVariantState: (key: string, value: any) => void;
   activeRoute: string | null;
+  routeBySymbol: (
+    routeKey: symbol,
+    params?: Record<string, unknown>
+  ) => string | null;
 }

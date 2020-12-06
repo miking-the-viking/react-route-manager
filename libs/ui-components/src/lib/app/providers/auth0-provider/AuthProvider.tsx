@@ -1,7 +1,7 @@
-import { Auth0Provider } from '@auth0/auth0-react';
-import React, { useCallback } from 'react';
-import { useNavigate } from 'react-router';
-import { AuthConfigParams } from './types';
+import { Auth0Provider } from "@auth0/auth0-react";
+import React, { useCallback } from "react";
+import { useNavigate } from "react-router";
+import { AuthConfigParams } from "./types";
 
 export const AuthProvider: React.FC<AuthConfigParams> = ({
   domain,
@@ -17,7 +17,6 @@ export const AuthProvider: React.FC<AuthConfigParams> = ({
         appState && appState.returnTo
           ? appState.returnTo
           : window.location.pathname;
-      console.log(`onRedirectCallback pushing: ${destination}`);
       navigate(destination);
     },
     [navigate]

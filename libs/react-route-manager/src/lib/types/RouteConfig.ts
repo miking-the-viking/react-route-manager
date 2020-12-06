@@ -8,6 +8,13 @@ export interface RouteConfig<
   VariantState extends Record<string, unknown> = undefined
 > {
   /**
+   * Distinguishing symbol to identify the route by, used in convenience method to rapidly pull a route.
+   *
+   * TODO: Used in conjunction with `routeBySymbol` to immediately retrieve the absolute route for a given route by the rotue symbol and optional parameters
+   */
+  key: symbol;
+
+  /**
    * The relative url path that router should match to
    *
    */
@@ -65,6 +72,11 @@ export interface RouteConfig<
   variants?: (
     state: RouteManagerState & VariantState
   ) => ProcessedRouteConfig<RouteManagerState>[];
+
+  variantFilter?: (
+    variants: ProcessedRouteConfig<RouteManagerState>[],
+    params?: Record<string, unknown>
+  ) => ProcessedRouteConfig<RouteManagerState>;
 }
 
 export interface ProcessedRouteConfig<

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { BrowserProvider } from "@react-route-manager/react-route-manager";
 import { AppLayout } from "@react-route-manager/ui-components";
+import { AppState } from "@react-route-manager/ui-state";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { InnerBrowserRouterContext } from "./InnerBrowserRouterWrapper";
 import { RouteManagerProvider } from "./route-manager.config";
 import { routes } from "./routes";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppState } from "@react-route-manager/ui-state";
-import { InnerBrowserRouterContext } from "./InnerBrowserRouterWrapper";
-import { BrowserProvider } from "@react-route-manager/react-route-manager";
 
 const LoadingFallback = () => <p>Loading</p>;
 
@@ -15,7 +15,6 @@ type RouterProps = {
 };
 
 const Router: React.FC<RouterProps> = ({ Wrapper }) => {
-  const dispatch = useDispatch();
   const state = useSelector((state: AppState) => state);
 
   const {
@@ -40,12 +39,10 @@ const Router: React.FC<RouterProps> = ({ Wrapper }) => {
   }, [isAuthenticated, getAccessTokenSilently]);
 
   if (error) {
-    console.log("error", error);
     return <div>Oops... {error.message}</div>;
   }
 
   if (isLoading) {
-    console.log("LOADING AUTH0");
     return <LoadingFallback />;
   }
 

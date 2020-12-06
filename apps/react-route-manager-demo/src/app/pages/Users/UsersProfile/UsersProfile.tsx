@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Grid, GridItem, Heading, Code, Text } from "@chakra-ui/react";
 import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
 import React from "react";
-import { USERS_PROFILE } from "./UsersProfile.route";
+import { USERS_PROFILE_ROUTE } from "./UsersProfile.route";
 
 const UsersProfile: React.FC = () => {
   const { user, isLoading } = useAuth0();
@@ -27,4 +27,4 @@ const UsersProfile: React.FC = () => {
   );
 };
 
-export default RouterMetaWrap(USERS_PROFILE, UsersProfile);
+export default RouterMetaWrap(USERS_PROFILE_ROUTE, UsersProfile);

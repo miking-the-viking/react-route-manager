@@ -4,7 +4,10 @@ import { REQUIRES_AUTH_LOGIN_REDIRECT } from "../../../../router/rules/RequiresA
 import { faBlind } from "@fortawesome/free-solid-svg-icons";
 import { RouterIcon } from "@react-route-manager/ui-components";
 
-export const USERS_INDEX: RouteConfig = {
+export const USERS_INDEX = Symbol("UsersIndex");
+
+export const USERS_INDEX_ROUTE: RouteConfig = {
+  key: USERS_INDEX,
   path: "/",
   icon: RouterIcon(faBlind),
   lazyLoadedComponent: lazy(() => import("./UsersIndex")),

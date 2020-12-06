@@ -8,10 +8,6 @@ const {
   NX_AUTH0_AUDIENCE: audience,
 } = process.env;
 
-console.log(
-  `domain: ${domain}, clientId: ${clientId}, redirectUri: ${redirectUri}, audience: ${audience}`
-);
-
 const AUTH_PROVIDER_CONFIG = {
   audience,
   clientId,

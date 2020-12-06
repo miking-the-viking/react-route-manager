@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { resolve } from "path";
+import React, { useCallback, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IndexRouter } from "./IndexRouter";
 import { RouteManagerContext } from "./RouteManagerContext";
@@ -27,11 +28,9 @@ export const RouteManagerProviderFactory: <R extends Record<
     Wrapper,
     state,
     routes: inputRoutes,
-    // LoadingIndicator,
   }) => {
     const Context = RouteManagerContext as React.Context<RouteManagerState<Ri>>;
     const { pathname: path } = useLocation();
-    const navigate = useNavigate();
 
     const [variantState, setVariantState] = useState<Record<string, any>>({});
     const handleSetVariantState = useCallback(
@@ -46,23 +45,18 @@ export const RouteManagerProviderFactory: <R extends Record<
       routes: inputRoutes,
     });
 
-    const router = (
-      <IndexRouter
-        // LoadingIndicator={LoadingIndicator}
-        routes={inputRoutes}
-      />
-    );
+    const router = <IndexRouter routes={inputRoutes} />;
 
-    const allowedRoutes = useMemo(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      () => {
-        const processedRoutes = processRoutes<Ri>(routeState.routes, {
-          ...state,
-          ...variantState,
-        });
-
-        return processedRoutes;
-      },
+    const [keyMapping, allowedRoutes] = useMemo(
+      () =>
+        processRoutes<Ri>(
+          routeState.routes,
+          {
+            ...state,
+            ...variantState,
+          },
+          "/"
+        ),
       [routeState, state, variantState]
     );
 
@@ -71,6 +65,29 @@ export const RouteManagerProviderFactory: <R extends Record<
 
       return allowedRoutesActiveRoute<Ri>(allowedRoutes, path);
     }, [allowedRoutes, path]);
+
+    const routeBySymbol = useCallback(
+      (key: symbol, params?: Record<string, unknown>) => {
+        const resolvedRoute = keyMapping[key];
+        console.log(
+          `${key.toString()} resolved to ${resolvedRoute?.absolutePath}`
+        );
+        console.log(resolvedRoute);
+        // if a variant, then we need to retrieve the correct variant.
+
+        if (!resolvedRoute) return null;
+
+        if (resolvedRoute.variantFilter) {
+          return resolvedRoute.variantFilter(
+            resolvedRoute.processedVariants,
+            params
+          )?.absolutePath;
+        }
+
+        return resolvedRoute?.absolutePath;
+      },
+      [keyMapping]
+    );
 
     return (
       <Context.Provider
@@ -85,6 +102,7 @@ export const RouteManagerProviderFactory: <R extends Record<
           state: { ...state, ...variantState },
           setVariantState: handleSetVariantState,
           activeRoute,
+          routeBySymbol,
         }}
       >
         {Wrapper ? <Wrapper>{router}</Wrapper> : { router }}

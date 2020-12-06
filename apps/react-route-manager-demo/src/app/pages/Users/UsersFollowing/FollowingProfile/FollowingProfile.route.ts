@@ -1,25 +1,29 @@
-import { lazy } from "react";
 import { faBlind } from "@fortawesome/free-solid-svg-icons";
-import { RouterIcon } from "@react-route-manager/ui-components";
-import { AppRouteConfig } from "../../../../../router/route-manager.config";
 import { UserFollowingQuery } from "@react-route-manager/hooks-api";
+import { ProcessedRouteConfig } from "@react-route-manager/react-route-manager";
+import { RouterIcon } from "@react-route-manager/ui-components";
+import { lazy } from "react";
+import { AppRouteConfig } from "../../../../../router/route-manager.config";
 
 type VariantsArgs = {
   following: UserFollowingQuery["followers"];
 };
 
-export const FOLLOWING_PROFILE: AppRouteConfig<VariantsArgs> = {
+export const FOLLOWING_PROFILE = Symbol("FollowingProfile");
+
+export const FOLLOWING_PROFILE_ROUTE: AppRouteConfig<VariantsArgs> = {
+  key: FOLLOWING_PROFILE,
   path: "profile/:id",
   icon: RouterIcon(faBlind),
   lazyLoadedComponent: lazy(() => import("./FollowingProfile")),
   description: "Following Profile",
   name: "Profiles",
   collections: ["nav"],
-  // If there is a variants function defined - CONSIDER THAT THE ONLY ROUTES FOR THIS PATH!
   variants: ({ following = [] }) => {
     return following.map((foll) => {
       const { email, id, name } = foll.following;
       return {
+        key: FOLLOWING_PROFILE,
         absolutePath: `profile/${id}`,
         icon: RouterIcon(faBlind),
         collections: ["nav"],
@@ -30,4 +34,6 @@ export const FOLLOWING_PROFILE: AppRouteConfig<VariantsArgs> = {
       };
     });
   },
+  variantFilter: (variants, { id }) =>
+    variants.find((v) => v.path === `profile/${id}`),
 };
