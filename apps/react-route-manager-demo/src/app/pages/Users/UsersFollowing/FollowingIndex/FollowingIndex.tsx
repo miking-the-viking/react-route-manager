@@ -1,9 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Button, Grid, GridItem } from "@chakra-ui/react";
+import { Button, Code, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
 import { useUnfollowUserMutation } from "@react-route-manager/hooks-api";
 import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
 import { apolloClient } from "@react-route-manager/ui-components";
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { UsersContext } from "../../UsersContext";
 import { FOLLOWING_INDEX } from "./FollowingIndex.route";
 
@@ -12,10 +13,7 @@ const FollowingIndex: React.FC = () => {
 
   const { following, reloadFollowing } = useContext(UsersContext);
 
-  const [
-    unfollowUserMutation,
-    { data, loading: loadingUnfollowUser, error },
-  ] = useUnfollowUserMutation({
+  const [unfollowUserMutation] = useUnfollowUserMutation({
     client: apolloClient,
     onCompleted: (data) => {
       reloadFollowing();
@@ -24,6 +22,14 @@ const FollowingIndex: React.FC = () => {
 
   return (
     <Grid>
+      <GridItem>
+        <Heading>Users Index</Heading>
+        <Text fontSize="lg">
+          This route <Code>/users/following/</Code> is the main Index route for
+          the UsersFollowing route. <Code>/users</Code>.
+        </Text>
+      </GridItem>
+
       {following &&
         following.map((u) => {
           const {
@@ -51,11 +57,26 @@ const FollowingIndex: React.FC = () => {
               >
                 Unfollow
               </Button>
-              {id} - {email} - {name} - followers: {followers_count}, following:{" "}
-              {following_count}
+              <Link to={`/users/following/profile/${id}`}>
+                {id} - {email} - {name} - followers: {followers_count},
+                following: {following_count}
+              </Link>
             </GridItem>
           );
         })}
+      {!(following?.length !== 0) && (
+        <>
+          <p>It appears as though are are not following anyone!</p>
+          <p>
+            Check out our{" "}
+            <Link to={"/users/following/followable"}>
+              Followable Users Page
+            </Link>{" "}
+            and try following some! This will automagically update the Nav to
+            have their profile links.
+          </p>
+        </>
+      )}
     </Grid>
   );
 };
