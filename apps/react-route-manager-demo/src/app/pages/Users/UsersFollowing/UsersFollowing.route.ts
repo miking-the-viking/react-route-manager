@@ -13,7 +13,7 @@ export const USERS_FOLLOWING: RouteConfig = {
   icon: RouterIcon(faBlind),
   lazyLoadedComponent: lazy(() => import("./UsersFollowing")),
   description: "Users I'm Following",
-  name: "Following",
+  name: "Users I'm Following",
   children: [FOLLOWING_INDEX, FOLLOWING_PROFILE],
   rules: [REQUIRES_AUTH_LOGIN_REDIRECT],
   collections: ["nav"],

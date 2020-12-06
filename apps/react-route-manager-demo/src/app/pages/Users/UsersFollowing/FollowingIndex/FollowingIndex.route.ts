@@ -8,8 +8,8 @@ export const FOLLOWING_INDEX: RouteConfig = {
   path: "/",
   icon: RouterIcon(faBlind),
   lazyLoadedComponent: lazy(() => import("./FollowingIndex")),
-  description: "Main Following page",
-  name: "Following",
+  description: "Following Index Page shows everyone that I am following.",
+  name: "Everyone I'm Following",
   rules: [REQUIRES_AUTH_LOGIN_REDIRECT],
   collections: ["nav"],
 };

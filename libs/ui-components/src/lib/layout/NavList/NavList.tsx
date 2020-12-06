@@ -59,6 +59,57 @@ const NestedNavListItem: React.FC<{
   );
 };
 
+interface NestedProccessedVarientListItemProps {
+  handleDrawerClose: () => void;
+  navItem: ProcessedRouteConfig<AppState>;
+}
+const NestedProccessedVarientListItem: React.FC<NestedProccessedVarientListItemProps> = ({
+  navItem,
+  handleDrawerClose,
+}) => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = (e: any) => {
+    setOpen(!open);
+    e.stopPropagation();
+  };
+
+  return (
+    <ListItem>
+      <Button
+        variant="ghost"
+        onClick={handleClick}
+        width={"100%"}
+        display="flex"
+        justifyContent={"space-between"}
+        pr="0"
+        border={"none"}
+        boxShadow={"none !important"}
+      >
+        <FontAwesomeIcon
+          size="lg"
+          icon={open ? faChevronDown : faChevronRight}
+        />
+        <Text>{navItem.name}</Text>
+      </Button>
+      <Collapse in={open}>
+        <List pl={"2"}>
+          {navItem.processedVariants &&
+            navItem.processedVariants.map((route) => {
+              return (
+                <ComputedNavRoute
+                  key={`${route.name}${route.absolutePath}`}
+                  navItem={route}
+                  handleDrawerClose={handleDrawerClose}
+                />
+              );
+            })}
+        </List>
+      </Collapse>
+    </ListItem>
+  );
+};
+
 const NoSubrouteNavListItem: React.FC<{
   handleDrawerClose: () => void;
   navItem: ProcessedRouteConfig<AppState>;
@@ -108,6 +159,18 @@ const ComputedNavRoute: React.FC<{
         key={navItem.path}
       />
     );
+  }
+  if (navItem.processedVariants && navItem.processedVariants.length > 0) {
+    return (
+      <NestedProccessedVarientListItem
+        handleDrawerClose={handleDrawerClose}
+        navItem={navItem}
+      />
+    );
+  }
+  if (navItem.variants) {
+    // If the navItem has variants defined, but none are accessible, then the route with variants is not accessible.
+    return null;
   }
   return (
     <NoSubrouteNavListItem

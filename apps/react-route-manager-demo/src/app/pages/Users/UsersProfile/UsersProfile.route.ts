@@ -7,7 +7,7 @@ export const USERS_PROFILE: RouteConfig = {
   path: "profile",
   icon: RouterIcon(faBlind),
   lazyLoadedComponent: lazy(() => import("./UsersProfile")),
-  description: "Users Profile",
-  name: "Users Profile",
+  description: "My User Profile",
+  name: "My Profile",
   collections: ["nav"],
 };

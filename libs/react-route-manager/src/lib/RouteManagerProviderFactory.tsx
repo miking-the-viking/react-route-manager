@@ -56,12 +56,10 @@ export const RouteManagerProviderFactory: <R extends Record<
     const allowedRoutes = useMemo(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       () => {
-        console.log("allowedRoutes re processing");
         const processedRoutes = processRoutes<Ri>(routeState.routes, {
           ...state,
           ...variantState,
         });
-        console.log("processed routes = ", processedRoutes);
 
         return processedRoutes;
       },

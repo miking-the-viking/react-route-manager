@@ -26,15 +26,11 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
           : "/");
 
       const processedVariants = route.variants
-        ? route.variants(state as any)
+        ? recursivelyPrependParentPathToVariantRoutes(
+            route.variants(state as any),
+            parentPath
+          )
         : [];
-
-      console.log(
-        "processedVariants for " + route.name,
-        route.variants,
-        state,
-        processedVariants
-      );
 
       return {
         ...route,
@@ -45,6 +41,22 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
         processedVariants,
       } as ProcessedRouteConfig<StateType>;
     });
+
+/**
+ *
+ * Utility to move the responsibility of prepending the parent's path in the absolute path computation to for a route variant function to the React Route Manager
+ *
+ * @param variantsArray
+ * @param parentPath
+ */
+const recursivelyPrependParentPathToVariantRoutes = (
+  variantsArray: ProcessedRouteConfig["processedVariants"],
+  parentPath: string
+) =>
+  variantsArray.map((r) => ({
+    ...r,
+    absolutePath: `${parentPath}${r.absolutePath}`,
+  }));
 
 export const processRules = <StateType extends Record<string, unknown>>(
   state: StateType,

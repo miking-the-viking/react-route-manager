@@ -1,61 +1,31 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button, Grid, GridItem } from "@chakra-ui/react";
-import {
-  useUnfollowUserMutation,
-  useUserFollowingLazyQuery,
-} from "@react-route-manager/hooks-api";
+import { useUnfollowUserMutation } from "@react-route-manager/hooks-api";
 import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
 import { apolloClient } from "@react-route-manager/ui-components";
-import React, { useCallback, useEffect } from "react";
+import React, { useContext } from "react";
+import { UsersContext } from "../../UsersContext";
 import { FOLLOWING_INDEX } from "./FollowingIndex.route";
 
 const FollowingIndex: React.FC = () => {
   const { user } = useAuth0();
+
+  const { following, reloadFollowing } = useContext(UsersContext);
 
   const [
     unfollowUserMutation,
     { data, loading: loadingUnfollowUser, error },
   ] = useUnfollowUserMutation({
     client: apolloClient,
-  });
-
-  const [
-    loadFollowing,
-    { loading: loadingFollowingUsers, data: following, fetchMore },
-  ] = useUserFollowingLazyQuery({
-    client: apolloClient,
-  });
-
-  useEffect(() => {
-    if (!user?.sub) return;
-    loadFollowing({
-      variables: {
-        userId: user?.sub,
-      },
-    });
-  }, [user, loadFollowing]);
-
-  const unfollowUserAndReloadFollowing = useCallback(
-    async (userId: string) => {
-      await unfollowUserMutation({
-        variables: {
-          userId: userId,
-          followerId: user?.sub,
-        },
-      });
-      fetchMore({
-        variables: {
-          userId: user?.sub,
-        },
-      });
+    onCompleted: (data) => {
+      reloadFollowing();
     },
-    [unfollowUserMutation, user, fetchMore]
-  );
+  });
 
   return (
     <Grid>
       {following &&
-        following.followers.map((u) => {
+        following.map((u) => {
           const {
             id,
             email,
@@ -71,7 +41,12 @@ const FollowingIndex: React.FC = () => {
             <GridItem key={id}>
               <Button
                 onClick={() => {
-                  unfollowUserAndReloadFollowing(id);
+                  unfollowUserMutation({
+                    variables: {
+                      userId: id,
+                      followerId: user?.sub,
+                    },
+                  });
                 }}
               >
                 Unfollow

@@ -1,40 +1,28 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
-import React, { useCallback, useEffect, useMemo } from "react";
-import {
-  RouterMetaWrap,
-  useRouteManagerContext,
-} from "@react-route-manager/react-route-manager";
-import { USERS } from "../Users.route";
-
+import { useAuth0 } from "@auth0/auth0-react";
+import { Button, Grid, GridItem, Heading } from "@chakra-ui/react";
 import {
   useFollowUserMutation,
   useOtherUsersQuery,
-  useUserFollowersLazyQuery,
-  useUserFollowersQuery,
-  useUserFollowingLazyQuery,
 } from "@react-route-manager/hooks-api";
-import { useAuth0 } from "@auth0/auth0-react";
+import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
 import { apolloClient } from "@react-route-manager/ui-components";
-import { isCompositeType } from "graphql";
+import React, { useContext, useMemo } from "react";
+import { USERS } from "../Users.route";
+import { UsersContext } from "../UsersContext";
 
 const UsersIndex: React.FC = () => {
   const { user } = useAuth0();
 
-  const { setVariantState } = useRouteManagerContext();
+  const { following, reloadFollowing } = useContext(UsersContext);
 
   const [
     followUserMutation,
     { data, loading: loadingFollowUser, error },
   ] = useFollowUserMutation({
     client: apolloClient,
+    onCompleted: (data) => {
+      reloadFollowing();
+    },
   });
 
   const { loading: loadingOtherUsers, data: otherUsers } = useOtherUsersQuery({
@@ -44,56 +32,14 @@ const UsersIndex: React.FC = () => {
     },
   });
 
-  const [
-    loadFollowing,
-    { loading: loadingFollowingUsers, data: following, fetchMore },
-  ] = useUserFollowingLazyQuery({
-    client: apolloClient,
-  });
-
-  useEffect(() => {
-    if (!user?.sub) return;
-    loadFollowing({
-      variables: {
-        userId: user?.sub,
-      },
-    });
-  }, [user, loadFollowing]);
-
-  useEffect(() => {
-    console.log("setVariantState", setVariantState);
-    if (!setVariantState || !following?.followers) return;
-    console.log("Following", following);
-    setVariantState("following", following.followers);
-  }, [following, setVariantState]);
-
   const followableUsers = useMemo(() => {
-    const currentlyFollowingIds = following?.followers.map(
-      (u) => u.following.id
-    );
+    const currentlyFollowingIds = following?.map((u) => u.following.id);
     return otherUsers?.users.filter(
       (otherUser) => !currentlyFollowingIds?.includes(otherUser.id)
     );
   }, [following, otherUsers]);
 
-  const followUserAndReloadFollowers = useCallback(
-    async (userId: string) => {
-      await followUserMutation({
-        variables: {
-          userId: userId,
-          followerId: user?.sub,
-        },
-      });
-      fetchMore({
-        variables: {
-          userId: user?.sub,
-        },
-      });
-    },
-    [followUserMutation, user, fetchMore]
-  );
-
-  if (loadingOtherUsers || loadingFollowingUsers) {
+  if (loadingOtherUsers) {
     return <p>Loading user data</p>;
   }
 
@@ -107,7 +53,12 @@ const UsersIndex: React.FC = () => {
           <GridItem key={u.id}>
             <Button
               onClick={() => {
-                followUserAndReloadFollowers(u.id);
+                followUserMutation({
+                  variables: {
+                    userId: u.id,
+                    followerId: user?.sub,
+                  },
+                });
               }}
             >
               Follow

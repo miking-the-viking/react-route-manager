@@ -64,15 +64,11 @@ export interface RouteConfig<
    */
   variants?: (
     state: RouteManagerState & VariantState
-  ) => Pick<
-    ProcessedRouteConfig<RouteManagerState>,
-    "absolutePath" | "description" | "name"
-  >[];
+  ) => ProcessedRouteConfig<RouteManagerState>[];
 }
 
 export interface ProcessedRouteConfig<
-  RouteManagerState extends Record<string, unknown> = Record<string, unknown>,
-  VariantState extends Record<string, unknown> = undefined
+  RouteManagerState extends Record<string, unknown> = Record<string, unknown>
 > extends RouteConfig<RouteManagerState> {
   /**
    * Computed absolute path within the route object
@@ -82,8 +78,5 @@ export interface ProcessedRouteConfig<
 
   children?: ProcessedRouteConfig<RouteManagerState>[];
 
-  processedVariants?: Pick<
-    ProcessedRouteConfig<RouteManagerState>,
-    "absolutePath" | "description" | "name"
-  >[];
+  processedVariants?: ProcessedRouteConfig<RouteManagerState>[];
 }

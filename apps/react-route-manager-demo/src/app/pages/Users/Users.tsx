@@ -2,6 +2,7 @@ import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
 import React from "react";
 import { Outlet } from "react-router";
 import { USERS } from "./Users.route";
+import { UsersContextualWrapper } from "./UsersContext";
 
 const Users: React.FC = () => {
   return (
@@ -12,4 +13,4 @@ const Users: React.FC = () => {
   );
 };
 
-export default RouterMetaWrap(USERS, Users);
+export default RouterMetaWrap(USERS, Users, UsersContextualWrapper);

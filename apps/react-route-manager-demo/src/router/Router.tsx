@@ -75,4 +75,3 @@ export default () => (
     </InnerBrowserRouterContext>
   </BrowserProvider>
 );
-// export default Router;

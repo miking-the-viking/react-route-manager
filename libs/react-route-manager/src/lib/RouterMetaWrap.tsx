@@ -42,14 +42,15 @@ export default RouterMetaWrap(WELCOME, Welcome);
  * 
  * @param route 
  * @param Component 
+ * @param Wrapper Optional wrapper than can enclose the page component for more specific page context.
  */
 export const RouterMetaWrap = (
   route: RouteConfig<any>,
-  Component: any
+  Component: any,
+  Wrapper?: any
 ) => () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { allowedRoutes, state, routes } = useRouteManagerContext();
-  // console.log(state);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ export const RouterMetaWrap = (
     }
   }, []);
 
-  return (
+  const HelmetWrappedComponent = () => (
     <>
       <Helmet>
         <title>{route.name}</title>
@@ -74,5 +75,13 @@ export const RouterMetaWrap = (
       </Helmet>
       <Component />
     </>
+  );
+
+  return Wrapper ? (
+    <Wrapper>
+      <HelmetWrappedComponent />
+    </Wrapper>
+  ) : (
+    <HelmetWrappedComponent />
   );
 };

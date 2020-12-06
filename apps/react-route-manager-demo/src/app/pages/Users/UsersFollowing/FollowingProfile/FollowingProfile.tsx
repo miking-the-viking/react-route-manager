@@ -1,17 +1,27 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import {
-  RouterMetaWrap,
-  useRouteManagerContext,
-} from "@react-route-manager/react-route-manager";
-import React from "react";
+import { useUserByIdQuery } from "@react-route-manager/hooks-api";
+import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
+import { apolloClient } from "@react-route-manager/ui-components";
+import React, { useMemo } from "react";
 import { useParams } from "react-router";
 import { FOLLOWING_PROFILE } from "./FollowingProfile.route";
 
 const FollowingProfile: React.FC = () => {
-  const { user, isLoading } = useAuth0();
   const { id } = useParams();
-  if (isLoading) return <p>Loading...</p>;
 
+  const { called, data, fetchMore, loading, error } = useUserByIdQuery({
+    client: apolloClient,
+    variables: {
+      id,
+    },
+  });
+
+  const user = useMemo(() => data?.users[0], [data]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading user profile for id {id}</p>;
+  if (!called) return <p>Have not called the user by id yet...</p>;
+
+  if (!data) return <p>data is falsy</p>;
   return (
     <>
       <p>id = {id}</p>
