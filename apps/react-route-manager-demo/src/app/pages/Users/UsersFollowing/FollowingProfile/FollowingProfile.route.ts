@@ -3,6 +3,7 @@ import { UserFollowingQuery } from "@react-route-manager/hooks-api";
 import { RouterIcon } from "@react-route-manager/ui-components";
 import { lazy } from "react";
 import { AppRouteConfig } from "../../../../../router/route-manager.config";
+import { generatePath } from "react-router-dom";
 
 type VariantsArgs = {
   following: UserFollowingQuery["followers"];
@@ -10,9 +11,11 @@ type VariantsArgs = {
 
 export const FOLLOWING_PROFILE = Symbol("FollowingProfile");
 
+const path = "profile/:id";
+
 export const FOLLOWING_PROFILE_ROUTE: AppRouteConfig<VariantsArgs> = {
   key: FOLLOWING_PROFILE,
-  path: "profile/:id",
+  path,
   icon: RouterIcon(faBlind),
   lazyLoadedComponent: lazy(() => import("./FollowingProfile")),
   description: "Following Profile",
@@ -33,6 +36,6 @@ export const FOLLOWING_PROFILE_ROUTE: AppRouteConfig<VariantsArgs> = {
       };
     });
   },
-  variantFilter: (variants, { id }) =>
-    variants.find((v) => v.path === `profile/${id}`),
+  variantFilter: (variants, params: Record<string, string>) =>
+    variants.find((v) => v.path === generatePath(path, params)),
 };

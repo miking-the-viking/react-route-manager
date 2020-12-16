@@ -17,13 +17,10 @@ const FollowingIndex: React.FC = () => {
   const { user } = useAuth0();
 
   const { routeBySymbol } = useRouteManagerContext();
-  const { following, reloadFollowing } = useContext(UsersContext);
+  const { following } = useContext(UsersContext);
 
   const [unfollowUserMutation] = useUnfollowUserMutation({
     client: apolloClient,
-    onCompleted: (data) => {
-      reloadFollowing();
-    },
   });
 
   const followableUrl = routeBySymbol(FOLLOWING_FOLLOWABLE_USERS);

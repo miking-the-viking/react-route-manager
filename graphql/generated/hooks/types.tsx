@@ -35,9 +35,9 @@ export type String_Comparison_Exp = {
 /** columns and relationships of "followers" */
 export type Followers = {
   __typename?: 'followers';
-  /** An object relationship */
-  follower: Users;
   follower_id: Scalars['String'];
+  /** An object relationship */
+  followers: Users;
   /** An object relationship */
   following: Users;
   user_id: Scalars['String'];
@@ -83,8 +83,8 @@ export type Followers_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Followers_Bool_Exp>>>;
   _not?: Maybe<Followers_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Followers_Bool_Exp>>>;
-  follower?: Maybe<Users_Bool_Exp>;
   follower_id?: Maybe<String_Comparison_Exp>;
+  followers?: Maybe<Users_Bool_Exp>;
   following?: Maybe<Users_Bool_Exp>;
   user_id?: Maybe<String_Comparison_Exp>;
 };
@@ -97,8 +97,8 @@ export enum Followers_Constraint {
 
 /** input type for inserting data into table "followers" */
 export type Followers_Insert_Input = {
-  follower?: Maybe<Users_Obj_Rel_Insert_Input>;
   follower_id?: Maybe<Scalars['String']>;
+  followers?: Maybe<Users_Obj_Rel_Insert_Input>;
   following?: Maybe<Users_Obj_Rel_Insert_Input>;
   user_id?: Maybe<Scalars['String']>;
 };
@@ -153,8 +153,8 @@ export type Followers_On_Conflict = {
 
 /** ordering options when selecting data from "followers" */
 export type Followers_Order_By = {
-  follower?: Maybe<Users_Order_By>;
   follower_id?: Maybe<Order_By>;
+  followers?: Maybe<Users_Order_By>;
   following?: Maybe<Users_Order_By>;
   user_id?: Maybe<Order_By>;
 };
@@ -866,6 +866,52 @@ export type UserFollowingQuery = (
   )> }
 );
 
+export type WhoImFollowingSubscriptionVariables = Exact<{
+  followerId: Scalars['String'];
+}>;
+
+
+export type WhoImFollowingSubscription = (
+  { __typename?: 'subscription_root' }
+  & { followers: Array<(
+    { __typename?: 'followers' }
+    & { following: (
+      { __typename?: 'users' }
+      & UserCompleteFragment
+    ) }
+  )> }
+);
+
+export type WhosFollowingMeSubscriptionVariables = Exact<{
+  myId: Scalars['String'];
+}>;
+
+
+export type WhosFollowingMeSubscription = (
+  { __typename?: 'subscription_root' }
+  & { followers: Array<(
+    { __typename?: 'followers' }
+    & { following: (
+      { __typename?: 'users' }
+      & UserCompleteFragment
+    ) }
+  )> }
+);
+
+export type FollowableUsersSubscriptionVariables = Exact<{
+  userId: Scalars['String'];
+  followedUserIds: Array<Scalars['String']>;
+}>;
+
+
+export type FollowableUsersSubscription = (
+  { __typename?: 'subscription_root' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & UserCompleteFragment
+  )> }
+);
+
 export const UserBaseFragmentDoc = gql`
     fragment UserBase on users {
   id
@@ -1176,3 +1222,95 @@ export function useUserFollowingLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type UserFollowingQueryHookResult = ReturnType<typeof useUserFollowingQuery>;
 export type UserFollowingLazyQueryHookResult = ReturnType<typeof useUserFollowingLazyQuery>;
 export type UserFollowingQueryResult = Apollo.QueryResult<UserFollowingQuery, UserFollowingQueryVariables>;
+export const WhoImFollowingDocument = gql`
+    subscription WhoImFollowing($followerId: String!) {
+  followers(where: {follower_id: {_eq: $followerId}}) {
+    following {
+      ...UserComplete
+    }
+  }
+}
+    ${UserCompleteFragmentDoc}`;
+
+/**
+ * __useWhoImFollowingSubscription__
+ *
+ * To run a query within a React component, call `useWhoImFollowingSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useWhoImFollowingSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWhoImFollowingSubscription({
+ *   variables: {
+ *      followerId: // value for 'followerId'
+ *   },
+ * });
+ */
+export function useWhoImFollowingSubscription(baseOptions: Apollo.SubscriptionHookOptions<WhoImFollowingSubscription, WhoImFollowingSubscriptionVariables>) {
+        return Apollo.useSubscription<WhoImFollowingSubscription, WhoImFollowingSubscriptionVariables>(WhoImFollowingDocument, baseOptions);
+      }
+export type WhoImFollowingSubscriptionHookResult = ReturnType<typeof useWhoImFollowingSubscription>;
+export type WhoImFollowingSubscriptionResult = Apollo.SubscriptionResult<WhoImFollowingSubscription>;
+export const WhosFollowingMeDocument = gql`
+    subscription WhosFollowingMe($myId: String!) {
+  followers(where: {user_id: {_eq: $myId}}) {
+    following {
+      ...UserComplete
+    }
+  }
+}
+    ${UserCompleteFragmentDoc}`;
+
+/**
+ * __useWhosFollowingMeSubscription__
+ *
+ * To run a query within a React component, call `useWhosFollowingMeSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useWhosFollowingMeSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWhosFollowingMeSubscription({
+ *   variables: {
+ *      myId: // value for 'myId'
+ *   },
+ * });
+ */
+export function useWhosFollowingMeSubscription(baseOptions: Apollo.SubscriptionHookOptions<WhosFollowingMeSubscription, WhosFollowingMeSubscriptionVariables>) {
+        return Apollo.useSubscription<WhosFollowingMeSubscription, WhosFollowingMeSubscriptionVariables>(WhosFollowingMeDocument, baseOptions);
+      }
+export type WhosFollowingMeSubscriptionHookResult = ReturnType<typeof useWhosFollowingMeSubscription>;
+export type WhosFollowingMeSubscriptionResult = Apollo.SubscriptionResult<WhosFollowingMeSubscription>;
+export const FollowableUsersDocument = gql`
+    subscription FollowableUsers($userId: String!, $followedUserIds: [String!]!) {
+  users(where: {_and: [{id: {_neq: $userId}}, {id: {_nin: $followedUserIds}}]}) {
+    ...UserComplete
+  }
+}
+    ${UserCompleteFragmentDoc}`;
+
+/**
+ * __useFollowableUsersSubscription__
+ *
+ * To run a query within a React component, call `useFollowableUsersSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useFollowableUsersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFollowableUsersSubscription({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      followedUserIds: // value for 'followedUserIds'
+ *   },
+ * });
+ */
+export function useFollowableUsersSubscription(baseOptions: Apollo.SubscriptionHookOptions<FollowableUsersSubscription, FollowableUsersSubscriptionVariables>) {
+        return Apollo.useSubscription<FollowableUsersSubscription, FollowableUsersSubscriptionVariables>(FollowableUsersDocument, baseOptions);
+      }
+export type FollowableUsersSubscriptionHookResult = ReturnType<typeof useFollowableUsersSubscription>;
+export type FollowableUsersSubscriptionResult = Apollo.SubscriptionResult<FollowableUsersSubscription>;

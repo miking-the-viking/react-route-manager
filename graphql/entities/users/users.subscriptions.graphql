@@ -1,0 +1,25 @@
+subscription WhoImFollowing($followerId: String!) {
+  followers(where: { follower_id: { _eq: $followerId } }) {
+    following {
+      ...UserComplete
+    }
+  }
+}
+
+subscription WhosFollowingMe($myId: String!) {
+  followers(where: { user_id: { _eq: $myId } }) {
+    following {
+      ...UserComplete
+    }
+  }
+}
+
+subscription FollowableUsers($userId: String!, $followedUserIds: [String!]!) {
+  users(
+    where: {
+      _and: [{ id: { _neq: $userId } }, { id: { _nin: $followedUserIds } }]
+    }
+  ) {
+    ...UserComplete
+  }
+}

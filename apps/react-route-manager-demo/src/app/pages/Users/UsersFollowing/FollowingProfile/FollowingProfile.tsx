@@ -16,8 +16,6 @@ const FollowingProfile: React.FC = () => {
   const { user } = useAuth0();
   const { id } = useParams();
 
-  const { reloadFollowing } = useContext(UsersContext);
-
   const { called, data, loading, error } = useUserByIdQuery({
     client: apolloClient,
     variables: {
@@ -27,9 +25,6 @@ const FollowingProfile: React.FC = () => {
 
   const [unfollowUserMutation] = useUnfollowUserMutation({
     client: apolloClient,
-    onCompleted: (data) => {
-      reloadFollowing();
-    },
   });
 
   const followedUser = useMemo(() => data?.users[0], [data]);

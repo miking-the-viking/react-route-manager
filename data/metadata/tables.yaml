@@ -2,7 +2,7 @@
     schema: public
     name: followers
   object_relationships:
-  - name: follower
+  - name: followers
     using:
       foreign_key_constraint_on: follower_id
   - name: following
@@ -15,8 +15,8 @@
         follower_id:
           _eq: X-Hasura-User-Id
       columns:
-      - follower_id
       - user_id
+      - follower_id
       backend_only: false
   select_permissions:
   - role: user
@@ -26,6 +26,16 @@
       - follower_id
       filter: {}
       allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - follower_id
+      - user_id
+      filter:
+        follower_id:
+          _eq: X-Hasura-User-Id
+      check: {}
   delete_permissions:
   - role: user
     permission:
@@ -50,17 +60,6 @@
         table:
           schema: public
           name: followers
-  insert_permissions:
-  - role: user
-    permission:
-      check: {}
-      columns:
-      - email
-      - id
-      - locale
-      - name
-      - picture
-      backend_only: false
   select_permissions:
   - role: user
     permission:

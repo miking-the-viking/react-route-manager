@@ -1,6 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button, Code, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
 import {
+  useFollowableUsersSubscription,
   useFollowUserMutation,
   useOtherUsersQuery,
 } from "@react-route-manager/hooks-api";
@@ -18,34 +19,25 @@ import { FOLLOWING_FOLLOWABLE_USERS_ROUTE } from "./FollowingFollowableUsers.rou
 const FollowingFollowableUsers: React.FC = () => {
   const { user } = useAuth0();
   const { routeBySymbol } = useRouteManagerContext();
-  const { following, reloadFollowing } = useContext(UsersContext);
+  const { following } = useContext(UsersContext);
 
   const followingUrl = routeBySymbol(FOLLOWING_INDEX);
 
+  console.log("followingUrl = ", followingUrl);
+
   const [followUserMutation] = useFollowUserMutation({
     client: apolloClient,
-    onCompleted: (data) => {
-      reloadFollowing();
-    },
   });
 
-  const { loading: loadingOtherUsers, data: otherUsers } = useOtherUsersQuery({
+  const { data: followableUsers } = useFollowableUsersSubscription({
     client: apolloClient,
+    fetchPolicy: "no-cache",
     variables: {
       userId: user?.sub,
+      followedUserIds: following ? following.map((f) => f.following.id) : [],
     },
+    shouldResubscribe: true,
   });
-
-  const followableUsers = useMemo(() => {
-    const currentlyFollowingIds = following?.map((u) => u.following.id);
-    return otherUsers?.users.filter(
-      (otherUser) => !currentlyFollowingIds?.includes(otherUser.id)
-    );
-  }, [following, otherUsers]);
-
-  if (loadingOtherUsers) {
-    return <p>Loading user data</p>;
-  }
 
   return (
     <Grid>
@@ -56,8 +48,8 @@ const FollowingFollowableUsers: React.FC = () => {
           users that I can follow.
         </Text>
       </GridItem>
-      {followableUsers &&
-        followableUsers.map((u) => (
+      {followableUsers?.users &&
+        followableUsers.users.map((u) => (
           <GridItem key={u.id}>
             <Button
               onClick={() => {
@@ -76,7 +68,7 @@ const FollowingFollowableUsers: React.FC = () => {
             {u.following_aggregate.aggregate.count}
           </GridItem>
         ))}
-      {(!followableUsers || followableUsers.length === 0) && (
+      {(!followableUsers?.users || followableUsers.users.length === 0) && (
         <GridItem>
           <p>
             It appears that there are no other users who you can follow. You've
