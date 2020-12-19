@@ -32,6 +32,121 @@ export type String_Comparison_Exp = {
   _similar?: Maybe<Scalars['String']>;
 };
 
+/** columns and relationships of "followable_users" */
+export type Followable_Users = {
+  __typename?: 'followable_users';
+  followable_id?: Maybe<Scalars['String']>;
+  /** An array relationship */
+  followable_users: Array<Users>;
+  /** An aggregated array relationship */
+  followable_users_aggregate: Users_Aggregate;
+  /** An object relationship */
+  user?: Maybe<Users>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+
+/** columns and relationships of "followable_users" */
+export type Followable_UsersFollowable_UsersArgs = {
+  distinct_on?: Maybe<Array<Users_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Users_Order_By>>;
+  where?: Maybe<Users_Bool_Exp>;
+};
+
+
+/** columns and relationships of "followable_users" */
+export type Followable_UsersFollowable_Users_AggregateArgs = {
+  distinct_on?: Maybe<Array<Users_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Users_Order_By>>;
+  where?: Maybe<Users_Bool_Exp>;
+};
+
+/** aggregated selection of "followable_users" */
+export type Followable_Users_Aggregate = {
+  __typename?: 'followable_users_aggregate';
+  aggregate?: Maybe<Followable_Users_Aggregate_Fields>;
+  nodes: Array<Followable_Users>;
+};
+
+/** aggregate fields of "followable_users" */
+export type Followable_Users_Aggregate_Fields = {
+  __typename?: 'followable_users_aggregate_fields';
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<Followable_Users_Max_Fields>;
+  min?: Maybe<Followable_Users_Min_Fields>;
+};
+
+
+/** aggregate fields of "followable_users" */
+export type Followable_Users_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Followable_Users_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "followable_users" */
+export type Followable_Users_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Followable_Users_Max_Order_By>;
+  min?: Maybe<Followable_Users_Min_Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "followable_users". All fields are combined with a logical 'AND'. */
+export type Followable_Users_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Followable_Users_Bool_Exp>>>;
+  _not?: Maybe<Followable_Users_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Followable_Users_Bool_Exp>>>;
+  followable_id?: Maybe<String_Comparison_Exp>;
+  followable_users?: Maybe<Users_Bool_Exp>;
+  user?: Maybe<Users_Bool_Exp>;
+  user_id?: Maybe<String_Comparison_Exp>;
+};
+
+/** aggregate max on columns */
+export type Followable_Users_Max_Fields = {
+  __typename?: 'followable_users_max_fields';
+  followable_id?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "followable_users" */
+export type Followable_Users_Max_Order_By = {
+  followable_id?: Maybe<Order_By>;
+  user_id?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Followable_Users_Min_Fields = {
+  __typename?: 'followable_users_min_fields';
+  followable_id?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "followable_users" */
+export type Followable_Users_Min_Order_By = {
+  followable_id?: Maybe<Order_By>;
+  user_id?: Maybe<Order_By>;
+};
+
+/** ordering options when selecting data from "followable_users" */
+export type Followable_Users_Order_By = {
+  followable_id?: Maybe<Order_By>;
+  followable_users_aggregate?: Maybe<Users_Aggregate_Order_By>;
+  user?: Maybe<Users_Order_By>;
+  user_id?: Maybe<Order_By>;
+};
+
+/** select columns of table "followable_users" */
+export enum Followable_Users_Select_Column {
+  /** column name */
+  FollowableId = 'followable_id',
+  /** column name */
+  UserId = 'user_id'
+}
+
 /** columns and relationships of "followers" */
 export type Followers = {
   __typename?: 'followers';
@@ -316,6 +431,10 @@ export enum Order_By {
 /** query root */
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "followable_users" */
+  followable_users: Array<Followable_Users>;
+  /** fetch aggregated fields from the table: "followable_users" */
+  followable_users_aggregate: Followable_Users_Aggregate;
   /** fetch data from the table: "followers" */
   followers: Array<Followers>;
   /** fetch aggregated fields from the table: "followers" */
@@ -328,6 +447,26 @@ export type Query_Root = {
   users_aggregate: Users_Aggregate;
   /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>;
+};
+
+
+/** query root */
+export type Query_RootFollowable_UsersArgs = {
+  distinct_on?: Maybe<Array<Followable_Users_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Followable_Users_Order_By>>;
+  where?: Maybe<Followable_Users_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootFollowable_Users_AggregateArgs = {
+  distinct_on?: Maybe<Array<Followable_Users_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Followable_Users_Order_By>>;
+  where?: Maybe<Followable_Users_Bool_Exp>;
 };
 
 
@@ -386,6 +525,10 @@ export type Query_RootUsers_By_PkArgs = {
 /** subscription root */
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "followable_users" */
+  followable_users: Array<Followable_Users>;
+  /** fetch aggregated fields from the table: "followable_users" */
+  followable_users_aggregate: Followable_Users_Aggregate;
   /** fetch data from the table: "followers" */
   followers: Array<Followers>;
   /** fetch aggregated fields from the table: "followers" */
@@ -398,6 +541,26 @@ export type Subscription_Root = {
   users_aggregate: Users_Aggregate;
   /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>;
+};
+
+
+/** subscription root */
+export type Subscription_RootFollowable_UsersArgs = {
+  distinct_on?: Maybe<Array<Followable_Users_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Followable_Users_Order_By>>;
+  where?: Maybe<Followable_Users_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootFollowable_Users_AggregateArgs = {
+  distinct_on?: Maybe<Array<Followable_Users_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Followable_Users_Order_By>>;
+  where?: Maybe<Followable_Users_Bool_Exp>;
 };
 
 
@@ -462,6 +625,8 @@ export type Subscription_RootUsers_By_PkArgs = {
 export type Users = {
   __typename?: 'users';
   email: Scalars['String'];
+  /** An object relationship */
+  followable_user?: Maybe<Followable_Users>;
   /** An array relationship */
   followers: Array<Followers>;
   /** An aggregated array relationship */
@@ -577,6 +742,7 @@ export type Users_Bool_Exp = {
   _not?: Maybe<Users_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Users_Bool_Exp>>>;
   email?: Maybe<String_Comparison_Exp>;
+  followable_user?: Maybe<Followable_Users_Bool_Exp>;
   followers?: Maybe<Followers_Bool_Exp>;
   following?: Maybe<Followers_Bool_Exp>;
   id?: Maybe<String_Comparison_Exp>;
@@ -669,6 +835,7 @@ export type Users_On_Conflict = {
 /** ordering options when selecting data from "users" */
 export type Users_Order_By = {
   email?: Maybe<Order_By>;
+  followable_user?: Maybe<Followable_Users_Order_By>;
   followers_aggregate?: Maybe<Followers_Aggregate_Order_By>;
   following_aggregate?: Maybe<Followers_Aggregate_Order_By>;
   id?: Maybe<Order_By>;
@@ -900,7 +1067,6 @@ export type WhosFollowingMeSubscription = (
 
 export type FollowableUsersSubscriptionVariables = Exact<{
   userId: Scalars['String'];
-  followedUserIds: Array<Scalars['String']>;
 }>;
 
 
@@ -1285,8 +1451,8 @@ export function useWhosFollowingMeSubscription(baseOptions: Apollo.SubscriptionH
 export type WhosFollowingMeSubscriptionHookResult = ReturnType<typeof useWhosFollowingMeSubscription>;
 export type WhosFollowingMeSubscriptionResult = Apollo.SubscriptionResult<WhosFollowingMeSubscription>;
 export const FollowableUsersDocument = gql`
-    subscription FollowableUsers($userId: String!, $followedUserIds: [String!]!) {
-  users(where: {_and: [{id: {_neq: $userId}}, {id: {_nin: $followedUserIds}}]}) {
+    subscription FollowableUsers($userId: String!) {
+  users(where: {followable_user: {user_id: {_eq: $userId}}}) {
     ...UserComplete
   }
 }
@@ -1305,7 +1471,6 @@ export const FollowableUsersDocument = gql`
  * const { data, loading, error } = useFollowableUsersSubscription({
  *   variables: {
  *      userId: // value for 'userId'
- *      followedUserIds: // value for 'followedUserIds'
  *   },
  * });
  */

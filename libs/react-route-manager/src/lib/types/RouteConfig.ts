@@ -10,7 +10,7 @@ export interface RouteConfig<
   /**
    * Distinguishing symbol to identify the route by, used in convenience method to rapidly pull a route.
    *
-   * TODO: Used in conjunction with `routeBySymbol` to immediately retrieve the absolute route for a given route by the rotue symbol and optional parameters
+   * TODO: Used in conjunction with `allowedRouteBySymbol` to immediately retrieve the absolute route for a given route by the rotue symbol and optional parameters
    */
   key: symbol;
 

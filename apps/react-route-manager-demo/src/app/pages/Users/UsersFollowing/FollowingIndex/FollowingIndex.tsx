@@ -16,14 +16,16 @@ import { FOLLOWING_INDEX_ROUTE } from "./FollowingIndex.route";
 const FollowingIndex: React.FC = () => {
   const { user } = useAuth0();
 
-  const { routeBySymbol } = useRouteManagerContext();
+  const { allowedRouteBySymbol } = useRouteManagerContext();
   const { following } = useContext(UsersContext);
 
   const [unfollowUserMutation] = useUnfollowUserMutation({
     client: apolloClient,
   });
 
-  const followableUrl = routeBySymbol(FOLLOWING_FOLLOWABLE_USERS);
+  const { absolutePath: followableUrl } = allowedRouteBySymbol(
+    FOLLOWING_FOLLOWABLE_USERS
+  );
 
   return (
     <Grid>
@@ -36,14 +38,18 @@ const FollowingIndex: React.FC = () => {
       </GridItem>
 
       {following &&
-        following.map((u) =>
+        following.map((u) => {
+          const route = allowedRouteBySymbol(FOLLOWING_PROFILE, {
+            id: u.following.id,
+          });
+
           FollowedUserGridItem(
             u.following,
             unfollowUserMutation,
             user?.sub,
-            routeBySymbol(FOLLOWING_PROFILE, { id: u.following.id })
-          )
-        )}
+            route.absolutePath
+          );
+        })}
       {!(following?.length !== 0) && NoFollowableUsers(followableUrl)}
     </Grid>
   );

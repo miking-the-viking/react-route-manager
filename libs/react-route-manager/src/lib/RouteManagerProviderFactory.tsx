@@ -66,7 +66,7 @@ export const RouteManagerProviderFactory: <R extends Record<
       return allowedRoutesActiveRoute<Ri>(allowedRoutes, path);
     }, [allowedRoutes, path]);
 
-    const routeBySymbol = useCallback(
+    const allowedRouteBySymbol = useCallback(
       (key: symbol, params?: Record<string, unknown>) => {
         const resolvedRoute = keyMapping[key];
 
@@ -84,7 +84,7 @@ export const RouteManagerProviderFactory: <R extends Record<
             resolvedRoute?.absolutePath
           }`
         );
-        return resolvedRoute?.absolutePath;
+        return resolvedRoute;
       },
       [keyMapping]
     );
@@ -102,7 +102,7 @@ export const RouteManagerProviderFactory: <R extends Record<
           state: { ...state, ...variantState },
           setVariantState: handleSetVariantState,
           activeRoute,
-          routeBySymbol,
+          allowedRouteBySymbol,
         }}
       >
         {Wrapper ? <Wrapper>{router}</Wrapper> : { router }}

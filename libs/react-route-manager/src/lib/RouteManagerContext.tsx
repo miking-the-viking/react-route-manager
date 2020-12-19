@@ -12,7 +12,7 @@ export const RouteManagerContext = React.createContext<RouteManagerState<any>>({
     /** */
   },
   state: {},
-  routeBySymbol: () => null,
+  allowedRouteBySymbol: () => null,
 });
 
 export const RouteManagerConsumer = RouteManagerContext.Consumer;

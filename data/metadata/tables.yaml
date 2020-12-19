@@ -1,5 +1,34 @@
 - table:
     schema: public
+    name: followable_users
+  object_relationships:
+  - name: user
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: users
+        column_mapping:
+          user_id: id
+  array_relationships:
+  - name: followable_users
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: users
+        column_mapping:
+          followable_id: id
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - followable_id
+      filter: {}
+      allow_aggregations: true
+- table:
+    schema: public
     name: followers
   object_relationships:
   - name: followers
@@ -45,6 +74,15 @@
 - table:
     schema: public
     name: users
+  object_relationships:
+  - name: followable_users
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: followable_users
+        column_mapping:
+          id: followable_id
   array_relationships:
   - name: followers
     using:

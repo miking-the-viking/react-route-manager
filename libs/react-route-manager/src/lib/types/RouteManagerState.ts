@@ -7,8 +7,11 @@ export interface RouteManagerState<i extends Record<string, unknown>> {
   state: i;
   setVariantState: (key: string, value: any) => void;
   activeRoute: string | null;
-  routeBySymbol: (
+  /**
+   * Resolves an allowed, processed route by it's route symbol and optional route parameters (as defined by the route's configuration)
+   */
+  allowedRouteBySymbol: (
     routeKey: symbol,
     params?: Record<string, unknown>
-  ) => string | null;
+  ) => ProcessedRouteConfig<i> | null;
 }

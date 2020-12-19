@@ -18,12 +18,10 @@ import { FOLLOWING_FOLLOWABLE_USERS_ROUTE } from "./FollowingFollowableUsers.rou
 
 const FollowingFollowableUsers: React.FC = () => {
   const { user } = useAuth0();
-  const { routeBySymbol } = useRouteManagerContext();
+  const { allowedRouteBySymbol } = useRouteManagerContext();
   const { following } = useContext(UsersContext);
 
-  const followingUrl = routeBySymbol(FOLLOWING_INDEX);
-
-  console.log("followingUrl = ", followingUrl);
+  const { absolutePath: followingUrl } = allowedRouteBySymbol(FOLLOWING_INDEX);
 
   const [followUserMutation] = useFollowUserMutation({
     client: apolloClient,
@@ -31,10 +29,9 @@ const FollowingFollowableUsers: React.FC = () => {
 
   const { data: followableUsers } = useFollowableUsersSubscription({
     client: apolloClient,
-    fetchPolicy: "no-cache",
+    fetchPolicy: "cache-first",
     variables: {
       userId: user?.sub,
-      followedUserIds: following ? following.map((f) => f.following.id) : [],
     },
     shouldResubscribe: true,
   });

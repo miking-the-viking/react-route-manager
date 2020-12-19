@@ -26,13 +26,13 @@ export const FOLLOWING_PROFILE_ROUTE: AppRouteConfig<VariantsArgs> = {
       const { email, id, name } = foll.following;
       return {
         key: FOLLOWING_PROFILE,
-        absolutePath: `profile/${id}`,
+        absolutePath: generatePath(path, { id }),
         icon: RouterIcon(faBlind),
         collections: ["nav"],
         name: `${name ? name : email} User Profile`,
         description: `User profile for ${name ? name : email}`,
         lazyLoadedComponent: lazy(() => import("./FollowingProfile")), // todo remove the need for this
-        path: `profile/${id}`,
+        path: generatePath(path, { id }),
       };
     });
   },
