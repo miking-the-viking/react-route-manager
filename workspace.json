@@ -52,7 +52,10 @@
           "builder": "@nrwl/web:dev-server",
           "options": {
             "buildTarget": "react-route-manager-demo:build",
-            "proxyConfig": "apps/react-route-manager-demo/proxy.conf.json"
+            "proxyConfig": "apps/react-route-manager-demo/proxy.conf.json",
+            "ssl": true,
+            "sslKey": "./dev.local-key.pem",
+            "sslCert": "./dev.local.pem"
           },
           "configurations": {
             "production": {

@@ -1,12 +1,12 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { BrowserProvider } from "@react-route-manager/react-route-manager";
-import { AppLayout } from "@react-route-manager/ui-components";
-import { AppState } from "@react-route-manager/ui-state";
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { InnerBrowserRouterContext } from "./InnerBrowserRouterWrapper";
-import { RouteManagerProvider } from "./route-manager.config";
-import { routes } from "./routes";
+import { useAuth0 } from '@auth0/auth0-react';
+import { AppLayout } from '@react-route-manager/ui-components';
+import { AppState } from '@react-route-manager/ui-state';
+import { ReactRouteManagerBrowserProvider } from '@react-route-manager/react-route-manager';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { InnerBrowserRouterContext } from './InnerBrowserRouterWrapper';
+import { RouteManagerProvider } from './route-manager.config';
+import { routes } from './routes';
 
 const LoadingFallback = () => <p>Loading</p>;
 
@@ -31,7 +31,7 @@ const Router: React.FC<RouterProps> = ({ Wrapper }) => {
         token = await getAccessTokenSilently();
       }
       if (token && token.length > 0) {
-        localStorage.setItem("token", token);
+        localStorage.setItem('token', token);
       } else {
         localStorage.removeItem(token);
       }
@@ -66,9 +66,9 @@ const Router: React.FC<RouterProps> = ({ Wrapper }) => {
 };
 
 export default () => (
-  <BrowserProvider>
+  <ReactRouteManagerBrowserProvider>
     <InnerBrowserRouterContext>
       <Router />
     </InnerBrowserRouterContext>
-  </BrowserProvider>
+  </ReactRouteManagerBrowserProvider>
 );

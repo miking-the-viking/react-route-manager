@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router";
-import {
-  useAllowedRoutesFromCollection,
-  useRouteManagerContext,
-} from "./hooks";
+import { useRouteManagerContext } from "./hooks";
 import { RouteConfig } from "./types/RouteConfig";
 import { processRules } from "./utils/processRoutes";
 
 /**
+ * RouterMetaWrap is a function used to bind the Route configuration object to its Page component.
  * 
+ * This handles applying any automatic redirect rules as necessary, defined by the Route config.
  * 
  * @example 
  * 
@@ -50,7 +49,7 @@ export const RouterMetaWrap = (
   Wrapper?: any
 ) => () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { allowedRoutes, state, routes } = useRouteManagerContext();
+  const { state } = useRouteManagerContext();
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigate = useNavigate();

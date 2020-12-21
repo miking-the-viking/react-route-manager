@@ -3,7 +3,7 @@ import { Navigate, PartialRouteObject, useRoutes } from "react-router";
 import { RouteConfig } from "./types/RouteConfig";
 import { RouteManagerProviderProps } from "./types/RouteManagerProviderProps";
 
-export const AsyncComponent: React.FC<Pick<
+const AsyncComponent: React.FC<Pick<
   RouteConfig<Record<string, unknown>>,
   "lazyLoadedComponent"
 >> = ({ lazyLoadedComponent: Component, ...props }) => {
