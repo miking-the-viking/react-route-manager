@@ -626,7 +626,7 @@ export type Users = {
   __typename?: 'users';
   email: Scalars['String'];
   /** An object relationship */
-  followable_user?: Maybe<Followable_Users>;
+  followable_users?: Maybe<Followable_Users>;
   /** An array relationship */
   followers: Array<Followers>;
   /** An aggregated array relationship */
@@ -742,7 +742,7 @@ export type Users_Bool_Exp = {
   _not?: Maybe<Users_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Users_Bool_Exp>>>;
   email?: Maybe<String_Comparison_Exp>;
-  followable_user?: Maybe<Followable_Users_Bool_Exp>;
+  followable_users?: Maybe<Followable_Users_Bool_Exp>;
   followers?: Maybe<Followers_Bool_Exp>;
   following?: Maybe<Followers_Bool_Exp>;
   id?: Maybe<String_Comparison_Exp>;
@@ -835,7 +835,7 @@ export type Users_On_Conflict = {
 /** ordering options when selecting data from "users" */
 export type Users_Order_By = {
   email?: Maybe<Order_By>;
-  followable_user?: Maybe<Followable_Users_Order_By>;
+  followable_users?: Maybe<Followable_Users_Order_By>;
   followers_aggregate?: Maybe<Followers_Aggregate_Order_By>;
   following_aggregate?: Maybe<Followers_Aggregate_Order_By>;
   id?: Maybe<Order_By>;
@@ -1452,7 +1452,7 @@ export type WhosFollowingMeSubscriptionHookResult = ReturnType<typeof useWhosFol
 export type WhosFollowingMeSubscriptionResult = Apollo.SubscriptionResult<WhosFollowingMeSubscription>;
 export const FollowableUsersDocument = gql`
     subscription FollowableUsers($userId: String!) {
-  users(where: {followable_user: {user_id: {_eq: $userId}}}) {
+  users(where: {followable_users: {user_id: {_eq: $userId}}}) {
     ...UserComplete
   }
 }

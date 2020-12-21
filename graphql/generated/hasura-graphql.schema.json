@@ -3494,7 +3494,7 @@
             "deprecationReason": null
           },
           {
-            "name": "followable_user",
+            "name": "followable_users",
             "description": "An object relationship",
             "args": [],
             "type": {
@@ -4177,7 +4177,7 @@
             "defaultValue": null
           },
           {
-            "name": "followable_user",
+            "name": "followable_users",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -4785,7 +4785,7 @@
             "defaultValue": null
           },
           {
-            "name": "followable_user",
+            "name": "followable_users",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",

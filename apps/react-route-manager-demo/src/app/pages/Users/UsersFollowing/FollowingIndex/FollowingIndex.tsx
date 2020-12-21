@@ -43,7 +43,12 @@ const FollowingIndex: React.FC = () => {
             id: u.following.id,
           });
 
-          FollowedUserGridItem(
+          if (!route) {
+            return;
+          }
+
+          // console.log(route);
+          return FollowedUserGridItem(
             u.following,
             unfollowUserMutation,
             user?.sub,

@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import { resolve } from "path";
 import React, { useCallback, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { IndexRouter } from "./IndexRouter";
 import { RouteManagerContext } from "./RouteManagerContext";
 import { RouteManagerProviderProps } from "./types/RouteManagerProviderProps";
@@ -33,17 +32,17 @@ export const RouteManagerProviderFactory: <R extends Record<
     const { pathname: path } = useLocation();
 
     const [variantState, setVariantState] = useState<Record<string, any>>({});
-    const handleSetVariantState = useCallback(
-      (key: string, value: any) =>
-        setVariantState((currentState) => ({ ...currentState, [key]: value })),
-      [setVariantState]
-    );
 
     const [routeState, setRouteState] = useState<
       Pick<RouteManagerState<Ri>, "routes">
     >({
       routes: inputRoutes,
     });
+    const handleSetVariantState = useCallback(
+      (key: string, value: any) =>
+        setVariantState((currentState) => ({ ...currentState, [key]: value })),
+      [setVariantState]
+    );
 
     const router = <IndexRouter routes={inputRoutes} />;
 
@@ -79,11 +78,11 @@ export const RouteManagerProviderFactory: <R extends Record<
             params
           )?.absolutePath;
         }
-        console.log(
-          `Route Symbol ${key.toString()} resolved to path ${
-            resolvedRoute?.absolutePath
-          }`
-        );
+        // console.log(
+        //   `Route Symbol ${key.toString()} resolved to path ${
+        //     resolvedRoute?.absolutePath
+        //   }`
+        // );
         return resolvedRoute;
       },
       [keyMapping]

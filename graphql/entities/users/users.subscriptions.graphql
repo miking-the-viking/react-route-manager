@@ -15,7 +15,7 @@ subscription WhosFollowingMe($myId: String!) {
 }
 
 subscription FollowableUsers($userId: String!) {
-  users(where: { followable_user: { user_id: { _eq: $userId } } }) {
+  users(where: { followable_users: { user_id: { _eq: $userId } } }) {
     ...UserComplete
   }
 }
