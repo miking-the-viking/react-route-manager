@@ -23,6 +23,10 @@ export const RouteManagerProviderFactory: <R extends Record<
 >>() => React.FC<RouteManagerProviderProps<R>> = <
   Ri extends Record<string, unknown>
 >() => {
+  /**
+   * RouteManagerProvider
+   *
+   */
   const dynamicProvider: React.FC<RouteManagerProviderProps<Ri>> = ({
     Wrapper,
     state,
@@ -38,13 +42,14 @@ export const RouteManagerProviderFactory: <R extends Record<
     >({
       routes: inputRoutes,
     });
+
+    const router = <IndexRouter routes={inputRoutes} />;
+
     const handleSetVariantState = useCallback(
       (key: string, value: any) =>
         setVariantState((currentState) => ({ ...currentState, [key]: value })),
       [setVariantState]
     );
-
-    const router = <IndexRouter routes={inputRoutes} />;
 
     const [keyMapping, allowedRoutes] = useMemo(
       () =>
@@ -78,11 +83,6 @@ export const RouteManagerProviderFactory: <R extends Record<
             params
           )?.absolutePath;
         }
-        // console.log(
-        //   `Route Symbol ${key.toString()} resolved to path ${
-        //     resolvedRoute?.absolutePath
-        //   }`
-        // );
         return resolvedRoute;
       },
       [keyMapping]
