@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import React, { useCallback, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { IndexRouter } from "./IndexRouter";
-import { RouteManagerContext } from "./RouteManagerContext";
-import { RouteManagerProviderProps } from "./types/RouteManagerProviderProps";
-import { RouteManagerState } from "./types/RouteManagerState";
-import { allowedRoutesActiveRoute } from "./utils/allowedRoutesActiveRoute";
-import { processRoutes } from "./utils/processRoutes";
+import React, { useCallback, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { IndexRouter } from './IndexRouter';
+import { RouteManagerContext } from './RouteManagerContext';
+import { RouteManagerProviderProps } from './types/RouteManagerProviderProps';
+import { RouteManagerState } from './types/RouteManagerState';
+import { allowedRoutesActiveRoute } from './utils/allowedRoutesActiveRoute';
+import { processRoutes } from './utils/processRoutes';
 
 /**
  *
@@ -28,7 +28,7 @@ export const RouteManagerProviderFactory: <R extends Record<
    *
    */
   const dynamicProvider: React.FC<RouteManagerProviderProps<Ri>> = ({
-    Wrapper,
+    RouterWrapper,
     state,
     routes: inputRoutes,
   }) => {
@@ -38,7 +38,7 @@ export const RouteManagerProviderFactory: <R extends Record<
     const [variantState, setVariantState] = useState<Record<string, any>>({});
 
     const [routeState, setRouteState] = useState<
-      Pick<RouteManagerState<Ri>, "routes">
+      Pick<RouteManagerState<Ri>, 'routes'>
     >({
       routes: inputRoutes,
     });
@@ -59,7 +59,7 @@ export const RouteManagerProviderFactory: <R extends Record<
             ...state,
             ...variantState,
           },
-          "/"
+          '/'
         ),
       [routeState, state, variantState]
     );
@@ -104,7 +104,7 @@ export const RouteManagerProviderFactory: <R extends Record<
           allowedRouteBySymbol,
         }}
       >
-        {Wrapper ? <Wrapper>{router}</Wrapper> : { router }}
+        {RouterWrapper ? <RouterWrapper>{router}</RouterWrapper> : { router }}
       </Context.Provider>
     );
   };

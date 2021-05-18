@@ -1,4 +1,4 @@
-import { AppRule, AppRuleEvaluator } from "../../route-manager.config";
+import { AppRouteRule, AppRouteRuleEvaluator } from '../types';
 
 /**
  * Returns true if the user is deemed authenticated
@@ -6,19 +6,19 @@ import { AppRule, AppRuleEvaluator } from "../../route-manager.config";
  * Based on the presence of `Auth` and `Auth.jwt` being truthy.
  *
  */
-export const RequiresAuth: AppRuleEvaluator = ({ authenticated }) =>
+export const RequiresAuth: AppRouteRuleEvaluator = ({ authenticated }) =>
   authenticated;
 
 /**
  * Default redirect path for a not-authenticated user
  */
-export const DEFAULT_NOT_AUTHENTICATED_PATH = "/";
+export const DEFAULT_NOT_AUTHENTICATED_PATH = '/';
 
 /**
  * Basic Requires Auth RedirectRule
  *
  */
-export const REQUIRES_AUTH_LOGIN_REDIRECT: AppRule = [
+export const REQUIRES_AUTH_LOGIN_REDIRECT: AppRouteRule = [
   [RequiresAuth],
   DEFAULT_NOT_AUTHENTICATED_PATH,
 ];

@@ -1,5 +1,5 @@
-import React from "react";
-import { AuthProvider } from "@react-route-manager/ui-components";
+import React from 'react';
+import { AuthProvider } from '@react-route-manager/ui-components';
 
 const {
   NX_AUTH0_DOMAIN: domain,
@@ -15,6 +15,6 @@ const AUTH_PROVIDER_CONFIG = {
   redirectUri,
 };
 
-export const InnerBrowserRouterContext: React.FC = ({ children }) => (
+export const AuthContext: React.FC = ({ children }) => (
   <AuthProvider {...AUTH_PROVIDER_CONFIG}>{children}</AuthProvider>
 );

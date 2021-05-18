@@ -2,89 +2,64 @@
 
 This project was generated using [Nx](https://nx.dev).
 
-<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+# Usage
 
-🔎 **Nx is a set of Extensible Dev Tools for Monorepos.**
+The intention of the React Route Manager is to provide a simple, opinionated framework for your React application. Reusable configuration is hoisted to promote DRY code with less boilerplate polluting page components or routing.
 
-## Adding capabilities to your workspace
+## Setup
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+Once installed, create the `route-manager.config.ts` file to setup the Context provider and your applications types.
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+## Defining Pages
 
-Below are our core plugins:
+Defining a page component requires two files:
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+1. The page component, such as `Users.tsx`
+2. The route definition, such as `Users.route.tsx`, this file defines
 
-There are also many [community plugins](https://nx.dev/nx-community) you could add.
+- \* `key` unique symbol to reference this route by
+- \* `path` URL path for the page
+- \* `lazyLoadedComponent` the lazy load import to the page component
+- \* `name` name to reference the page by
+- `description` optional desription of the page
+- `icon` optional icon for certain displays
+- `rules` optional ACL with redirect behavior
+- `collections` optional collections the route should belong to
 
-## Generate an application
+```ts
+// Users.route.ts
+export const USERS = Symbol('Users');
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
+export const USERS_ROUTE: RouteConfig = {
+  key: USERS,
+  path: 'users',
+  lazyLoadedComponent: lazy(() => import('./Users')),
+  name: 'Users',
+  description: 'Users in the application',
+  icon: RouterIcon(faBlind),
+  rules: [REQUIRES_AUTH_LOGIN_REDIRECT],
+  collections: ['nav'],
+  children: [USERS_INDEX_ROUTE, USERS_PROFILE_ROUTE, USERS_FOLLOWING_ROUTE],
+};
+```
 
-> You can use any of the plugins above to generate applications as well.
+### Defining Rules
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+Rules are composed in a typesafe format, a `RouteRule` has two requirements:
 
-## Generate a library
+1. \* 1...n conditions that are to be evaluated (such as isLoggedIn), defined as the generic `RouteRuleEvaluator`
+2. \* a redirect route for when the condition fails. (TODO: Make optional, move UP the route tree is unsatisfied))
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+```ts
+// Rule Evaluator
+export const RequiresAuth: RouteRuleEvaluator<{ authenticated: boolean }> = ({
+  authenticated,
+}) => authenticated;
 
-> You can also use any of the plugins above to generate libraries as well.
+// Rule
+export const REQUIRES_AUTH_LOGIN_REDIRECT: RouteRule<{
+  authenticated: boolean;
+}> = [[RequiresAuth], '/redirect-route-for-guest'];
+```
 
-Libraries are sharable across libraries and applications. They can be imported from `@react-route-manager/mylib`.
-
-## Development server
-
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-## ☁ Nx Cloud
-
-### Computation Memoization in the Cloud
-
-<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+# Development
