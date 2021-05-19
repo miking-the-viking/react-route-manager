@@ -8,22 +8,81 @@ The intention of the React Route Manager is to provide a simple, opinionated fra
 
 ## Setup
 
-Once installed, setting up the RouteManager can be setup in one of two ways depending on if you require immediate redirect behavior and/or
+Once installed, setting up the RouteManager can be setup in one of two ways, depending on (1) if any components outside of the pages require access to the Browser for location or navigation (such as Auth0 callback) and (2)
 
-###
-
-### Simplest, No Immediate Redirect Behavior
+### Simplest, Single Component
 
 In the event that no components outside of the Router require access to the Browser (for useLocation, useNavigate, etc.) then it is possible to setup the router with a single component.
 
 ```
 const RouteManagerProvider = RouteManagerProviderFactory<RouterState>();
 
+<RouteManagerProvider
+  routes={routes}
+  state={state}
+/>
+
+```
+
+This will detect that there is no BrowserRouter setup and will wrap itself accordingly.
+
+### Advanced, Manual BrowserProvider Setup
+
+If you require access to the Browser outside of the RouteManager, then you can manually wrap the component and RouteManager in the `<BrowserProvider>`, this will allow access to the browser. An example is the implementation in the sample application of this library using Auth0.
+
+The RouteRules require authenticated state to determine if the user is a guest or not, for the RouteManager state `authenticated: boolean` is being included. This callback requires navigation, hence access to the BrowserProvider.
+
+```ts
+// App.tsx
+const App: React.FC = () => (
+  <BrowserProvider>
+    <AuthContext>
+      <AppRouter />
+    </AuthContext>
+  </BrowserProvider>
+);
+
+// AppRouter.tsx
+const Router: React.FC<RouterProps> = ({ Wrapper }) => {
+  const state = useSelector((state: AppState) => state);
+
+  const {
+    getAccessTokenSilently,
+    isAuthenticated,
+    isLoading,
+    error,
+  } = useAuth0();
+
+  useEffect(() => {
+    (async () => {
+      let token;
+      if (isAuthenticated) {
+        token = await getAccessTokenSilently();
+      }
+      if (token && token.length > 0) {
+        localStorage.setItem('token', token);
+      } else {
+        localStorage.removeItem(token);
+      }
+    })();
+  }, [isAuthenticated, getAccessTokenSilently]);
+
+  if (error) {
+    return <div>Oops... {error.message}</div>;
+  }
+
+  if (isLoading) {
+    return <LoadingFallback />;
+  }
+  return (
+    <>
       <RouteManagerProvider
         routes={routes}
-        state={state}
+        state={{ ...state, authenticated: isAuthenticated }}
       />
-
+    </>
+  );
+};
 ```
 
 ## Defining Pages
