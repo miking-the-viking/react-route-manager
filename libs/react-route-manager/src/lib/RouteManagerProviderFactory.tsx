@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { BrowserProvider } from './BrowserProvider';
 import { IndexRouter } from './IndexRouter';
 import { RouteManagerContext } from './RouteManagerContext';
 import { RouteManagerProviderProps } from './types/RouteManagerProviderProps';
@@ -23,11 +23,7 @@ export const RouteManagerProviderFactory: <R extends Record<
 >>() => React.FC<RouteManagerProviderProps<R>> = <
   Ri extends Record<string, unknown>
 >() => {
-  /**
-   * RouteManagerProvider
-   *
-   */
-  const dynamicProvider: React.FC<RouteManagerProviderProps<Ri>> = ({
+  const RouterProvider: React.FC<RouteManagerProviderProps<Ri>> = ({
     RouterWrapper,
     state,
     routes: inputRoutes,
@@ -108,5 +104,39 @@ export const RouteManagerProviderFactory: <R extends Record<
       </Context.Provider>
     );
   };
-  return dynamicProvider;
+
+  /**
+   * useRouterProvider that provides the RouterProvider.
+   *
+   * It automatically detects if there is a Router already setup, if not then it wraps the Router in a BrowserProvider.
+   * If the consuming application requires access to the browser router prior to the RouterProvider, then it can manually use the `BrowserProvider`.
+   *
+   */
+  const useRouterProvider = ({
+    RouterWrapper,
+    state,
+    routes: inputRoutes,
+  }: RouteManagerProviderProps<Ri>): JSX.Element => {
+    const wrappedOrUnwrappedRouter = useRef<JSX.Element>(null);
+    if (wrappedOrUnwrappedRouter.current)
+      return wrappedOrUnwrappedRouter.current;
+
+    const routerProvider = (
+      <RouterProvider
+        routes={inputRoutes}
+        state={state}
+        RouterWrapper={RouterWrapper}
+      />
+    );
+    try {
+      useLocation();
+      wrappedOrUnwrappedRouter.current = routerProvider;
+    } catch (e) {
+      wrappedOrUnwrappedRouter.current = (
+        <BrowserProvider>{routerProvider}</BrowserProvider>
+      );
+    }
+    return wrappedOrUnwrappedRouter.current;
+  };
+  return useRouterProvider;
 };

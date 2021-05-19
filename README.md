@@ -8,7 +8,23 @@ The intention of the React Route Manager is to provide a simple, opinionated fra
 
 ## Setup
 
-Once installed, create the `route-manager.config.ts` file to setup the Context provider and your applications types.
+Once installed, setting up the RouteManager can be setup in one of two ways depending on if you require immediate redirect behavior and/or
+
+###
+
+### Simplest, No Immediate Redirect Behavior
+
+In the event that no components outside of the Router require access to the Browser (for useLocation, useNavigate, etc.) then it is possible to setup the router with a single component.
+
+```
+const RouteManagerProvider = RouteManagerProviderFactory<RouterState>();
+
+      <RouteManagerProvider
+        routes={routes}
+        state={state}
+      />
+
+```
 
 ## Defining Pages
 
