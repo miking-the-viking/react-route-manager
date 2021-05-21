@@ -6,7 +6,7 @@ import {
 import { GlobalStoreProviderFactory } from '@react-route-manager/ui-state';
 import React from 'react';
 import { AuthContext } from './contexts/AuthContext';
-import AppRouter from './router/AppRouter';
+import Router from './router/Router';
 
 const GlobalStoreProvider = GlobalStoreProviderFactory(apolloClient);
 
@@ -15,7 +15,7 @@ const App: React.FC = () => (
     <GlobalStoreProvider>
       <BrowserProvider>
         <AuthContext>
-          <AppRouter />
+          <Router />
         </AuthContext>
       </BrowserProvider>
     </GlobalStoreProvider>

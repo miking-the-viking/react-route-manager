@@ -1,27 +1,23 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import { RouteManagerProviderFactory } from '@react-route-manager/react-route-manager';
 import { AppLayout } from '@react-route-manager/ui-components';
-import { AppState } from '@react-route-manager/ui-state';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { RouterState } from './RouterState.type';
 import { routes } from './routes';
+import { useRouterState } from './useRouterState';
 
 type RouterProps = {
   Wrapper?: React.FC;
 };
 
-const RouteManagerProvider = RouteManagerProviderFactory<RouterState>();
+const RouteManagerProvider = RouteManagerProviderFactory<RouterState>(routes);
 
 const Router: React.FC<RouterProps> = ({ Wrapper }) => {
-  const state = useSelector((state: AppState) => state);
-  const { isAuthenticated } = useAuth0();
+  const state = useRouterState();
   return (
     <RouteManagerProvider
-      routes={routes}
-      state={{ ...state, authenticated: isAuthenticated }}
+      state={state}
       RouterWrapper={({ children }) => (
-        <AppLayout hideNav={!isAuthenticated}>{children}</AppLayout>
+        <AppLayout hideNav={!state.authenticated}>{children}</AppLayout>
       )}
     />
   );

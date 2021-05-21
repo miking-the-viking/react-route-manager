@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { BrowserProvider } from './BrowserProvider';
 import { IndexRouter } from './IndexRouter';
 import { RouteManagerContext } from './RouteManagerContext';
+import { Route } from './types/Route';
 import { RouteManagerProviderProps } from './types/RouteManagerProviderProps';
 import { RouteManagerState } from './types/RouteManagerState';
 import { allowedRoutesActiveRoute } from './utils/allowedRoutesActiveRoute';
@@ -17,16 +18,16 @@ import { processRoutes } from './utils/processRoutes';
  * and redirecting the user if they are accessing a non-valid route.
  *
  */
-export const RouteManagerProviderFactory: <R extends Record<
-  string,
-  unknown
->>() => React.FC<RouteManagerProviderProps<R>> = <
+export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
+  routes: Route<R>[]
+) => React.FC<RouteManagerProviderProps<R>> = <
   Ri extends Record<string, unknown>
->() => {
+>(
+  routes
+) => {
   const RouterProvider: React.FC<RouteManagerProviderProps<Ri>> = ({
     RouterWrapper,
     state,
-    routes,
   }) => {
     const Context = RouteManagerContext as React.Context<RouteManagerState<Ri>>;
     const router = <IndexRouter routes={routes} />;

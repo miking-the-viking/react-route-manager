@@ -4,5 +4,5 @@ import React from 'react';
 
 /* istanbul ignore next */
 export const RouterIcon = (icon: IconDefinition) => () => (
-    <FontAwesomeIcon size="lg" icon={icon} />
+  <FontAwesomeIcon size="lg" icon={icon} />
 );

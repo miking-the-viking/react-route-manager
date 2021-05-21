@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router';
 import { useRouteManagerContext } from './hooks';
-import { RouteConfig } from './types/RouteConfig';
+import { Route } from './types/Route';
 import { processRules } from './utils/processRoutes';
 
 /**
@@ -43,10 +43,7 @@ export default RouterMetaWrap(WELCOME, Welcome);
  * @param Component 
  * @param Wrapper Optional wrapper than can enclose the page component for more specific page context.
  */
-export const RouterMetaWrap = (
-  route: RouteConfig<any>,
-  Component: any
-) => () => {
+export const RouterMetaWrap = (route: Route<any>, Component: any) => () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { state } = useRouteManagerContext();
 

@@ -1,10 +1,13 @@
-import React, { ComponentType, lazy } from 'react';
-import { RouterMetaWrap } from '../RouterMetaWrap';
-import { ProcessedRouteConfig, RouteConfig } from './RouteConfig';
-import { RouteRule } from './RouteRule';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { faBlind } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { lazy } from 'react';
 import { generatePath } from 'react-router-dom';
+import { RouterMetaWrap } from '../RouterMetaWrap';
+import { ProcessedRouteConfig } from './RouteConfig';
+import { RouteRule } from './RouteRule';
 
-export type RouteConfigInput<T extends ComponentType<any>> = {
+export type RouteConfigInput<RouterState extends Record<string, any>> = {
   /**
    * Distinct key for this route which can be used anywhere in the application as distinct identifier
    *
@@ -12,11 +15,14 @@ export type RouteConfigInput<T extends ComponentType<any>> = {
    * ```
    * export const USERS_PROFILE = Symbol('UsersProfile');
    * ```
+   *
+   *
+   * @todo Used in conjunction with `allowedRouteBySymbol` to immediately retrieve the absolute route for a given route by the rotue symbol and optional parameters
    */
   key: symbol;
 
   /**
-   * Distinct URL path for this route.
+   * The relative url path that router should match to
    *
    *
    * @example
@@ -26,11 +32,40 @@ export type RouteConfigInput<T extends ComponentType<any>> = {
    */
 
   path: string;
+
+  /**
+   * The name of the route
+   */
   name: string;
+
+  /**
+   * Description
+   */
   description: string;
+
+  /**
+   * A string of collections that the route belongs to,
+   * this is helpful if there are multuple navigation components in an application
+   * that can return the same route for instance. For instance the main nav "home" and an admin's sub-nav
+   *
+   */
   collections?: string[];
-  rules?: RouteRule<Record<string, unknown>>[];
-  children?: RouteConfig<Record<string, unknown>, undefined>[];
+
+  /**
+   * Rules applied to a route to permit access to it,
+   *
+   * Defined as a tuple of
+   *
+   *   - RouteRule or RouteRule array
+   *   - Fallback path
+   *
+   */
+  rules?: RouteRule<RouterState>[];
+
+  /**
+   * Child routes
+   */
+  children?: Route<RouterState>[];
   /**
    * Function which imports the component.
    *
@@ -43,31 +78,44 @@ export type RouteConfigInput<T extends ComponentType<any>> = {
    * ```
    */
   importComponent: () => Promise<any>;
+
+  /**
+   * Optional icon component function for use in the UI
+   */
   icon?: () => JSX.Element;
+
+  /**
+   * Absolute path of the route
+   */
   absolutePath?: string;
-  variants?: (
-    state: unknown
-  ) => ProcessedRouteConfig<Record<string, unknown>>[];
+
+  /**
+   * Function that takes in a given state to compute an array of available absolute paths for a slug based route
+   *
+   * /followers/:id
+   *   - /followers/1
+   *   - /followers/2
+   *   - /followers/10
+   */
+  variants?: (state: RouterState) => ProcessedRouteConfig<RouterState>[];
 };
 
-export class Route<T extends ComponentType<any>> implements RouteConfig {
+export class Route<RouterState extends Record<string, any>> {
   public key: symbol;
   public path: string;
   public absolutePath?: string;
   public name: string;
   public description: string;
   public collections?: string[];
-  public rules?: RouteRule<Record<string, unknown>>[];
-  public children?: RouteConfig<Record<string, unknown>, undefined>[];
+  public rules?: RouteRule<RouterState>[];
+  public children?: Route<RouterState>[];
   public lazyLoadedComponent: ReturnType<typeof lazy>;
   public icon: () => JSX.Element;
-  public variants?: (
-    state: unknown
-  ) => ProcessedRouteConfig<Record<string, unknown>>[];
+  public variants?: (state: RouterState) => ProcessedRouteConfig<RouterState>[];
   public variantFilter?: (
     variants,
     params
-  ) => ProcessedRouteConfig<Record<string, unknown>>;
+  ) => ProcessedRouteConfig<RouterState>;
 
   constructor({
     key,
@@ -81,7 +129,7 @@ export class Route<T extends ComponentType<any>> implements RouteConfig {
     icon,
     absolutePath,
     variants,
-  }: RouteConfigInput<T>) {
+  }: RouteConfigInput<RouterState>) {
     this.key = key;
     this.path = path;
     this.name = name;
@@ -91,7 +139,7 @@ export class Route<T extends ComponentType<any>> implements RouteConfig {
     this.children = children;
     this.absolutePath = absolutePath;
 
-    this.icon = icon ?? (() => <p>icon default todo</p>);
+    this.icon = icon ?? (() => <FontAwesomeIcon size="lg" icon={faBlind} />);
 
     this.lazyLoadedComponent = lazy(async () => {
       const Component = await componentImportPath();

@@ -1,11 +1,11 @@
-import { RouteRule } from "./RouteRule";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { RouteRule } from './RouteRule';
 
 /**
  * RouteBaseType extends the generic application state in order to ensure type safety on the route's rules
  */
-export interface RouteConfig<
-  RouteManagerState extends Record<string, unknown> = Record<string, unknown>,
-  VariantState extends Record<string, unknown> = undefined
+interface RouteConfig<
+  RouteManagerState extends Record<string, any> = Record<string, any>
 > {
   /**
    * Distinguishing symbol to identify the route by, used in convenience method to rapidly pull a route.
@@ -70,17 +70,14 @@ export interface RouteConfig<
    *   - /followers/10
    */
   variants?: (
-    state: RouteManagerState & VariantState
-  ) => ProcessedRouteConfig<RouteManagerState>[];
-
-  variantFilter?: (
+    state: RouteManagerState,
     variants: ProcessedRouteConfig<RouteManagerState>[],
     params?: Record<string, unknown>
   ) => ProcessedRouteConfig<RouteManagerState>;
 }
 
 export interface ProcessedRouteConfig<
-  RouteManagerState extends Record<string, unknown> = Record<string, unknown>
+  RouteManagerState extends Record<string, any> = Record<string, any>
 > extends RouteConfig<RouteManagerState> {
   /**
    * Computed absolute path within the route object
