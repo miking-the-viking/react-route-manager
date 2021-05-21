@@ -5,7 +5,7 @@ import {
 } from '@react-route-manager/hooks-api';
 import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
 import { apolloClient } from '@react-route-manager/ui-components';
-import React, { useRef } from 'react';
+import React from 'react';
 
 export type UsersContextualState = {
   following: UserFollowingQuery['followers'];
@@ -20,7 +20,7 @@ export const UsersContextConsumer = UsersContext.Consumer;
 export const UsersContextualWrapper: React.FC = ({ children }) => {
   const { user } = useAuth0();
 
-  const { setVariantState } = useRouteManagerContext();
+  const { setVariantState } = useRouteManagerContext<UsersContextualState>();
 
   const { data, loading, error } = useWhoImFollowingSubscription({
     client: apolloClient,

@@ -3,6 +3,7 @@ import { Button, Code, Grid, GridItem, Heading, Text } from '@chakra-ui/react';
 import {
   useFollowableUsersSubscription,
   useFollowUserMutation,
+  UserCompleteFragment,
 } from '@react-route-manager/hooks-api';
 import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
 import { apolloClient } from '@react-route-manager/ui-components';
@@ -10,13 +11,15 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FOLLOWING_INDEX } from '../FollowingIndex/FollowingIndex.route';
 
+export type FollowableVariantState = { followable?: UserCompleteFragment[] };
+
 const FollowingFollowableUsers: React.FC = () => {
   const { user } = useAuth0();
   const {
     allowedRouteBySymbol,
     state: { followable },
     setVariantState,
-  } = useRouteManagerContext();
+  } = useRouteManagerContext<FollowableVariantState>();
 
   const { absolutePath: followingUrl } = allowedRouteBySymbol(FOLLOWING_INDEX);
 
@@ -35,7 +38,7 @@ const FollowingFollowableUsers: React.FC = () => {
   useEffect(() => {
     if (loading || !followableData?.users) return;
     const sameLength = followable?.length === followableData.users.length;
-    // if there data is the same as followable, do nothing
+    // if the data is the same as followable, do nothing
     if (
       sameLength &&
       followableData.users.filter(

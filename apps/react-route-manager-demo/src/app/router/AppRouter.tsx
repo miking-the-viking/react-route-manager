@@ -9,7 +9,6 @@ import { routes } from './routes';
 
 type RouterProps = {
   Wrapper?: React.FC;
-  RoutableWrapper?: React.FC;
 };
 
 const RouteManagerProvider = RouteManagerProviderFactory<RouterState>();
@@ -21,13 +20,9 @@ const Router: React.FC<RouterProps> = ({ Wrapper }) => {
     <RouteManagerProvider
       routes={routes}
       state={{ ...state, authenticated: isAuthenticated }}
-      RouterWrapper={
-        Wrapper
-          ? Wrapper
-          : ({ children }) => (
-              <AppLayout hideNav={!isAuthenticated}>{children}</AppLayout>
-            )
-      }
+      RouterWrapper={({ children }) => (
+        <AppLayout hideNav={!isAuthenticated}>{children}</AppLayout>
+      )}
     />
   );
 };

@@ -13,8 +13,8 @@ export const USERS_FOLLOWING_ROUTE = new RouteConfigg({
   path: 'following',
   icon: RouterIcon(faBlind),
   importComponent: () => import('./UsersFollowing'),
-  description: "Users I'm Following",
-  name: "Users I'm Following",
+  description: "Users that I'm following or can follow",
+  name: 'Followers and Followees',
   children: [
     FOLLOWING_INDEX_ROUTE,
     FOLLOWING_FOLLOWABLE_USERS_ROUTE,
