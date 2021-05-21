@@ -1,6 +1,6 @@
-import { useMemo } from "react";
-import { ProcessedRouteConfig } from "../types/RouteConfig";
-import { useRouteManagerContext } from "./useRouteManagerContext";
+import { useMemo } from 'react';
+import { ProcessedRouteConfig } from '../types/ProcessedRoute';
+import { useRouteManagerContext } from './useRouteManagerContext';
 
 /**
  * Convenience hook for retrieving all `evaluatedRoutes` for a given collection from the Route Manager Context

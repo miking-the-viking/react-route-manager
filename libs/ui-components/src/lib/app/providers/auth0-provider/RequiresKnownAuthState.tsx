@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 const LoadingFallback = () => <p>Loading Auth State ...</p>;
 
-export const RequiresKnownAuthStateWrapper: React.FC = ({ children }) => {
+export const RequiresKnownAuthState: React.FC = ({ children }) => {
   const {
     getAccessTokenSilently,
     isAuthenticated,

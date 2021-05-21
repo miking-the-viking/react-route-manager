@@ -1,9 +1,9 @@
 import {
+  Route,
   RouteRule,
   RouteRuleEvaluator,
-  RouteConfig,
 } from '@react-route-manager/react-route-manager';
-import { RouterState } from '../RouterState.type';
+import { RouterState } from '../Router.state';
 
 /**
  * Convenience type to have a generic type-safe RouteRule without the repetition of the generic
@@ -15,9 +15,4 @@ export type AppRouteRule = RouteRule<RouterState>;
  */
 export type AppRouteRuleEvaluator = RouteRuleEvaluator<RouterState>;
 
-/**
- *
- */
-export type AppRouteConfig<
-  VariantState extends Record<string, unknown>
-> = RouteConfig<RouterState, VariantState>;
+export type AppRoute = Route<RouterState>;

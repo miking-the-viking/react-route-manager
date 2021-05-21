@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { AppState } from '@react-route-manager/ui-state';
 import { useSelector } from 'react-redux';
-import { RouterState } from './RouterState.type';
+import { RouterState } from './Router.state';
 
 export function useRouterState(): RouterState {
   const state = useSelector((state: AppState) => state);

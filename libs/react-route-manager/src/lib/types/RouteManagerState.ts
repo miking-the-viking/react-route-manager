@@ -1,9 +1,10 @@
-import { ProcessedRouteConfig, RouteConfig } from './RouteConfig';
+import { ProcessedRouteConfig } from './ProcessedRoute';
+import { Route } from './Route';
 
 export interface RouteManagerState<
   RouterState extends Record<string, unknown>
 > {
-  routes: RouteConfig<RouterState>[];
+  routes: Route<RouterState>[];
   allowedRoutes: ProcessedRouteConfig<RouterState>[];
   state: RouterState;
   setVariantState: (key: keyof RouterState, value: unknown) => void;

@@ -1,11 +1,11 @@
-import React, { Suspense } from "react";
-import { Navigate, PartialRouteObject, useRoutes } from "react-router";
-import { RouteConfig } from "./types/RouteConfig";
-import { RouteManagerProviderProps } from "./types/RouteManagerProviderProps";
+import React, { Suspense } from 'react';
+import { Navigate, PartialRouteObject, useRoutes } from 'react-router';
+import { Route } from './types/Route';
+import { RouteManagerProviderProps } from './types/RouteManagerProviderProps';
 
 const AsyncComponent: React.FC<Pick<
-  RouteConfig<Record<string, unknown>>,
-  "lazyLoadedComponent"
+  Route<Record<string, unknown>>,
+  'lazyLoadedComponent'
 >> = ({ lazyLoadedComponent: Component, ...props }) => {
   return (
     <Suspense fallback={<p>Loading...</p>}>
@@ -15,7 +15,7 @@ const AsyncComponent: React.FC<Pick<
 };
 
 const generateRoutes = (
-  routes: RouteConfig<Record<string, unknown>>[]
+  routes: Route<Record<string, unknown>>[]
 ): PartialRouteObject[] => {
   return routes.map(
     ({ name, description, path, lazyLoadedComponent, children }) => ({
@@ -31,14 +31,13 @@ const AppRouter: React.FC<{ routes: PartialRouteObject[] }> = ({ routes }) => {
   return Router;
 };
 
-export const IndexRouter: React.FC<Pick<
-  RouteManagerProviderProps<Record<string, unknown>>,
-  "routes"
->> = ({ routes }) => {
+export const IndexRouter: React.FC<{
+  routes: Route<any>[];
+}> = ({ routes }) => {
   const r = [
     ...generateRoutes(routes), // Todo: sensible fallback or computed "to" value?
     {
-      path: "*",
+      path: '*',
       element: <Navigate to="/" />,
     },
   ];

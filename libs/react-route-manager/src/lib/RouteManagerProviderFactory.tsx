@@ -34,7 +34,7 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
     const { pathname: path } = useLocation();
 
     /**
-     * Variants are routes that have a dynamic aspect to them, reusing a RouteConfig
+     * Variants are routes that have a dynamic aspect to them, reusing a Route
      *
      * Variant State allows for evaluating variant functions to determine which routes should be available to use user in the present context
      */
@@ -116,18 +116,13 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
   const useRouterProvider = ({
     RouterWrapper,
     state,
-    routes: inputRoutes,
   }: RouteManagerProviderProps<Ri>): JSX.Element => {
     const wrappedOrUnwrappedRouter = useRef<JSX.Element>(null);
     if (wrappedOrUnwrappedRouter.current)
       return wrappedOrUnwrappedRouter.current;
 
     const routerProvider = (
-      <RouterProvider
-        routes={inputRoutes}
-        state={state}
-        RouterWrapper={RouterWrapper}
-      />
+      <RouterProvider state={state} RouterWrapper={RouterWrapper} />
     );
     try {
       useLocation();

@@ -1,3 +1,0 @@
-// placeholder
-
-export default 'test';

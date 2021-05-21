@@ -1,7 +1,7 @@
 import { RouteManagerProviderFactory } from '@react-route-manager/react-route-manager';
 import { AppLayout } from '@react-route-manager/ui-components';
 import React from 'react';
-import { RouterState } from './RouterState.type';
+import { RouterState } from './Router.state';
 import { routes } from './routes';
 import { useRouterState } from './useRouterState';
 

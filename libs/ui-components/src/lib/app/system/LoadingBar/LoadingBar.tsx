@@ -9,21 +9,15 @@ export interface LoadingBarProps {
 
 export const LoadingBar: React.FC<LoadingBarProps> = (props) => {
   const { show } = props;
-  return (
-    <>
-      {show && (
-        <>
-          <p>Loading Bar</p>
-          {/* <LinearProgress
+  if (!show) return null;
+  return <p>Loading Bar</p>;
+
+  /* <LinearProgress
                         className={classes.blurOverly}
                         color="secondary"
                     />
                     <LinearProgress
                         className={classes.progressBar}
                         color="secondary"
-                    /> */}
-        </>
-      )}
-    </>
-  );
+                    /> */
 };

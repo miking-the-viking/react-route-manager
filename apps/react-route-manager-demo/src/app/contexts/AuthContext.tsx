@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   AuthProvider,
-  RequiresKnownAuthStateWrapper,
+  RequiresKnownAuthState,
 } from '@react-route-manager/ui-components';
 
 const {
@@ -20,6 +20,6 @@ const AUTH_PROVIDER_CONFIG = {
 
 export const AuthContext: React.FC = ({ children }) => (
   <AuthProvider {...AUTH_PROVIDER_CONFIG}>
-    <RequiresKnownAuthStateWrapper>{children}</RequiresKnownAuthStateWrapper>
+    <RequiresKnownAuthState>{children}</RequiresKnownAuthState>
   </AuthProvider>
 );

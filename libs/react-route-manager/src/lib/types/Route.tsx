@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { lazy } from 'react';
 import { generatePath } from 'react-router-dom';
 import { RouterMetaWrap } from '../RouterMetaWrap';
-import { ProcessedRouteConfig } from './RouteConfig';
+import { ProcessedRouteConfig } from './ProcessedRoute';
 import { RouteRule } from './RouteRule';
 
 export type RouteConfigInput<RouterState extends Record<string, any>> = {

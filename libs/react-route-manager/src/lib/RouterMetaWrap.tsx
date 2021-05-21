@@ -3,44 +3,16 @@ import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router';
 import { useRouteManagerContext } from './hooks';
 import { Route } from './types/Route';
-import { processRules } from './utils/processRoutes';
+import { processRules } from './utils/processRules';
 
 /**
  * RouterMetaWrap is a function used to bind the Route configuration object to its Page component.
- * 
+ *
  * This handles applying any automatic redirect rules as necessary, defined by the Route config.
- * 
- * @example 
- * 
- * ```
-// Welcome.route.ts
-// ===================================
-export const WELCOME: RouteConfig = {
-  path: "/",
-  icon: RouterIcon(faBlind),
-  lazyLoadedComponent: lazy(() => import("./Welcome")),
-  description: "Main Welcome page for all visitors",
-  collections: ["guest"],
-  name: "Welcome",
-  rules: [REQUIRES_GUEST_LOGIN_REDIRECT],
-};
-// ===================================
-
-// Welcome.tsx
-// ===================================
-import { WELCOME } from './welcome.route';
-
-const Welcome: React.FC = () => {...};
-
-// Wrap the component in `RouterMetaWrap` with its corresponding RouteConfig for automatic handling of name, description and (todo) favicon
-// Haven't experienced any errors due to circular dependency /shrug
-
-export default RouterMetaWrap(WELCOME, Welcome);
-// ===================================
-* ```
- * 
- * @param route 
- * @param Component 
+ *
+ *
+ * @param route
+ * @param Component
  * @param Wrapper Optional wrapper than can enclose the page component for more specific page context.
  */
 export const RouterMetaWrap = (route: Route<any>, Component: any) => () => {

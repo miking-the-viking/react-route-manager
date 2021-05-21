@@ -97,7 +97,7 @@ const Router: React.FC<RouterProps> = ({ Wrapper }) => {
 Defining a page component requires two files:
 
 1. The page component, such as `Users.tsx`
-2. The route definition, such as `Users.route.tsx`, this file defines a class instance of a RouteConfig
+2. The route definition, such as `Users.route.tsx`, this file defines a class instance of a Route
 
 - **\* `key`** - unique symbol to reference this route by
 - **\* `path`** - URL path for the page
@@ -112,11 +112,11 @@ Defining a page component requires two files:
 
 ```ts
 // Users.route.ts
-import { RouteConfig } from '@react-route-manager/react-route-manager';
+import { Route } from '@react-route-manager/react-route-manager';
 
 export const USERS = Symbol('Users');
 
-export const USERS_ROUTE = new RouteConfigg({
+export const USERS_ROUTE = new Route({
   key: USERS,
   path: 'users',
   importComponent: () => import('./Users'),
