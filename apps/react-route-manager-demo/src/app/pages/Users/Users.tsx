@@ -1,9 +1,7 @@
-import { Code, Divider, Heading, Text } from "@chakra-ui/react";
-import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
-import React from "react";
-import { Outlet } from "react-router";
-import { USERS_ROUTE } from "./Users.route";
-import { UsersContextualWrapper } from "./UsersContext";
+import { Code, Divider, Heading, Text } from '@chakra-ui/react';
+import React from 'react';
+import { Outlet } from 'react-router';
+import { UsersContextualWrapper } from './UsersContext';
 
 const Users: React.FC = () => {
   return (
@@ -19,4 +17,8 @@ const Users: React.FC = () => {
   );
 };
 
-export default RouterMetaWrap(USERS_ROUTE, Users, UsersContextualWrapper);
+export default () => (
+  <UsersContextualWrapper>
+    <Users />
+  </UsersContextualWrapper>
+);

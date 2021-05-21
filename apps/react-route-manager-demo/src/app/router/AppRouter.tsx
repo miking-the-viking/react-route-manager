@@ -1,11 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { RouteManagerProviderFactory } from '@react-route-manager/react-route-manager';
-import {
-  AppLayout,
-  RequiresKnownAuthStateWrapper,
-} from '@react-route-manager/ui-components';
+import { AppLayout } from '@react-route-manager/ui-components';
 import { AppState } from '@react-route-manager/ui-state';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { RouterState } from './RouterState.type';
 import { routes } from './routes';
@@ -21,20 +18,18 @@ const Router: React.FC<RouterProps> = ({ Wrapper }) => {
   const state = useSelector((state: AppState) => state);
   const { isAuthenticated } = useAuth0();
   return (
-    <RequiresKnownAuthStateWrapper>
-      <RouteManagerProvider
-        routes={routes}
-        state={{ ...state, authenticated: isAuthenticated }}
-        RouterWrapper={
-          Wrapper
-            ? Wrapper
-            : ({ children }) => (
-                <AppLayout hideNav={!isAuthenticated}>{children}</AppLayout>
-              )
-        }
-      />
-    </RequiresKnownAuthStateWrapper>
+    <RouteManagerProvider
+      routes={routes}
+      state={{ ...state, authenticated: isAuthenticated }}
+      RouterWrapper={
+        Wrapper
+          ? Wrapper
+          : ({ children }) => (
+              <AppLayout hideNav={!isAuthenticated}>{children}</AppLayout>
+            )
+      }
+    />
   );
 };
 
-export default () => <Router />;
+export default Router;

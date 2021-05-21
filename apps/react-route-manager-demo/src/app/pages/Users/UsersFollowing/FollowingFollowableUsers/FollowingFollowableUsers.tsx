@@ -1,18 +1,14 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { Button, Code, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
+import { useAuth0 } from '@auth0/auth0-react';
+import { Button, Code, Grid, GridItem, Heading, Text } from '@chakra-ui/react';
 import {
   useFollowableUsersSubscription,
   useFollowUserMutation,
-} from "@react-route-manager/hooks-api";
-import {
-  RouterMetaWrap,
-  useRouteManagerContext,
-} from "@react-route-manager/react-route-manager";
-import { apolloClient } from "@react-route-manager/ui-components";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { FOLLOWING_INDEX } from "../FollowingIndex/FollowingIndex.route";
-import { FOLLOWING_FOLLOWABLE_USERS_ROUTE } from "./FollowingFollowableUsers.route";
+} from '@react-route-manager/hooks-api';
+import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
+import { apolloClient } from '@react-route-manager/ui-components';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { FOLLOWING_INDEX } from '../FollowingIndex/FollowingIndex.route';
 
 const FollowingFollowableUsers: React.FC = () => {
   const { user } = useAuth0();
@@ -29,7 +25,7 @@ const FollowingFollowableUsers: React.FC = () => {
   });
   const { data: followableData, loading } = useFollowableUsersSubscription({
     client: apolloClient,
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
     variables: {
       userId: user?.sub,
     },
@@ -49,7 +45,7 @@ const FollowingFollowableUsers: React.FC = () => {
       return;
     }
 
-    setVariantState("followable", followableData.users);
+    setVariantState('followable', followableData.users);
   }, [followable, followableData, loading, setVariantState]);
 
   return (
@@ -76,8 +72,8 @@ const FollowingFollowableUsers: React.FC = () => {
             >
               Follow
             </Button>
-            {u.id} - {u.email} - {u.name} - followers:{" "}
-            {u.followers_aggregate.aggregate.count}, following:{" "}
+            {u.id} - {u.email} - {u.name} - followers:{' '}
+            {u.followers_aggregate.aggregate.count}, following:{' '}
             {u.following_aggregate.aggregate.count}
           </GridItem>
         ))}
@@ -100,7 +96,4 @@ const FollowingFollowableUsers: React.FC = () => {
   );
 };
 
-export default RouterMetaWrap(
-  FOLLOWING_FOLLOWABLE_USERS_ROUTE,
-  FollowingFollowableUsers
-);
+export default FollowingFollowableUsers;

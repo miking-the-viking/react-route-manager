@@ -45,8 +45,7 @@ export default RouterMetaWrap(WELCOME, Welcome);
  */
 export const RouterMetaWrap = (
   route: RouteConfig<any>,
-  Component: any,
-  Wrapper?: any
+  Component: any
 ) => () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { state } = useRouteManagerContext();
@@ -75,11 +74,5 @@ export const RouterMetaWrap = (
     </>
   );
 
-  return Wrapper ? (
-    <Wrapper>
-      <HelmetWrappedComponent />
-    </Wrapper>
-  ) : (
-    <HelmetWrappedComponent />
-  );
+  return <HelmetWrappedComponent />;
 };

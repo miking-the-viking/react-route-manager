@@ -1,8 +1,6 @@
-import { Code, Divider, Heading, Text } from "@chakra-ui/react";
-import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
-import React from "react";
-import { Outlet } from "react-router";
-import { USERS_FOLLOWING_ROUTE } from "./UsersFollowing.route";
+import { Code, Divider, Heading, Text } from '@chakra-ui/react';
+import React from 'react';
+import { Outlet } from 'react-router';
 
 const UsersFollowing: React.FC = () => {
   return (
@@ -19,4 +17,4 @@ const UsersFollowing: React.FC = () => {
   );
 };
 
-export default RouterMetaWrap(USERS_FOLLOWING_ROUTE, UsersFollowing);
+export default UsersFollowing;

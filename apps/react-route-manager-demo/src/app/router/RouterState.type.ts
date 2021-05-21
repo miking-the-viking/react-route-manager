@@ -5,5 +5,4 @@ import { AppState } from '@react-route-manager/ui-state';
  */
 export type RouterState = AppState & {
   authenticated: boolean;
-  // following?: UserFollowersQuery["users"];
 };

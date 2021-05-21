@@ -19,5 +19,7 @@ const AUTH_PROVIDER_CONFIG = {
 };
 
 export const AuthContext: React.FC = ({ children }) => (
-  <AuthProvider {...AUTH_PROVIDER_CONFIG}>{children}</AuthProvider>
+  <AuthProvider {...AUTH_PROVIDER_CONFIG}>
+    <RequiresKnownAuthStateWrapper>{children}</RequiresKnownAuthStateWrapper>
+  </AuthProvider>
 );

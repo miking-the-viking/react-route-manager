@@ -5,9 +5,6 @@ export const RouteManagerContext = React.createContext<RouteManagerState<any>>({
   routes: [],
   allowedRoutes: [],
   activeRoute: null,
-  setRoutes: () => {
-    //
-  },
   setVariantState: () => {
     /** */
   },

@@ -1,14 +1,11 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from '@auth0/auth0-react';
 import {
   useUnfollowUserMutation,
   useUserByIdQuery,
-} from "@react-route-manager/hooks-api";
-import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
-import { apolloClient } from "@react-route-manager/ui-components";
-import React, { useCallback, useContext, useMemo } from "react";
-import { useNavigate, useParams } from "react-router";
-import { UsersContext } from "../../UsersContext";
-import { FOLLOWING_PROFILE_ROUTE } from "./FollowingProfile.route";
+} from '@react-route-manager/hooks-api';
+import { apolloClient } from '@react-route-manager/ui-components';
+import React, { useCallback, useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router';
 
 const FollowingProfile: React.FC = () => {
   const navigate = useNavigate();
@@ -36,7 +33,7 @@ const FollowingProfile: React.FC = () => {
         userId: id,
       },
     });
-    navigate("/users/following/");
+    navigate('/users/following/');
   }, [navigate, unfollowUserMutation, user, id]);
 
   if (loading) return <p>Loading...</p>;
@@ -54,4 +51,4 @@ const FollowingProfile: React.FC = () => {
   );
 };
 
-export default RouterMetaWrap(FOLLOWING_PROFILE_ROUTE, FollowingProfile);
+export default FollowingProfile;

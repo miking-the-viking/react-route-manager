@@ -1,7 +1,5 @@
-import { Code, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
-import { RouterMetaWrap } from "@react-route-manager/react-route-manager";
-import React from "react";
-import { USERS_ROUTE } from "../Users.route";
+import { Code, Grid, GridItem, Heading, Text } from '@chakra-ui/react';
+import React from 'react';
 
 const UsersIndex: React.FC = () => {
   return (
@@ -17,4 +15,4 @@ const UsersIndex: React.FC = () => {
   );
 };
 
-export default RouterMetaWrap(USERS_ROUTE, UsersIndex);
+export default UsersIndex;

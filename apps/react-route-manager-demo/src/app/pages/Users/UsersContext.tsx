@@ -7,7 +7,7 @@ import { useRouteManagerContext } from '@react-route-manager/react-route-manager
 import { apolloClient } from '@react-route-manager/ui-components';
 import React, { useRef } from 'react';
 
-type UsersContextualState = {
+export type UsersContextualState = {
   following: UserFollowingQuery['followers'];
 };
 

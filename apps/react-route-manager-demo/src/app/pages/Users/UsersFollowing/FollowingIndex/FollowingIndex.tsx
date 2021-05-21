@@ -1,17 +1,13 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { Button, Code, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
-import { useUnfollowUserMutation } from "@react-route-manager/hooks-api";
-import {
-  RouterMetaWrap,
-  useRouteManagerContext,
-} from "@react-route-manager/react-route-manager";
-import { apolloClient } from "@react-route-manager/ui-components";
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import { UsersContext } from "../../UsersContext";
-import { FOLLOWING_FOLLOWABLE_USERS } from "../FollowingFollowableUsers/FollowingFollowableUsers.route";
-import { FOLLOWING_PROFILE } from "../FollowingProfile/FollowingProfile.route";
-import { FOLLOWING_INDEX_ROUTE } from "./FollowingIndex.route";
+import { useAuth0 } from '@auth0/auth0-react';
+import { Button, Code, Grid, GridItem, Heading, Text } from '@chakra-ui/react';
+import { useUnfollowUserMutation } from '@react-route-manager/hooks-api';
+import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
+import { apolloClient } from '@react-route-manager/ui-components';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { UsersContext } from '../../UsersContext';
+import { FOLLOWING_FOLLOWABLE_USERS } from '../FollowingFollowableUsers/FollowingFollowableUsers.route';
+import { FOLLOWING_PROFILE } from '../FollowingProfile/FollowingProfile.route';
 
 const FollowingIndex: React.FC = () => {
   const { user } = useAuth0();
@@ -93,7 +89,7 @@ const FollowedUserGridItem = (
         Unfollow
       </Button>
       <Link to={`${path}`}>
-        {id} - {email} - {name} - followers: {followers_count}, following:{" "}
+        {id} - {email} - {name} - followers: {followers_count}, following:{' '}
         {following_count}
       </Link>
     </GridItem>
@@ -111,4 +107,4 @@ const NoFollowableUsers = (followableUrl: string) => (
   </>
 );
 
-export default RouterMetaWrap(FOLLOWING_INDEX_ROUTE, FollowingIndex);
+export default FollowingIndex;

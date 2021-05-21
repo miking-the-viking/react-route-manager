@@ -6,8 +6,9 @@ import { AppRouteRule, AppRouteRuleEvaluator } from '../types';
  * Based on the presence of `Auth` and `Auth.jwt` being truthy.
  *
  */
-export const RequiresAuth: AppRouteRuleEvaluator = ({ authenticated }) =>
-  authenticated;
+export const RequiresAuth: AppRouteRuleEvaluator = ({ authenticated }) => {
+  return authenticated;
+};
 
 /**
  * Default redirect path for a not-authenticated user

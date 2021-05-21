@@ -26,20 +26,18 @@ export const RouteManagerProviderFactory: <R extends Record<
   const RouterProvider: React.FC<RouteManagerProviderProps<Ri>> = ({
     RouterWrapper,
     state,
-    routes: inputRoutes,
+    routes,
   }) => {
     const Context = RouteManagerContext as React.Context<RouteManagerState<Ri>>;
+    const router = <IndexRouter routes={routes} />;
     const { pathname: path } = useLocation();
 
+    /**
+     * Variants are routes that have a dynamic aspect to them, reusing a RouteConfig
+     *
+     * Variant State allows for evaluating variant functions to determine which routes should be available to use user in the present context
+     */
     const [variantState, setVariantState] = useState<Record<string, any>>({});
-
-    const [routeState, setRouteState] = useState<
-      Pick<RouteManagerState<Ri>, 'routes'>
-    >({
-      routes: inputRoutes,
-    });
-
-    const router = <IndexRouter routes={inputRoutes} />;
 
     const handleSetVariantState = useCallback(
       (key: string, value: any) =>
@@ -57,14 +55,14 @@ export const RouteManagerProviderFactory: <R extends Record<
     const [keyMapping, allowedRoutes] = useMemo(
       () =>
         processRoutes<Ri>(
-          routeState.routes,
+          routes,
           {
             ...state,
             ...variantState,
           },
           '/'
         ),
-      [routeState, state, variantState]
+      [routes, state, variantState]
     );
 
     const activeRoute = useMemo(() => {
@@ -94,12 +92,7 @@ export const RouteManagerProviderFactory: <R extends Record<
     return (
       <Context.Provider
         value={{
-          routes: routeState.routes,
-          setRoutes: (coreRoutes) => {
-            setRouteState({
-              routes: coreRoutes,
-            });
-          },
+          routes: routes,
           allowedRoutes,
           state: { ...state, ...variantState },
           setVariantState: handleSetVariantState,
@@ -107,7 +100,7 @@ export const RouteManagerProviderFactory: <R extends Record<
           allowedRouteBySymbol,
         }}
       >
-        {RouterWrapper ? <RouterWrapper>{router}</RouterWrapper> : { router }}
+        {RouterWrapper ? <RouterWrapper>{router}</RouterWrapper> : router}
       </Context.Provider>
     );
   };
