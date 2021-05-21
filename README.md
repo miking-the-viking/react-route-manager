@@ -6,6 +6,14 @@ This project was generated using [Nx](https://nx.dev).
 
 The intention of the React Route Manager is to provide a simple, opinionated framework for your React application. Reusable configuration is hoisted to promote DRY code with less boilerplate polluting page components or routing.
 
+## Layout
+
+Page components are of a higher order than regular components in a React application, there is substantial meta application behaviors and data tied specifically to those files. This fundamental coupling is heavily leveraged in the design of React Route Manager.
+
+- Welcome/ _directory for the page, and any child routes_
+  - Welcome.route.ts _Route definition for the page_
+  - Welcome.tsx _Component definition for the page_
+
 ## Setup
 
 Once installed, setting up the RouteManager can be setup in one of two ways, depending on (1) if any components outside of the pages require access to the Browser for location or navigation (such as Auth0 callback) and (2)
@@ -14,14 +22,13 @@ Once installed, setting up the RouteManager can be setup in one of two ways, dep
 
 In the event that no components outside of the Router require access to the Browser (for useLocation, useNavigate, etc.) then it is possible to setup the router with a single component.
 
-```
+```ts
+// Router.tsx
 const RouteManagerProvider = RouteManagerProviderFactory<RouterState>();
 
-<RouteManagerProvider
-  routes={routes}
-  state={state}
-/>
-
+export const Router: ReactFC = () => (
+  <RouteManagerProvider routes={routes} state={state} />
+);
 ```
 
 This will detect that there is no BrowserRouter setup and will wrap itself accordingly.
@@ -42,7 +49,7 @@ const App: React.FC = () => (
   </BrowserProvider>
 );
 
-// AppRouter.tsx
+// Router.tsx
 const Router: React.FC<RouterProps> = ({ Wrapper }) => {
   const state = useSelector((state: AppState) => state);
 
@@ -90,32 +97,36 @@ const Router: React.FC<RouterProps> = ({ Wrapper }) => {
 Defining a page component requires two files:
 
 1. The page component, such as `Users.tsx`
-2. The route definition, such as `Users.route.tsx`, this file defines
+2. The route definition, such as `Users.route.tsx`, this file defines a class instance of a RouteConfig
 
-- \* `key` unique symbol to reference this route by
-- \* `path` URL path for the page
-- \* `lazyLoadedComponent` the lazy load import to the page component
-- \* `name` name to reference the page by
-- `description` optional desription of the page
-- `icon` optional icon for certain displays
-- `rules` optional ACL with redirect behavior
-- `collections` optional collections the route should belong to
+- **\* `key`** - unique symbol to reference this route by
+- **\* `path`** - URL path for the page
+- **\* `importComponent`** - function that imports the component
+- **\* `name`** - name to reference the page by
+- `description` - optional desription of the page
+- `icon` - optional icon for certain displays
+- `rules` - optional ACL with redirect behavior
+- `collections` - optional collections the route should belong to
+- `variants` - TODO ?
+- `variantsFilter` - TODO ?
 
 ```ts
 // Users.route.ts
+import { RouteConfig } from '@react-route-manager/react-route-manager';
+
 export const USERS = Symbol('Users');
 
-export const USERS_ROUTE: RouteConfig = {
+export const USERS_ROUTE = new RouteConfigg({
   key: USERS,
   path: 'users',
-  lazyLoadedComponent: lazy(() => import('./Users')),
+  importComponent: () => import('./Users'),
   name: 'Users',
-  description: 'Users in the application',
   icon: RouterIcon(faBlind),
+  description: 'Users',
+  children: [USERS_INDEX_ROUTE, USERS_PROFILE_ROUTE, USERS_FOLLOWING_ROUTE],
   rules: [REQUIRES_AUTH_LOGIN_REDIRECT],
   collections: ['nav'],
-  children: [USERS_INDEX_ROUTE, USERS_PROFILE_ROUTE, USERS_FOLLOWING_ROUTE],
-};
+});
 ```
 
 ### Defining Rules

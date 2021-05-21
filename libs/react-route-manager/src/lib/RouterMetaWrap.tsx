@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router";
-import { useRouteManagerContext } from "./hooks";
-import { RouteConfig } from "./types/RouteConfig";
-import { processRules } from "./utils/processRoutes";
+import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router';
+import { useRouteManagerContext } from './hooks';
+import { RouteConfig } from './types/RouteConfig';
+import { processRules } from './utils/processRoutes';
 
 /**
  * RouterMetaWrap is a function used to bind the Route configuration object to its Page component.
@@ -68,7 +68,7 @@ export const RouterMetaWrap = (
         <title>{route.name}</title>
         <meta
           name="description"
-          content={route.description ?? "Some Badass Page"}
+          content={route.description ?? 'Some Badass Page'}
         />
       </Helmet>
       <Component />
