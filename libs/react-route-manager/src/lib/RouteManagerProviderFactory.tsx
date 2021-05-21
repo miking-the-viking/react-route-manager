@@ -43,7 +43,14 @@ export const RouteManagerProviderFactory: <R extends Record<
 
     const handleSetVariantState = useCallback(
       (key: string, value: any) =>
-        setVariantState((currentState) => ({ ...currentState, [key]: value })),
+        setVariantState((currentState) => {
+          // Make sure we don't cause a chain-reaction update if a value is being set to the same thing
+          // Without this, the rendering of the users list would continually restart and retrigger unique subscription events with the same data.
+          if (JSON.stringify(currentState[key]) === JSON.stringify(value))
+            return currentState;
+
+          return { ...currentState, [key]: value };
+        }),
       [setVariantState]
     );
 

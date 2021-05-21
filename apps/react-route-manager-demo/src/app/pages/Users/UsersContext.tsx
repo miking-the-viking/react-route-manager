@@ -1,14 +1,14 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from '@auth0/auth0-react';
 import {
   UserFollowingQuery,
   useWhoImFollowingSubscription,
-} from "@react-route-manager/hooks-api";
-import { useRouteManagerContext } from "@react-route-manager/react-route-manager";
-import { apolloClient } from "@react-route-manager/ui-components";
-import React from "react";
+} from '@react-route-manager/hooks-api';
+import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
+import { apolloClient } from '@react-route-manager/ui-components';
+import React, { useRef } from 'react';
 
 type UsersContextualState = {
-  following: UserFollowingQuery["followers"];
+  following: UserFollowingQuery['followers'];
 };
 
 export const UsersContext = React.createContext<UsersContextualState>({
@@ -24,7 +24,7 @@ export const UsersContextualWrapper: React.FC = ({ children }) => {
 
   const { data, loading, error } = useWhoImFollowingSubscription({
     client: apolloClient,
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
     variables: {
       followerId: user?.sub,
     },
@@ -32,7 +32,7 @@ export const UsersContextualWrapper: React.FC = ({ children }) => {
     onSubscriptionData: (data) => {
       const followers = data?.subscriptionData?.data?.followers;
       if (!setVariantState || !followers) return;
-      setVariantState("following", followers);
+      setVariantState('following', followers);
     },
   });
 

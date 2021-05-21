@@ -1,5 +1,5 @@
-import React from "react";
-import { RouteManagerState } from "./types/RouteManagerState";
+import React from 'react';
+import { RouteManagerState } from './types/RouteManagerState';
 
 export const RouteManagerContext = React.createContext<RouteManagerState<any>>({
   routes: [],
