@@ -1,6 +1,6 @@
-import { ProcessedRouteConfig, RouteConfig } from "../types/RouteConfig";
-import { RouteRule } from "../types/RouteRule";
-import { RouteRuleEvaluator } from "../types/RouteRuleEvaluator";
+import { ProcessedRouteConfig, RouteConfig } from '../types/RouteConfig';
+import { RouteRule } from '../types/RouteRule';
+import { RouteRuleEvaluator } from '../types/RouteRuleEvaluator';
 
 /**
  * Processes the routes based off the current application state
@@ -21,13 +21,13 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
     .filter((route) => !processRules(state, route.rules))
     .map((route) => {
       const baseAbsolutePath =
-        parentPath + (route.path !== "/" ? route.path : "");
+        parentPath + (route.path !== '/' ? route.path : '');
 
       const absolutePath =
         baseAbsolutePath +
-        (baseAbsolutePath.lastIndexOf("/") === baseAbsolutePath.length - 1
-          ? ""
-          : "/");
+        (baseAbsolutePath.lastIndexOf('/') === baseAbsolutePath.length - 1
+          ? ''
+          : '/');
 
       const processedVariants = route.variants
         ? recursivelyPrependParentPathToVariantRoutes(
@@ -64,7 +64,7 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
  * @param parentPath
  */
 const recursivelyPrependParentPathToVariantRoutes = (
-  variantsArray: ProcessedRouteConfig["processedVariants"],
+  variantsArray: ProcessedRouteConfig['processedVariants'],
   parentPath: string
 ) =>
   variantsArray.map((r) => ({

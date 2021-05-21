@@ -1,5 +1,8 @@
 import React from 'react';
-import { AuthProvider } from '@react-route-manager/ui-components';
+import {
+  AuthProvider,
+  RequiresKnownAuthStateWrapper,
+} from '@react-route-manager/ui-components';
 
 const {
   NX_AUTH0_DOMAIN: domain,
