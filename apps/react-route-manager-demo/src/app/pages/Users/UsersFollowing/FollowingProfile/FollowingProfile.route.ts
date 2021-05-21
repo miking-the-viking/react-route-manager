@@ -1,5 +1,5 @@
 import { faBlind } from '@fortawesome/free-solid-svg-icons';
-import { RouteConfigg } from '@react-route-manager/react-route-manager';
+import { Route } from '@react-route-manager/react-route-manager';
 import { RouterIcon } from '@react-route-manager/ui-components';
 import { generatePath } from 'react-router-dom';
 import { UsersContextualState } from '../../UsersContext';
@@ -15,7 +15,7 @@ const followingProfileRouteGenerator = ({
   name = 'Profiles',
   absolutePath = undefined,
 }) =>
-  new RouteConfigg({
+  new Route({
     key: FOLLOWING_PROFILE,
     path,
     absolutePath,

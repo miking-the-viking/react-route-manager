@@ -1,10 +1,10 @@
 import { faBlind } from '@fortawesome/free-solid-svg-icons';
-import { RouteConfigg } from '@react-route-manager/react-route-manager';
+import { Route } from '@react-route-manager/react-route-manager';
 import { RouterIcon } from '@react-route-manager/ui-components';
 
 export const USERS_PROFILE = Symbol('UsersProfile');
 
-export const USERS_PROFILE_ROUTE = new RouteConfigg({
+export const USERS_PROFILE_ROUTE = new Route({
   key: USERS_PROFILE,
   path: 'profile',
   icon: RouterIcon(faBlind),

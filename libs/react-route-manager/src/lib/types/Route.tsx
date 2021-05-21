@@ -48,13 +48,9 @@ export type RouteConfigInput<T extends ComponentType<any>> = {
   variants?: (
     state: unknown
   ) => ProcessedRouteConfig<Record<string, unknown>>[];
-  variantFilter?: (
-    variants: ProcessedRouteConfig<Record<string, unknown>>[],
-    params?: Record<string, unknown>
-  ) => ProcessedRouteConfig<Record<string, unknown>>;
 };
 
-export class RouteConfigg<T extends ComponentType<any>> implements RouteConfig {
+export class Route<T extends ComponentType<any>> implements RouteConfig {
   public key: symbol;
   public path: string;
   public absolutePath?: string;
@@ -93,16 +89,19 @@ export class RouteConfigg<T extends ComponentType<any>> implements RouteConfig {
     this.collections = collections;
     this.rules = rules;
     this.children = children;
+    this.absolutePath = absolutePath;
+
+    this.icon = icon ?? (() => <p>icon default todo</p>);
+
     this.lazyLoadedComponent = lazy(async () => {
-      console.log('lazy evaluation');
       const Component = await componentImportPath();
       return {
         default: RouterMetaWrap(this, Component.default),
       };
     });
-    this.icon = icon ?? (() => <p>icon default todo</p>);
-    this.absolutePath = absolutePath;
+
     this.variants = variants;
+
     if (variants) {
       this.variantFilter = (variants, params: Record<string, string>) =>
         variants.find((v) => v.path === generatePath(path, params));

@@ -1,11 +1,11 @@
 import { faBlind } from '@fortawesome/free-solid-svg-icons';
-import { RouteConfigg } from '@react-route-manager/react-route-manager';
+import { Route } from '@react-route-manager/react-route-manager';
 import { RouterIcon } from '@react-route-manager/ui-components';
 import { REQUIRES_AUTH_LOGIN_REDIRECT } from '../../../../router/rules/RequiresAuth';
 
 export const FOLLOWING_INDEX = Symbol('FollowingIndex');
 
-export const FOLLOWING_INDEX_ROUTE = new RouteConfigg({
+export const FOLLOWING_INDEX_ROUTE = new Route({
   key: FOLLOWING_INDEX,
   path: '/',
   icon: RouterIcon(faBlind),
