@@ -1078,6 +1078,19 @@ export type FollowableUsersSubscription = (
   )> }
 );
 
+export type FollowerUsersSubscriptionVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type FollowerUsersSubscription = (
+  { __typename?: 'subscription_root' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & UserCompleteFragment
+  )> }
+);
+
 export const UserBaseFragmentDoc = gql`
     fragment UserBase on users {
   id
@@ -1479,3 +1492,32 @@ export function useFollowableUsersSubscription(baseOptions: Apollo.SubscriptionH
       }
 export type FollowableUsersSubscriptionHookResult = ReturnType<typeof useFollowableUsersSubscription>;
 export type FollowableUsersSubscriptionResult = Apollo.SubscriptionResult<FollowableUsersSubscription>;
+export const FollowerUsersDocument = gql`
+    subscription FollowerUsers($userId: String!) {
+  users(where: {following: {user_id: {_eq: $userId}}}) {
+    ...UserComplete
+  }
+}
+    ${UserCompleteFragmentDoc}`;
+
+/**
+ * __useFollowerUsersSubscription__
+ *
+ * To run a query within a React component, call `useFollowerUsersSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useFollowerUsersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFollowerUsersSubscription({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useFollowerUsersSubscription(baseOptions: Apollo.SubscriptionHookOptions<FollowerUsersSubscription, FollowerUsersSubscriptionVariables>) {
+        return Apollo.useSubscription<FollowerUsersSubscription, FollowerUsersSubscriptionVariables>(FollowerUsersDocument, baseOptions);
+      }
+export type FollowerUsersSubscriptionHookResult = ReturnType<typeof useFollowerUsersSubscription>;
+export type FollowerUsersSubscriptionResult = Apollo.SubscriptionResult<FollowerUsersSubscription>;

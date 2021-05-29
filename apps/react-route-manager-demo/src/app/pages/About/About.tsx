@@ -1,3 +1,16 @@
 import React from 'react';
+import { useRouterState } from '../../router/useRouterState';
 
-export default () => <p>About</p>;
+const GuestAbout = () => {
+  return <p>Guest About</p>;
+};
+
+const AuthenticatedAbout = () => {
+  return <p>Authenticated About</p>;
+};
+
+export default () => {
+  const { authenticated } = useRouterState();
+
+  return authenticated ? <AuthenticatedAbout /> : <GuestAbout />;
+};

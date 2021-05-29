@@ -1,6 +1,5 @@
-import { faBlind, faIdCard } from '@fortawesome/free-solid-svg-icons';
+import { faIdCard } from '@fortawesome/free-solid-svg-icons';
 import { Route } from '@react-route-manager/react-route-manager';
-import { RouterIcon } from '@react-route-manager/ui-components';
 import { generatePath } from 'react-router-dom';
 import { UsersContextualState } from '../../UsersContext';
 

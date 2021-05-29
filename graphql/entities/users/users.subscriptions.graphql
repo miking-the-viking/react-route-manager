@@ -19,3 +19,9 @@ subscription FollowableUsers($userId: String!) {
     ...UserComplete
   }
 }
+
+subscription FollowerUsers($userId: String!) {
+  users(where: { following: { user_id: { _eq: $userId } } }) {
+    ...UserComplete
+  }
+}

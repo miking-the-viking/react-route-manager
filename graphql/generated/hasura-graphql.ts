@@ -1079,6 +1079,19 @@ export type FollowableUsersSubscription = (
   )> }
 );
 
+export type FollowerUsersSubscriptionVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type FollowerUsersSubscription = (
+  { __typename?: 'subscription_root' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & UserCompleteFragment
+  )> }
+);
+
 export const UserBaseFragmentDoc = gql`
     fragment UserBase on users {
   id
@@ -1203,6 +1216,13 @@ export const FollowableUsersDocument = gql`
   }
 }
     ${UserCompleteFragmentDoc}`;
+export const FollowerUsersDocument = gql`
+    subscription FollowerUsers($userId: String!) {
+  users(where: {following: {user_id: {_eq: $userId}}}) {
+    ...UserComplete
+  }
+}
+    ${UserCompleteFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>;
 
@@ -1242,6 +1262,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     FollowableUsers(variables: FollowableUsersSubscriptionVariables): Promise<FollowableUsersSubscription> {
       return withWrapper(() => client.request<FollowableUsersSubscription>(print(FollowableUsersDocument), variables));
+    },
+    FollowerUsers(variables: FollowerUsersSubscriptionVariables): Promise<FollowerUsersSubscription> {
+      return withWrapper(() => client.request<FollowerUsersSubscription>(print(FollowerUsersDocument), variables));
     }
   };
 }
