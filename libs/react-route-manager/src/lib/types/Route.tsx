@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { faBlind } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBlind,
+  faBomb,
+  IconDefinition,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { lazy } from 'react';
 import { generatePath } from 'react-router-dom';
@@ -82,7 +86,7 @@ export type RouteConfigInput<RouterState extends Record<string, any>> = {
   /**
    * Optional icon component function for use in the UI
    */
-  icon?: () => JSX.Element;
+  icon?: IconDefinition;
 
   /**
    * Absolute path of the route
@@ -139,7 +143,9 @@ export class Route<RouterState extends Record<string, any>> {
     this.children = children;
     this.absolutePath = absolutePath;
 
-    this.icon = icon ?? (() => <FontAwesomeIcon size="lg" icon={faBlind} />);
+    this.icon = icon
+      ? () => <FontAwesomeIcon size="lg" icon={icon} />
+      : () => <FontAwesomeIcon size="lg" icon={faBlind} />;
 
     this.lazyLoadedComponent = lazy(async () => {
       const Component = await componentImportPath();

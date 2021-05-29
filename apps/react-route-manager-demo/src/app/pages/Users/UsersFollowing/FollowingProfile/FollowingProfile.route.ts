@@ -1,4 +1,4 @@
-import { faBlind } from '@fortawesome/free-solid-svg-icons';
+import { faBlind, faIdCard } from '@fortawesome/free-solid-svg-icons';
 import { Route } from '@react-route-manager/react-route-manager';
 import { RouterIcon } from '@react-route-manager/ui-components';
 import { generatePath } from 'react-router-dom';
@@ -19,7 +19,7 @@ const followingProfileRouteGenerator = ({
     key: FOLLOWING_PROFILE,
     path,
     absolutePath,
-    icon: RouterIcon(faBlind),
+    icon: faIdCard,
     importComponent: () => import('./FollowingProfile'),
     description,
     name,

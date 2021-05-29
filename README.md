@@ -121,7 +121,7 @@ export const USERS_ROUTE = new Route({
   path: 'users',
   importComponent: () => import('./Users'),
   name: 'Users',
-  icon: RouterIcon(faBlind),
+  icon: faBlind,
   description: 'Users',
   children: [USERS_INDEX_ROUTE, USERS_PROFILE_ROUTE, USERS_FOLLOWING_ROUTE],
   rules: [REQUIRES_AUTH_LOGIN_REDIRECT],

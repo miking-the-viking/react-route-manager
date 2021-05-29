@@ -34,8 +34,7 @@ export const NavRouteBase: React.FC<{
         justifyContent={'space-between'}
         my={'1rem'}
       >
-        {navItem.icon && <ListIcon title={navItem.name} icon={navItem.icon} />}
-
+        {navItem.icon && <ListIcon as={navItem.icon} />}
         <Text>{navItem.name}</Text>
       </ListItem>
     </Link>

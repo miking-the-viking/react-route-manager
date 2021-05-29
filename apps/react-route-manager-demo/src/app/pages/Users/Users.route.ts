@@ -11,7 +11,7 @@ export const USERS = Symbol('Users');
 export const USERS_ROUTE = new Route({
   key: USERS,
   path: 'users',
-  icon: RouterIcon(faBlind),
+  icon: faBlind,
   importComponent: () => import('./Users'),
   description: 'Users',
   name: 'Users',

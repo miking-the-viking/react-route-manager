@@ -11,14 +11,17 @@ type RouterProps = {
 
 const RouteManagerProvider = RouteManagerProviderFactory<RouterState>(routes);
 
+const RouterWrapper = (authenticated: boolean) => ({ children }) => (
+  <AppLayout hideNav={!authenticated}>{children}</AppLayout>
+);
+
 const Router: React.FC<RouterProps> = ({ Wrapper }) => {
   const state = useRouterState();
+
   return (
     <RouteManagerProvider
       state={state}
-      RouterWrapper={({ children }) => (
-        <AppLayout hideNav={!state.authenticated}>{children}</AppLayout>
-      )}
+      RouterWrapper={RouterWrapper(state.authenticated)}
     />
   );
 };
