@@ -1091,6 +1091,43 @@ export type FollowerUsersSubscription = (
   )> }
 );
 
+export type FollowStateSubscriptionVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type FollowStateSubscription = (
+  { __typename?: 'subscription_root' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & { followers_aggregate: (
+      { __typename?: 'followers_aggregate' }
+      & { aggregate?: Maybe<(
+        { __typename?: 'followers_aggregate_fields' }
+        & Pick<Followers_Aggregate_Fields, 'count'>
+      )>, nodes: Array<(
+        { __typename?: 'followers' }
+        & { followers: (
+          { __typename?: 'users' }
+          & UserCompleteFragment
+        ) }
+      )> }
+    ), following_aggregate: (
+      { __typename?: 'followers_aggregate' }
+      & { aggregate?: Maybe<(
+        { __typename?: 'followers_aggregate_fields' }
+        & Pick<Followers_Aggregate_Fields, 'count'>
+      )>, nodes: Array<(
+        { __typename?: 'followers' }
+        & { following: (
+          { __typename?: 'users' }
+          & UserCompleteFragment
+        ) }
+      )> }
+    ) }
+  )> }
+);
+
 export const UserBaseFragmentDoc = gql`
     fragment UserBase on users {
   id
@@ -1521,3 +1558,51 @@ export function useFollowerUsersSubscription(baseOptions: Apollo.SubscriptionHoo
       }
 export type FollowerUsersSubscriptionHookResult = ReturnType<typeof useFollowerUsersSubscription>;
 export type FollowerUsersSubscriptionResult = Apollo.SubscriptionResult<FollowerUsersSubscription>;
+export const FollowStateDocument = gql`
+    subscription FollowState($userId: String!) {
+  users(where: {id: {_eq: $userId}}) {
+    followers_aggregate {
+      aggregate {
+        count
+      }
+      nodes {
+        followers {
+          ...UserComplete
+        }
+      }
+    }
+    following_aggregate {
+      aggregate {
+        count
+      }
+      nodes {
+        following {
+          ...UserComplete
+        }
+      }
+    }
+  }
+}
+    ${UserCompleteFragmentDoc}`;
+
+/**
+ * __useFollowStateSubscription__
+ *
+ * To run a query within a React component, call `useFollowStateSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useFollowStateSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFollowStateSubscription({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useFollowStateSubscription(baseOptions: Apollo.SubscriptionHookOptions<FollowStateSubscription, FollowStateSubscriptionVariables>) {
+        return Apollo.useSubscription<FollowStateSubscription, FollowStateSubscriptionVariables>(FollowStateDocument, baseOptions);
+      }
+export type FollowStateSubscriptionHookResult = ReturnType<typeof useFollowStateSubscription>;
+export type FollowStateSubscriptionResult = Apollo.SubscriptionResult<FollowStateSubscription>;

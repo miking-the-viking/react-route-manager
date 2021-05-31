@@ -1,18 +1,12 @@
-import {
-  RouteRule,
-  RouteRuleEvaluator,
-} from '@react-route-manager/react-route-manager';
+import { UserCompleteFragment } from '@react-route-manager/hooks-api';
+import { RouteRule } from '@react-route-manager/react-route-manager';
 import { AppState } from '@react-route-manager/ui-state';
-import { UsersContextualState } from '../../../pages/Users/UsersContext';
 import { AppRouteRuleEvaluator } from '../types';
 
-export const RequiresFollowers: AppRouteRuleEvaluator = (
-  {
-    // followers
-  }
-) => {
-  // TODO
-  return false;
+export const RequiresFollowers: AppRouteRuleEvaluator<{
+  followers?: UserCompleteFragment[];
+}> = ({ followers }) => {
+  return followers && followers.length > 0;
 };
 
 export const REQUIRES_FOLLOWERS_REDIRECT: RouteRule<AppState> = [

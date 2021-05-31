@@ -1,7 +1,6 @@
 import { Code, Divider, Heading, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Outlet } from 'react-router';
-import { UsersContextualWrapper } from './UsersContext';
 
 const Users: React.FC = () => {
   return (
@@ -17,8 +16,4 @@ const Users: React.FC = () => {
   );
 };
 
-export default () => (
-  <UsersContextualWrapper>
-    <Users />
-  </UsersContextualWrapper>
-);
+export default Users;

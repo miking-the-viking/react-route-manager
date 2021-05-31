@@ -1,4 +1,4 @@
-describe('FollowingMe', () => {
+describe('FollowersIndex', () => {
   it('stubs', () => {
     expect(true).toBeTruthy();
   });

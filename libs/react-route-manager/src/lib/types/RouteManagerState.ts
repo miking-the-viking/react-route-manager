@@ -7,7 +7,10 @@ export interface RouteManagerState<
   routes: Route<RouterState>[];
   allowedRoutes: ProcessedRouteConfig<RouterState>[];
   state: RouterState;
-  setVariantState: (key: keyof RouterState, value: unknown) => void;
+  setVariantState: (
+    key: keyof RouterState,
+    value: RouterState[typeof key]
+  ) => void;
   activeRoute: string | null;
   /**
    * Resolves an allowed, processed route by it's route symbol and optional route parameters (as defined by the route's configuration)

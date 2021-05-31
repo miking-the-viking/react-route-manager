@@ -1,19 +1,24 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Code, Grid, GridItem, Heading, Text } from '@chakra-ui/react';
-import { useUnfollowUserMutation } from '@react-route-manager/hooks-api';
+import {
+  UserCompleteFragment,
+  useUnfollowUserMutation,
+} from '@react-route-manager/hooks-api';
 import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
 import { apolloClient } from '@react-route-manager/ui-components';
-import React, { useContext } from 'react';
+import { FollowState } from '../../../../router/hooks/useFollowState';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { UsersContext } from '../../UsersContext';
 import { FOLLOWING_FOLLOWABLE_USERS } from '../FollowingFollowableUsers/FollowingFollowableUsers.route';
 import { FOLLOWING_PROFILE } from '../FollowingProfile/FollowingProfile.route';
 
 const FollowingIndex: React.FC = () => {
   const { user } = useAuth0();
 
-  const { allowedRouteBySymbol } = useRouteManagerContext();
-  const { following } = useContext(UsersContext);
+  const {
+    allowedRouteBySymbol,
+    state: { following },
+  } = useRouteManagerContext<FollowState>();
 
   const [unfollowUserMutation] = useUnfollowUserMutation({
     client: apolloClient,
@@ -34,30 +39,30 @@ const FollowingIndex: React.FC = () => {
       </GridItem>
 
       {following &&
-        following.map((u) => {
-          const route = allowedRouteBySymbol(FOLLOWING_PROFILE, {
-            id: u.following.id,
-          });
+        following
+          .map((u) => {
+            const route = allowedRouteBySymbol(FOLLOWING_PROFILE, {
+              id: u.id,
+            });
 
-          if (!route) {
-            return;
-          }
-
-          // console.log(route);
-          return FollowedUserGridItem(
-            u.following,
-            unfollowUserMutation,
-            user?.sub,
-            route.absolutePath
-          );
-        })}
+            if (!route) {
+              return undefined;
+            }
+            return FollowedUserGridItem(
+              u,
+              unfollowUserMutation,
+              user?.sub,
+              route.absolutePath
+            );
+          })
+          .filter((u) => u != null)}
       {!(following?.length !== 0) && NoFollowableUsers(followableUrl)}
     </Grid>
   );
 };
 
 const FollowedUserGridItem = (
-  followableUser,
+  followableUser: UserCompleteFragment,
   unfollowUserMutation,
   userId,
   path

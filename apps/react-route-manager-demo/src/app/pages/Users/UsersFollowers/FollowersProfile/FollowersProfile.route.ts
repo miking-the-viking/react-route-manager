@@ -4,11 +4,11 @@ import { FollowState } from '../../../../router/hooks/useFollowState';
 import { generatePath } from 'react-router-dom';
 import { UserCompleteFragment } from '@react-route-manager/hooks-api';
 
-export const FOLLOWING_PROFILE = Symbol('FollowingProfile');
+export const FOLLOWERS_PROFILE = Symbol('FollowersProfile');
 
-const FOLlOWING_PATH = 'profile/:id';
+const FOLLOWERS_PROFILE_PATH = 'profile/:id';
 
-const followingProfileRouteGenerator = ({
+const followersProfileRouteGenerator = ({
   path,
   variants = undefined,
   description = 'Following Profile',
@@ -16,22 +16,22 @@ const followingProfileRouteGenerator = ({
   absolutePath = undefined,
 }) =>
   new Route({
-    key: FOLLOWING_PROFILE,
+    key: FOLLOWERS_PROFILE,
     path,
     absolutePath,
     icon: faIdCard,
-    importComponent: () => import('./FollowingProfile'),
+    importComponent: () => import('./FollowersProfile'),
     description,
     name,
     collections: ['nav'],
     variants,
   });
 
-const followingRoute = (following: UserCompleteFragment) => {
-  const { email, id, name } = following;
-  const path = generatePath(FOLlOWING_PATH, { id });
+const followersRoute = (followers: UserCompleteFragment) => {
+  const { email, id, name } = followers;
+  const path = generatePath(FOLLOWERS_PROFILE_PATH, { id });
 
-  return followingProfileRouteGenerator({
+  return followersProfileRouteGenerator({
     absolutePath: path,
     path,
     // TODO: These are not used in the Helmet
@@ -40,9 +40,9 @@ const followingRoute = (following: UserCompleteFragment) => {
   });
 };
 
-export const FOLLOWING_PROFILE_ROUTE = followingProfileRouteGenerator({
-  path: FOLlOWING_PATH,
-  variants: ({ following = [] }: FollowState) => {
-    return following.map(followingRoute);
+export const FOLLOWERS_PROFILE_ROUTE = followersProfileRouteGenerator({
+  path: FOLLOWERS_PROFILE_PATH,
+  variants: ({ followers = [] }: FollowState) => {
+    return followers.map(followersRoute);
   },
 });

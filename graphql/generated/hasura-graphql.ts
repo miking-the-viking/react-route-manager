@@ -1092,6 +1092,43 @@ export type FollowerUsersSubscription = (
   )> }
 );
 
+export type FollowStateSubscriptionVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type FollowStateSubscription = (
+  { __typename?: 'subscription_root' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & { followers_aggregate: (
+      { __typename?: 'followers_aggregate' }
+      & { aggregate?: Maybe<(
+        { __typename?: 'followers_aggregate_fields' }
+        & Pick<Followers_Aggregate_Fields, 'count'>
+      )>, nodes: Array<(
+        { __typename?: 'followers' }
+        & { followers: (
+          { __typename?: 'users' }
+          & UserCompleteFragment
+        ) }
+      )> }
+    ), following_aggregate: (
+      { __typename?: 'followers_aggregate' }
+      & { aggregate?: Maybe<(
+        { __typename?: 'followers_aggregate_fields' }
+        & Pick<Followers_Aggregate_Fields, 'count'>
+      )>, nodes: Array<(
+        { __typename?: 'followers' }
+        & { following: (
+          { __typename?: 'users' }
+          & UserCompleteFragment
+        ) }
+      )> }
+    ) }
+  )> }
+);
+
 export const UserBaseFragmentDoc = gql`
     fragment UserBase on users {
   id
@@ -1223,6 +1260,32 @@ export const FollowerUsersDocument = gql`
   }
 }
     ${UserCompleteFragmentDoc}`;
+export const FollowStateDocument = gql`
+    subscription FollowState($userId: String!) {
+  users(where: {id: {_eq: $userId}}) {
+    followers_aggregate {
+      aggregate {
+        count
+      }
+      nodes {
+        followers {
+          ...UserComplete
+        }
+      }
+    }
+    following_aggregate {
+      aggregate {
+        count
+      }
+      nodes {
+        following {
+          ...UserComplete
+        }
+      }
+    }
+  }
+}
+    ${UserCompleteFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>;
 
@@ -1265,6 +1328,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     FollowerUsers(variables: FollowerUsersSubscriptionVariables): Promise<FollowerUsersSubscription> {
       return withWrapper(() => client.request<FollowerUsersSubscription>(print(FollowerUsersDocument), variables));
+    },
+    FollowState(variables: FollowStateSubscriptionVariables): Promise<FollowStateSubscription> {
+      return withWrapper(() => client.request<FollowStateSubscription>(print(FollowStateDocument), variables));
     }
   };
 }

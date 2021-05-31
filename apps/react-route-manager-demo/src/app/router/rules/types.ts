@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Route,
   RouteRule,
@@ -8,11 +10,17 @@ import { RouterState } from '../Router.state';
 /**
  * Convenience type to have a generic type-safe RouteRule without the repetition of the generic
  */
-export type AppRouteRule = RouteRule<RouterState>;
+export type AppRouteRule<T extends Record<string, any> = {}> = RouteRule<
+  RouterState & T
+>;
 
 /**
  * Convenience type to have a generic type-safe RouteRuleEvaluator without the repetition of the generic
  */
-export type AppRouteRuleEvaluator = RouteRuleEvaluator<RouterState>;
+export type AppRouteRuleEvaluator<
+  T extends Record<string, any> = {}
+> = RouteRuleEvaluator<RouterState & T>;
 
-export type AppRoute = Route<RouterState>;
+export type AppRoute<T extends Record<string, any> = {}> = Route<
+  RouterState & T
+>;
