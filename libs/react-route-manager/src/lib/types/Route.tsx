@@ -100,7 +100,9 @@ export type RouteConfigInput<RouterState extends Record<string, any>> = {
   variants?: (state: RouterState) => ProcessedRouteConfig<RouterState>[];
 };
 
-export class Route<RouterState extends Record<string, any>> {
+export class Route<
+  RouterState extends Record<string, any> = Record<string, any>
+> {
   public key: symbol;
   public path: string;
   public absolutePath?: string;

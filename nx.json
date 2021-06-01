@@ -38,6 +38,13 @@
     },
     "ui-state": {
       "tags": []
+    },
+    "minimal-demo": {
+      "tags": []
+    },
+    "minimal-demo-e2e": {
+      "tags": [],
+      "implicitDependencies": ["minimal-demo"]
     }
   }
 }

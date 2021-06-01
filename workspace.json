@@ -196,6 +196,105 @@
           }
         }
       }
+    },
+    "minimal-demo": {
+      "root": "apps/minimal-demo",
+      "sourceRoot": "apps/minimal-demo/src",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "options": {
+            "outputPath": "dist/apps/minimal-demo",
+            "index": "apps/minimal-demo/src/index.html",
+            "main": "apps/minimal-demo/src/main.tsx",
+            "polyfills": "apps/minimal-demo/src/polyfills.ts",
+            "tsConfig": "apps/minimal-demo/tsconfig.app.json",
+            "assets": [
+              "apps/minimal-demo/src/favicon.ico",
+              "apps/minimal-demo/src/assets"
+            ],
+            "styles": [],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/minimal-demo/src/environments/environment.ts",
+                  "with": "apps/minimal-demo/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "minimal-demo:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "minimal-demo:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/minimal-demo/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/minimal-demo/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "minimal-demo-e2e": {
+      "root": "apps/minimal-demo-e2e",
+      "sourceRoot": "apps/minimal-demo-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/minimal-demo-e2e/cypress.json",
+            "tsConfig": "apps/minimal-demo-e2e/tsconfig.e2e.json",
+            "devServerTarget": "minimal-demo:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "minimal-demo:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/minimal-demo-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
     }
   },
   "cli": {
