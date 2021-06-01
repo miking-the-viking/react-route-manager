@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  faBlind,
-  faBomb,
-  IconDefinition,
-} from '@fortawesome/free-solid-svg-icons';
+import { faBlind, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { lazy } from 'react';
 import { generatePath } from 'react-router-dom';

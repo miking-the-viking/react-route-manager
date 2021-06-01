@@ -3,6 +3,7 @@ import { Route } from '@react-route-manager/react-route-manager';
 import { FollowState } from '../../../../router/hooks/useFollowState';
 import { generatePath } from 'react-router-dom';
 import { UserCompleteFragment } from '@react-route-manager/hooks-api';
+import { REQUIRES_FOLLOWERS_REDIRECT } from '../../../../router/rules';
 
 export const FOLLOWING_PROFILE = Symbol('FollowingProfile');
 
@@ -25,6 +26,7 @@ const followingProfileRouteGenerator = ({
     name,
     collections: ['nav'],
     variants,
+    rules: [REQUIRES_FOLLOWERS_REDIRECT],
   });
 
 const followingRoute = (following: UserCompleteFragment) => {

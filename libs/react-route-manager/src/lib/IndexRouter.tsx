@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
 import { Navigate, PartialRouteObject, useRoutes } from 'react-router';
 import { Route } from './types/Route';
-import { RouteManagerProviderProps } from './types/RouteManagerProviderProps';
 
 const AsyncComponent: React.FC<Pick<
   Route<Record<string, unknown>>,

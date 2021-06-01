@@ -83,7 +83,7 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
           return resolvedRoute.variantFilter(
             resolvedRoute.processedVariants,
             params
-          )?.absolutePath;
+          );
         }
         return resolvedRoute;
       },

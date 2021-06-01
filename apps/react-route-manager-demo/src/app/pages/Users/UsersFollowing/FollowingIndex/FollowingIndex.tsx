@@ -56,7 +56,7 @@ const FollowingIndex: React.FC = () => {
             );
           })
           .filter((u) => u != null)}
-      {!(following?.length !== 0) && NoFollowableUsers(followableUrl)}
+      {!(following?.length !== 0) && NoFollowing(followableUrl)}
     </Grid>
   );
 };
@@ -101,12 +101,12 @@ const FollowedUserGridItem = (
   );
 };
 
-const NoFollowableUsers = (followableUrl: string) => (
+const NoFollowing = (followingUrl: string) => (
   <>
     <p>It appears as though are are not following anyone!</p>
     <p>
-      Check out our <Link to={followableUrl}>Followable Users Page</Link> and
-      try following some! This will automagically update the Nav to have their
+      Check out our <Link to={followingUrl}>Followable Users Page</Link> and try
+      following some! This will automagically update the Nav to have their
       profile links.
     </p>
   </>
