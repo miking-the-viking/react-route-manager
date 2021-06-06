@@ -8,3 +8,8 @@
 export type RouteRuleEvaluator<
   RouteManagerState extends Record<string, unknown>
 > = (state: RouteManagerState) => boolean;
+
+export type RuleGenerator<
+  RouteManagerState extends Record<string, unknown>,
+  DynamicProps extends any
+> = (dynamicReqs: DynamicProps) => RouteRuleEvaluator<RouteManagerState>;

@@ -1,14 +1,16 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Divider, Flex, Link as L, Text } from '@chakra-ui/react';
 import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ABOUT } from '../About/About.route';
+import { ClicksState } from '../../router/rules/shared/ClicksState';
+import { ABOUT } from '../About/About.symbol';
+import { TROPHY } from '../Game/Trophy/Trophy.symbol';
 
 const Welcome: React.FC = () => {
-  const { allowedRouteBySymbol } = useRouteManagerContext();
+  const { allowedRouteBySymbol } = useRouteManagerContext<ClicksState>();
 
   const aboutUrl = allowedRouteBySymbol(ABOUT);
-
+  const trophyRoute = allowedRouteBySymbol(TROPHY);
   return (
     <Flex justifyContent="space-between" flexDir="column" minH="100vh">
       <Box>
@@ -18,10 +20,32 @@ const Welcome: React.FC = () => {
           </Text>
         </Box>
         <Box id="content" background={'cornflowerblue'} p="0" m="0">
-          <Box p="0" m="0" maxW="66%" minW="10rem">
-            <Box px="6" py="6" color="white">
-              <Link to={aboutUrl.absolutePath}>To About</Link>
-            </Box>
+          <Box p="0" m="0" minW="10rem" px="6" py="6" color="white">
+            <Text>
+              <L as={Link} to={aboutUrl.absolutePath}>
+                CLICK HERE
+              </L>{' '}
+              to navigate to the always accessible About page
+            </Text>
+            <Divider mt={10} mb={10} />
+            <Text mb={3}>
+              To demonstrate the implicit ACL nature of the route
+              configurations:
+            </Text>
+            <Text>
+              <L as={Link} to={'/game'}>
+                CLICK HERE
+              </L>{' '}
+              to try to go to the /trophy restricted child route of /game. The
+              redirect will ensure that you're taken to /game unless you have
+              the prerequisite clicks.
+            </Text>
+            <Text mt={4}>
+              <strong>ACL: </strong>
+              {trophyRoute
+                ? `You CAN ACCESS the trophy route subroute.`
+                : `You CANNOT ACCESS to the trophy route. Even via programmatic navigation you'll be redirected to /game.`}
+            </Text>
           </Box>
         </Box>
       </Box>

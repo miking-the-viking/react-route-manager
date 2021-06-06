@@ -63,7 +63,7 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
           },
           '/'
         ),
-      [routes, state, variantState]
+      [state, variantState]
     );
 
     const activeRoute = useMemo(() => {
@@ -75,7 +75,6 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
     const allowedRouteBySymbol = useCallback(
       (key: symbol, params?: Record<string, unknown>) => {
         const resolvedRoute = keyMapping[key];
-
         if (!resolvedRoute) return null;
 
         // if a variant, then we need to retrieve the correct variant.

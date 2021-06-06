@@ -1,9 +1,14 @@
-import { ProcessedRouteConfig } from "../types";
+import { ProcessedRouteConfig } from '../types';
 export const allowedRoutesActiveRoute = <Ri extends Record<string, unknown>>(
   routes: ProcessedRouteConfig<Ri>[],
   path: string
   // parentPath = ""
-) => {
+):
+  | {
+      [key: string]: ProcessedRouteConfig<Ri>;
+    }
+  | null
+  | ProcessedRouteConfig<Ri> => {
   if (!routes || routes.length === 0) {
     return null;
   }

@@ -4,7 +4,7 @@ import { RouteRuleEvaluator } from '../types/RouteRuleEvaluator';
 export const processRules = <StateType extends Record<string, unknown>>(
   state: StateType,
   ruleConfigs?: RouteRule<StateType>[]
-) => {
+): string | symbol | null => {
   if (!ruleConfigs) return null;
 
   return ruleConfigs.reduce((acc: string | null, ruleConfig) => {

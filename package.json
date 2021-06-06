@@ -25,6 +25,7 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "app": "nx serve --host dev.local react-route-manager-demo",
+    "min-demo": "nx serve minimal-demo",
     "ngrok": "ngrok start -config $PATH_TO_ROOT_NGROK -config ./ngrok.yml $NGROK_DOMAIN",
     "up": "docker-compose up -d",
     "down": "docker-compose down",

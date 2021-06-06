@@ -11,7 +11,13 @@ export interface RouteManagerState<
     key: keyof RouterState,
     value: RouterState[typeof key]
   ) => void;
-  activeRoute: string | null;
+  activeRoute:
+    | ProcessedRouteConfig<RouterState>
+    | {
+        [key: string]: ProcessedRouteConfig<RouterState>;
+      }
+    | null;
+  // activeRoute: string | null;
   /**
    * Resolves an allowed, processed route by it's route symbol and optional route parameters (as defined by the route's configuration)
    */

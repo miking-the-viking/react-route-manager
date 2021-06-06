@@ -1,7 +1,7 @@
 import { faBlind } from '@fortawesome/free-solid-svg-icons';
 import { Route } from '@react-route-manager/react-route-manager';
+import { WELCOME } from './Welcome.symbol';
 
-export const WELCOME = Symbol('Welcome');
 export const WELCOME_ROUTE = new Route({
   key: WELCOME,
   path: '/',
