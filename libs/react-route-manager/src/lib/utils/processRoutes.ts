@@ -17,6 +17,7 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
   Record<symbol, ProcessedRouteConfig<StateType>>,
   ProcessedRouteConfig<StateType>[]
 ] => {
+  console.log(routes);
   const processedRoutes = routes
     .filter((route) => !processRules(state, route.rules))
     .map((route) => {

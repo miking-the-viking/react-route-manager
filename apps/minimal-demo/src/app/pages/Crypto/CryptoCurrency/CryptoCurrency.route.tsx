@@ -1,10 +1,24 @@
 import { faBlind } from '@fortawesome/free-solid-svg-icons';
-import { Route } from '@react-route-manager/react-route-manager';
+import {
+  Route,
+  RouteRule,
+  RouteRuleEvaluator,
+} from '@react-route-manager/react-route-manager';
 import { generatePath } from 'react-router';
-import { CryptoListItem } from '../useCryptoList';
+import { CRYPTO } from '../Crypto.symbol';
+import { CryptoListItem, CryptoState } from '../useCryptoList';
 import { CRYPTO_CURRENCY } from './CryptoCurrency.symbol';
 
 const CURRENCY_PATH = '/:currency';
+
+const RequiresCryptos: RouteRuleEvaluator<CryptoState> = ({ cryptos }) => {
+  return !!cryptos && cryptos.length > 0;
+};
+
+export const REQUIRES_CRYPTOS: RouteRule<CryptoState> = [
+  [RequiresCryptos],
+  CRYPTO,
+];
 
 export const cryptoCurrencyRouteGenerator = ({
   path,
@@ -21,6 +35,7 @@ export const cryptoCurrencyRouteGenerator = ({
     description,
     icon: faBlind,
     collections: ['nav'],
+    rules: [REQUIRES_CRYPTOS],
   });
 
 const currencyRoute = (currency: CryptoListItem) => {
@@ -35,9 +50,9 @@ const currencyRoute = (currency: CryptoListItem) => {
   });
 };
 
-export const CRYPTO_CURRENCY_ROUTE_REAL = cryptoCurrencyRouteGenerator({
+export const CRYPTO_CURRENCY_ROUTE = cryptoCurrencyRouteGenerator({
   path: CURRENCY_PATH,
-  variants: ({ currencies = [] }: CryptoState) => {
-    return currencies.map(currencyRoute);
+  variants: ({ cryptos = [] }: CryptoState) => {
+    return cryptos.map(currencyRoute);
   },
 });
