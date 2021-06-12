@@ -1,4 +1,4 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from '@auth0/auth0-react';
 import {
   Box,
   Button,
@@ -10,12 +10,12 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Text,
-} from "@chakra-ui/react";
-import { AppState, SetNavExpanded } from "@react-route-manager/ui-state";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import AppBar from "../AppBar/AppBar";
-import NavList from "../NavList/NavList";
+} from '@chakra-ui/react';
+import { AppState, SetNavExpanded } from '@react-route-manager/ui-state';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import AppBar from '../AppBar/AppBar';
+import NavList from '../NavList/NavList';
 
 interface AppLayoutProps {
   hideNav?: boolean;
@@ -42,21 +42,21 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ hideNav, children }) => {
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader
-              borderBottomStyle={"solid"}
-              borderBottomWidth={"1px"}
-              borderBottomColor={"black.100"}
+              borderBottomStyle={'solid'}
+              borderBottomWidth={'1px'}
+              borderBottomColor={'black.100'}
             >
-              <Text as="h2" fontSize={"2xl"} textAlign="center">
+              <Text as="h2" fontSize={'2xl'} textAlign="center">
                 React Route Manager
               </Text>
             </DrawerHeader>
 
-            <DrawerBody mt={"1rem"}>
+            <DrawerBody mt={'1rem'}>
               <NavList handleDrawerClose={onClose} />
             </DrawerBody>
 
             <DrawerFooter>
-              <Button variant="solid" w={"100%"} onClick={() => logout()}>
+              <Button variant="solid" w={'100%'} onClick={() => logout()}>
                 Logout
               </Button>
             </DrawerFooter>
@@ -64,7 +64,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ hideNav, children }) => {
         </Drawer>
       )}
 
-      <Box as="main" p={hideNav ? "0" : "4"}>
+      <Box as="main" p={hideNav ? '0' : '4'}>
         {children}
       </Box>
     </Box>

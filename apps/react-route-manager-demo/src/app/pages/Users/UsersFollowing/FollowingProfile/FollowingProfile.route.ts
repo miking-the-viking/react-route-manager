@@ -7,7 +7,7 @@ import { REQUIRES_FOLLOWERS_REDIRECT } from '../../../../router/rules';
 
 export const FOLLOWING_PROFILE = Symbol('FollowingProfile');
 
-const FOLlOWING_PATH = 'profile/:id';
+const FOLLOWING_PATH = 'profile/:id';
 
 const followingProfileRouteGenerator = ({
   path,
@@ -31,7 +31,7 @@ const followingProfileRouteGenerator = ({
 
 const followingRoute = (following: UserCompleteFragment) => {
   const { email, id, name } = following;
-  const path = generatePath(FOLlOWING_PATH, { id });
+  const path = generatePath(FOLLOWING_PATH, { id });
 
   return followingProfileRouteGenerator({
     absolutePath: path,
@@ -43,7 +43,7 @@ const followingRoute = (following: UserCompleteFragment) => {
 };
 
 export const FOLLOWING_PROFILE_ROUTE = followingProfileRouteGenerator({
-  path: FOLlOWING_PATH,
+  path: FOLLOWING_PATH,
   variants: ({ following = [] }: FollowState) => {
     return following.map(followingRoute);
   },

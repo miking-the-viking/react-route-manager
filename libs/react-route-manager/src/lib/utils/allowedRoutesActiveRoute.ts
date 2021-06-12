@@ -1,8 +1,8 @@
 import { ProcessedRouteConfig } from '../types';
 export const allowedRoutesActiveRoute = <Ri extends Record<string, unknown>>(
   routes: ProcessedRouteConfig<Ri>[],
-  path: string
-  // parentPath = ""
+  path: string,
+  parentPath = '/'
 ):
   | {
       [key: string]: ProcessedRouteConfig<Ri>;
@@ -14,14 +14,22 @@ export const allowedRoutesActiveRoute = <Ri extends Record<string, unknown>>(
   }
 
   const result = routes.reduce((acc, route) => {
-    // const relativeRoute = `${parentPath}${route.path}`;
-    if (route.absolutePath === path || `${route.absolutePath}/` === path) {
+    const relativeRoute = `${parentPath}${route.path}`;
+    if (
+      relativeRoute === path ||
+      route.absolutePath === path ||
+      `${route.absolutePath}/` === path
+    ) {
       // perfect match
       return route;
     }
     // check subroutes, if exist
     return route.children && Object.keys(route.children).length > 0
-      ? allowedRoutesActiveRoute<Ri>(route.children, path) || acc
+      ? allowedRoutesActiveRoute<Ri>(
+          route.children,
+          path,
+          relativeRoute + '/'
+        ) || acc
       : acc;
   }, {});
 

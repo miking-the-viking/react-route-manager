@@ -68,8 +68,8 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
 
     const activeRoute = useMemo(() => {
       if (!allowedRoutes || allowedRoutes.length === 0) return null;
-
-      return allowedRoutesActiveRoute<Ri>(allowedRoutes, path);
+      const activeRoute = allowedRoutesActiveRoute<Ri>(allowedRoutes, path);
+      return activeRoute;
     }, [allowedRoutes, path]);
 
     const allowedRouteBySymbol = useCallback(

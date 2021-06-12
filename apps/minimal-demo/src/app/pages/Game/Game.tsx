@@ -26,13 +26,16 @@ const Game: React.FC = () => {
       allowedRouteBySymbol(TROPHY),
       allowedRouteBySymbol(GOD_TIER),
     ];
-    // this redirect should only occur if the trophy is unlocked. The base route shouldn't be displayed alone.
-    // Feels very manual and the check for 1...N child routes is gross.
     if (
       trophyRoute &&
-      activeRoute !== trophyRoute &&
-      activeRoute !== godRoute
+      ![trophyRoute, godRoute].find((r) => r === activeRoute)
     ) {
+      // this redirect should only occur if the trophy is unlocked. The base route shouldn't be displayed alone.
+      // Feels very manual and the check for 1...N child routes is gross.
+      console.log(
+        'User can access the trophy route but is not there, send them there. ' +
+          trophyRoute.absolutePath
+      );
       navigate(trophyRoute.absolutePath);
     }
   }, [navigate, allowedRouteBySymbol, clicks, activeRoute, allowedRoutes]);
