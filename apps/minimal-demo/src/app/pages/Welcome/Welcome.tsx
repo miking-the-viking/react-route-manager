@@ -4,6 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ClicksState } from '../../router/rules/shared/ClicksState';
 import { ABOUT } from '../About/About.symbol';
+import { CRYPTO } from '../Crypto/Crypto.symbol';
 import { TROPHY } from '../Game/Trophy/Trophy.symbol';
 
 const Welcome: React.FC = () => {
@@ -11,6 +12,7 @@ const Welcome: React.FC = () => {
 
   const aboutUrl = allowedRouteBySymbol(ABOUT);
   const trophyRoute = allowedRouteBySymbol(TROPHY);
+  const cryptoUrl = allowedRouteBySymbol(CRYPTO);
   return (
     <Flex justifyContent="space-between" flexDir="column" minH="100vh">
       <Box>
@@ -26,6 +28,13 @@ const Welcome: React.FC = () => {
                 CLICK HERE
               </L>{' '}
               to navigate to the always accessible About page
+            </Text>
+            <Divider mt={10} mb={10} />
+            <Text>
+              <L as={Link} to={cryptoUrl.absolutePath}>
+                CLICK HERE
+              </L>{' '}
+              to navigate to the always accessible Crypto page
             </Text>
             <Divider mt={10} mb={10} />
             <Text mb={3}>

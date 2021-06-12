@@ -5,14 +5,15 @@ import {
   RouteRuleEvaluator,
 } from '@react-route-manager/react-route-manager';
 import { generatePath } from 'react-router';
+import { CryptoCurrencyListItem } from '../api/getCurrencies';
 import { CRYPTO } from '../Crypto.symbol';
-import { CryptoListItem, CryptoState } from '../useCryptoList';
+import { CryptoCurrencyData, CryptoState } from '../useCryptoList';
 import { CRYPTO_CURRENCY } from './CryptoCurrency.symbol';
 
-const CURRENCY_PATH = 'currency/:currency';
+const CURRENCY_PATH = ':currency';
 
 const RequiresCryptos: RouteRuleEvaluator<CryptoState> = ({ cryptos }) => {
-  return !!cryptos && cryptos.length > 0;
+  return !!cryptos && Object.keys(cryptos).length > 0;
 };
 
 export const REQUIRES_CRYPTOS_REDIRECT: RouteRule<CryptoState> = [
@@ -40,22 +41,32 @@ export const cryptoCurrencyRouteGenerator = ({
     absolutePath,
   });
 
-const currencyRoute = (currency: CryptoListItem) => {
-  const { code, is_crypto, name } = currency;
+const currencyRoute = (currency: CryptoCurrencyData) => {
+  const {
+    code,
+    is_crypto,
+    name,
+    has_enabled_pairs,
+    is_base_of_enabled_pair,
+    is_quote_of_enabled_pair,
+  } = currency.details;
 
   const path = generatePath(CURRENCY_PATH, { currency: code });
-  console.log(`generated path for currency route = ${path}`);
   return cryptoCurrencyRouteGenerator({
     absolutePath: path,
     path,
-    name,
+    name: `${name}${
+      has_enabled_pairs && (is_base_of_enabled_pair || is_quote_of_enabled_pair)
+        ? ' *'
+        : ''
+    }`,
     description: name,
   });
 };
 
 export const CRYPTO_CURRENCY_ROUTE = cryptoCurrencyRouteGenerator({
   path: CURRENCY_PATH,
-  variants: ({ cryptos = [] }: CryptoState) => {
-    return cryptos.map(currencyRoute);
+  variants: ({ cryptos = {} }: CryptoState) => {
+    return Object.keys(cryptos).map((key) => currencyRoute(cryptos[key]));
   },
 });

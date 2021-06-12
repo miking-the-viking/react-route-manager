@@ -4,7 +4,7 @@ import { CRYPTO_INDEX } from './CryptoIndex.symbol';
 
 export const CRYPTO_INDEX_ROUTE = new Route({
   key: CRYPTO_INDEX,
-  path: '/',
+  path: '',
   importComponent: () => import('./CryptoIndex'),
   name: 'Crypto Dashboard',
   description: 'Cryptocurrency Dashboard',

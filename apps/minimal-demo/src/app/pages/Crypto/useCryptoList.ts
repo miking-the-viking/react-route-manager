@@ -1,24 +1,19 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useRouteManagerContext } from '../../../../../../libs/react-route-manager/src';
+import { CryptoCurrencyListItem, getCurrencies } from './api/getCurrencies';
+import { CryptoCurrencyPair, getPairs } from './api/getPairs';
 
 //https://nexchange2.docs.apiary.io/#reference/0/ticker-summarized-volume/get-ticker
 
-export interface CryptoListItem {
-  code: string;
-  name: string;
-  min_confirmations: number;
-  is_crypto: boolean;
-  minimal_amount: string;
-  is_base_of_enabled_pair: boolean;
-  is_quote_of_enabled_pair: boolean;
-  has_enabled_pairs: boolean;
-}
-
 export type CryptoState = {
-  cryptos: CryptoListItem[];
+  cryptos: { [key: string]: CryptoCurrencyData };
 };
 
+export type CryptoCurrencyData = {
+  details: CryptoCurrencyListItem;
+  pairs: CryptoCurrencyPair[];
+};
 export function useCryptoList() {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -31,11 +26,26 @@ export function useCryptoList() {
     if (cryptos) return;
     (async () => {
       setLoading(true);
-      const response = await axios.get(
-        'https://api.n.exchange/en/api/v1/currency/'
-      );
-      console.log('setting cryptos variant state to ', response.data);
-      setVariantState('cryptos', response.data);
+      const currenciesArray = await getCurrencies();
+      const currenciesObj = currenciesArray
+        .filter((c) => c.is_crypto)
+        .reduce((acc, curr: CryptoCurrencyListItem) => {
+          return {
+            ...acc,
+            [curr.code]: {
+              details: curr,
+              pairs: [],
+            },
+          };
+        }, {} as { [k: string]: CryptoCurrencyData });
+      const pairs = await getPairs();
+
+      pairs.forEach((pair) => {
+        currenciesObj[pair.base].pairs.push(pair);
+      });
+
+      setVariantState('cryptos', currenciesObj);
+
       setLoading(false);
     })();
   }, []);
