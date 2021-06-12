@@ -9,13 +9,13 @@ import { CRYPTO } from '../Crypto.symbol';
 import { CryptoListItem, CryptoState } from '../useCryptoList';
 import { CRYPTO_CURRENCY } from './CryptoCurrency.symbol';
 
-const CURRENCY_PATH = '/:currency';
+const CURRENCY_PATH = 'currency/:currency';
 
 const RequiresCryptos: RouteRuleEvaluator<CryptoState> = ({ cryptos }) => {
   return !!cryptos && cryptos.length > 0;
 };
 
-export const REQUIRES_CRYPTOS: RouteRule<CryptoState> = [
+export const REQUIRES_CRYPTOS_REDIRECT: RouteRule<CryptoState> = [
   [RequiresCryptos],
   CRYPTO,
 ];
@@ -35,13 +35,16 @@ export const cryptoCurrencyRouteGenerator = ({
     description,
     icon: faBlind,
     collections: ['nav'],
-    rules: [REQUIRES_CRYPTOS],
+    rules: [REQUIRES_CRYPTOS_REDIRECT],
+    variants,
+    absolutePath,
   });
 
 const currencyRoute = (currency: CryptoListItem) => {
   const { code, is_crypto, name } = currency;
 
   const path = generatePath(CURRENCY_PATH, { currency: code });
+  console.log(`generated path for currency route = ${path}`);
   return cryptoCurrencyRouteGenerator({
     absolutePath: path,
     path,

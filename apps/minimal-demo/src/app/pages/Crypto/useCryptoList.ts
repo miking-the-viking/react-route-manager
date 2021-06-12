@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useRouteManagerContext } from '../../../../../../libs/react-route-manager/src';
 
 //https://nexchange2.docs.apiary.io/#reference/0/ticker-summarized-volume/get-ticker
 
@@ -21,18 +22,23 @@ export type CryptoState = {
 export function useCryptoList() {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [data, setData] = useState<CryptoListItem[]>([]);
+  const {
+    setVariantState,
+    state: { cryptos },
+  } = useRouteManagerContext<CryptoState>();
 
   useEffect(() => {
+    if (cryptos) return;
     (async () => {
       setLoading(true);
       const response = await axios.get(
         'https://api.n.exchange/en/api/v1/currency/'
       );
-      setData(response.data);
+      console.log('setting cryptos variant state to ', response.data);
+      setVariantState('cryptos', response.data);
       setLoading(false);
     })();
   }, []);
 
-  return { data, loading };
+  return { cryptos, loading };
 }
