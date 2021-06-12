@@ -8,6 +8,11 @@ import { CryptoCurrencyPair, getPairs } from './api/getPairs';
 
 export type CryptoState = {
   cryptos: { [key: string]: CryptoCurrencyData };
+  holdings: {
+    [key: string]: {
+      amount: number;
+    };
+  };
 };
 
 export type CryptoCurrencyData = {
