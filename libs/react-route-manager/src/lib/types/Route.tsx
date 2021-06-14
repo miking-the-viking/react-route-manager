@@ -2,7 +2,7 @@
 import { faBlind, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { lazy } from 'react';
-import { generatePath } from 'react-router-dom';
+import { generatePath } from 'react-router';
 import { RouterMetaWrap } from '../RouterMetaWrap';
 import { ProcessedRouteConfig } from './ProcessedRoute';
 import { RouteRule } from './RouteRule';
@@ -97,7 +97,14 @@ export type RouteConfigInput<RouterState extends Record<string, any>> = {
    *   - /followers/2
    *   - /followers/10
    */
-  variants?: (state: RouterState) => ProcessedRouteConfig<RouterState>[];
+  // variants?: (state: RouterState) => ProcessedRouteConfig<RouterState>[];
+
+  dynamicRoutes?: (
+    state: RouterState
+  ) => {
+    params: Record<string, string>;
+    name: string;
+  }[];
 };
 
 export class Route<
@@ -113,7 +120,7 @@ export class Route<
   public children?: Route<RouterState>[];
   public lazyLoadedComponent: ReturnType<typeof lazy>;
   public icon: () => JSX.Element;
-  public variants?: (state: RouterState) => ProcessedRouteConfig<RouterState>[];
+  public variants?: (state: RouterState) => Route<RouterState>[];
   public variantFilter?: (
     variants,
     params
@@ -127,10 +134,10 @@ export class Route<
     collections,
     rules,
     children,
-    importComponent: componentImportPath,
+    importComponent: componentImportFunction,
     icon,
     absolutePath,
-    variants,
+    dynamicRoutes,
   }: RouteConfigInput<RouterState>) {
     this.key = key;
     this.path = path;
@@ -146,17 +153,48 @@ export class Route<
       : () => <FontAwesomeIcon size="lg" icon={faBlind} />;
 
     this.lazyLoadedComponent = lazy(async () => {
-      const Component = await componentImportPath();
+      const Component = await componentImportFunction();
       return {
         default: RouterMetaWrap(this, Component.default),
       };
     });
 
-    this.variants = variants;
+    // TODO: variants should yield unique Routes that have distinct absolutePath
+    // generate from dynamicRoutes
+    if (dynamicRoutes) {
+      this.variants = (state) => {
+        const config = dynamicRoutes(state);
 
-    if (variants) {
-      this.variantFilter = (variants, params: Record<string, string>) =>
-        variants.find((v) => v.path === generatePath(path, params));
+        const dynamicVariants = config.map((dynamicConfig) => {
+          const { params, ...routeParams } = dynamicConfig;
+          const dynamicPath = generatePath(path, dynamicConfig.params);
+
+          return new Route({
+            key,
+            path: dynamicPath,
+            absolutePath: dynamicPath,
+            importComponent: componentImportFunction,
+            description: '',
+            rules: rules,
+            children: undefined,
+            ...routeParams,
+          });
+        });
+
+        return dynamicVariants;
+      };
+    }
+
+    if (this.variants) {
+      this.variantFilter = (variants, params: Record<string, string>) => {
+        const matchedVariant = variants.find((v) => {
+          const generatedPath = generatePath(path, params);
+          const matchesPath = v.path === generatedPath;
+          return matchesPath;
+        });
+
+        return matchedVariant;
+      };
     }
   }
 }

@@ -4,7 +4,7 @@ import { Outlet } from 'react-router';
 import { useCryptoList } from './useCryptoList';
 
 const Crypto: React.FC = () => {
-  const { loading, cryptos } = useCryptoList();
+  const { loading } = useCryptoList();
 
   if (loading) {
     return <Text>Loading Cryptocurrency list from API...</Text>;

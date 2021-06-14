@@ -14,9 +14,9 @@ import {
   Text,
   UnorderedList,
 } from '@chakra-ui/react';
+import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router';
-import { useRouteManagerContext } from '../../../../../../../libs/react-route-manager/src';
 import { CryptoState, useCryptoList } from '../useCryptoList';
 
 const CryptoIndex: React.FC = () => {
@@ -28,7 +28,6 @@ const CryptoIndex: React.FC = () => {
   } = useRouteManagerContext<CryptoState>();
 
   const holdingKeys = Object.keys(holdings);
-  console.log(holdingKeys);
 
   const [holdingKey, setHoldingKey] = useState<string | null>(null);
   const [holdingQuantity, setHoldingQuantity] = useState<number | null>(null);
@@ -48,7 +47,7 @@ const CryptoIndex: React.FC = () => {
             <UnorderedList>
               {holdingKeys.map((key) => {
                 return (
-                  <ListItem>
+                  <ListItem key={key}>
                     {key}: {holdings[key].amount}
                   </ListItem>
                 );
@@ -66,7 +65,11 @@ const CryptoIndex: React.FC = () => {
           }}
         >
           {Object.keys(cryptos).map((cryptoKey) => {
-            return <option value={cryptoKey}>{cryptoKey}</option>;
+            return (
+              <option key={cryptoKey} value={cryptoKey}>
+                {cryptoKey}
+              </option>
+            );
           })}
         </Select>
         <NumberInput

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router';
 import { BrowserProvider } from './BrowserProvider';
 import { IndexRouter } from './IndexRouter';
 import { RouteManagerContext } from './RouteManagerContext';
@@ -9,6 +9,7 @@ import { RouteManagerProviderProps } from './types/RouteManagerProviderProps';
 import { RouteManagerState } from './types/RouteManagerState';
 import { allowedRoutesActiveRoute } from './utils/allowedRoutesActiveRoute';
 import { processRoutes } from './utils/processRoutes';
+import { processRules } from './utils/processRules';
 
 /**
  *
@@ -32,6 +33,7 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
     const Context = RouteManagerContext as React.Context<RouteManagerState<Ri>>;
     const router = <IndexRouter routes={routes} />;
     const { pathname: path } = useLocation();
+    const navigate = useNavigate();
 
     /**
      * Variants are routes that have a dynamic aspect to them, reusing a Route
@@ -89,6 +91,59 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
       [keyMapping]
     );
 
+    const redirectCheck = useCallback(
+      (route: Route, params: Record<string, any>) => {
+        // TODO: move (+variant) redirect check to RouteManagerProviderFactory - will potentially require params as argument to invoke from here
+        if (route.variants) {
+          // has variants
+          const dynamicRoute = route.variants({
+            ...state,
+            ...variantState,
+          });
+          const filteredVariant = route.variantFilter(dynamicRoute, params);
+
+          // if there is no filteredVariant for the given params at the given route, then we redirect
+          if (!filteredVariant) {
+            // redirect to parent of route
+            console.log(
+              route.name +
+                ' No filtered variant matched for this dynamic route, navigating up a level'
+            );
+            // TODO: Navigate to the parent of the route
+            navigate('/');
+          }
+        }
+
+        const redirectRouteOrPath: string | symbol | null = processRules(
+          {
+            ...state,
+            ...variantState,
+          },
+          route.rules
+        );
+
+        if (!redirectRouteOrPath) {
+          return;
+        }
+        if (typeof redirectRouteOrPath === 'symbol') {
+          const route = allowedRouteBySymbol(redirectRouteOrPath);
+
+          if (!route) {
+            console.log(
+              'Did not resolve route as an allowed route, falling back to `/`. This could be a logic error in your ACL or route nesting.'
+            );
+            navigate('/');
+            return;
+          }
+          navigate(route.absolutePath);
+          return;
+        }
+
+        navigate(redirectRouteOrPath);
+      },
+      [allowedRouteBySymbol, navigate, state, variantState]
+    );
+
     return (
       <Context.Provider
         value={{
@@ -98,6 +153,7 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
           setVariantState: handleSetVariantState,
           activeRoute,
           allowedRouteBySymbol,
+          redirectCheck,
         }}
       >
         {RouterWrapper ? <RouterWrapper>{router}</RouterWrapper> : router}

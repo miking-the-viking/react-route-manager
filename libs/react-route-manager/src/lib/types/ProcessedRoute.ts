@@ -6,7 +6,6 @@ export interface ProcessedRouteConfig<
 > extends Route<RouteManagerState> {
   /**
    * Computed absolute path within the route object
-   *
    */
   absolutePath: string;
 

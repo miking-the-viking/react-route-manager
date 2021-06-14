@@ -1,17 +1,17 @@
-import { faBlind } from '@fortawesome/free-solid-svg-icons';
 import {
   Route,
   RouteRule,
   RouteRuleEvaluator,
 } from '@react-route-manager/react-route-manager';
-import { generatePath } from 'react-router';
-import { CryptoCurrencyListItem } from '../api/getCurrencies';
 import { CRYPTO } from '../Crypto.symbol';
-import { CryptoCurrencyData, CryptoState } from '../useCryptoList';
+import { CRYPTO_INDEX } from '../CryptoIndex/CryptoIndex.symbol';
+import { CryptoState } from '../useCryptoList';
 import { CRYPTO_CURRENCY } from './CryptoCurrency.symbol';
 
 const CURRENCY_PATH = ':currency';
 
+//
+// Rules
 const RequiresCryptos: RouteRuleEvaluator<CryptoState> = ({ cryptos }) => {
   return !!cryptos && Object.keys(cryptos).length > 0;
 };
@@ -21,52 +21,50 @@ export const REQUIRES_CRYPTOS_REDIRECT: RouteRule<CryptoState> = [
   CRYPTO,
 ];
 
-export const cryptoCurrencyRouteGenerator = ({
-  path,
-  variants = undefined,
-  name = 'Crypto Currency',
-  description = 'Crypto Currency',
-  absolutePath = undefined,
-}) =>
-  new Route({
-    key: CRYPTO_CURRENCY,
-    path,
-    importComponent: () => import('./CryptoCurrency'),
-    name,
-    description,
-    icon: faBlind,
-    collections: ['nav'],
-    rules: [REQUIRES_CRYPTOS_REDIRECT],
-    variants,
-    absolutePath,
-  });
-
-const currencyRoute = (currency: CryptoCurrencyData) => {
-  const {
-    code,
-    is_crypto,
-    name,
-    has_enabled_pairs,
-    is_base_of_enabled_pair,
-    is_quote_of_enabled_pair,
-  } = currency.details;
-
-  const path = generatePath(CURRENCY_PATH, { currency: code });
-  return cryptoCurrencyRouteGenerator({
-    absolutePath: path,
-    path,
-    name: `${name}${
-      has_enabled_pairs && (is_base_of_enabled_pair || is_quote_of_enabled_pair)
-        ? ' *'
-        : ''
-    }`,
-    description: name,
-  });
+const RequiresRealCryptoCurrency = (
+  code: string
+): RouteRuleEvaluator<CryptoState> => ({ cryptos }) => {
+  return !!cryptos && !!cryptos[code];
 };
 
-export const CRYPTO_CURRENCY_ROUTE = cryptoCurrencyRouteGenerator({
+export const REQUIRES_REAL_CRYPTO_CURRENCY = (
+  code: string
+): RouteRule<CryptoState> => [[RequiresRealCryptoCurrency(code)], CRYPTO_INDEX];
+
+export const CryptoCurrencyDynamicRoute = new Route<CryptoState>({
   path: CURRENCY_PATH,
-  variants: ({ cryptos = {} }: CryptoState) => {
-    return Object.keys(cryptos).map((key) => currencyRoute(cryptos[key]));
+  key: CRYPTO_CURRENCY,
+  importComponent: () => import('./CryptoCurrency'),
+  name: 'Crypto Currency',
+  description: 'Crypto Currency Viewer',
+  collections: ['nav'],
+  dynamicRoutes: ({ cryptos = {} }) => {
+    return Object.keys(cryptos).map((key) => {
+      const {
+        code,
+        name,
+        has_enabled_pairs,
+        is_base_of_enabled_pair,
+        is_quote_of_enabled_pair,
+      } = cryptos[key].details;
+
+      return {
+        name: `${name}${
+          has_enabled_pairs &&
+          (is_base_of_enabled_pair || is_quote_of_enabled_pair)
+            ? ' *'
+            : ''
+        }`,
+        rules: [
+          // TODO: this rule is superfluous and doesn't work.
+          // REQUIRES_REAL_CRYPTO_CURRENCY(code),
+        ],
+        params: {
+          // TODO: see if can be typed better
+          // potentially with template literal type?
+          currency: code,
+        },
+      };
+    });
   },
 });

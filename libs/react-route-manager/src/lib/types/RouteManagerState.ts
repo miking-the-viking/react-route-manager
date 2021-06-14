@@ -25,4 +25,5 @@ export interface RouteManagerState<
     routeKey: symbol,
     params?: Record<string, unknown>
   ) => ProcessedRouteConfig<RouterState> | null;
+  redirectCheck: (route: Route, params: Record<string, any>) => void;
 }

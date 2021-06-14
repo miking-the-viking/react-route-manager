@@ -1,4 +1,4 @@
-import { useRouteManagerContext } from '../../../../../../../libs/react-route-manager/src';
+import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
 import { CryptoState } from '../useCryptoList';
 
 export function useCryptoFromCode(code: string) {

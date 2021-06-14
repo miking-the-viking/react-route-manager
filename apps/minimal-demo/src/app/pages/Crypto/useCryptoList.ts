@@ -1,6 +1,5 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useRouteManagerContext } from '../../../../../../libs/react-route-manager/src';
+import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
 import { CryptoCurrencyListItem, getCurrencies } from './api/getCurrencies';
 import { CryptoCurrencyPair, getPairs } from './api/getPairs';
 

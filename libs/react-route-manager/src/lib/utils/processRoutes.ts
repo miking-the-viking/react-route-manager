@@ -17,7 +17,6 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
   Record<symbol, ProcessedRouteConfig<StateType>>,
   ProcessedRouteConfig<StateType>[]
 ] => {
-  console.log(routes);
   const processedRoutes = routes
     .filter((route) => !processRules(state, route.rules))
     .map((route) => {
@@ -30,9 +29,10 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
           ? ''
           : '/');
 
+      // TODO: parent path needs to be included in route creation or by using parent route object's absolute path
       const processedVariants = route.variants
         ? recursivelyPrependParentPathToVariantRoutes(
-            route.variants(state),
+            route.variants(state) as any,
             parentPath
           )
         : [];

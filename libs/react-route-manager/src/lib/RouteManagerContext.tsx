@@ -10,6 +10,9 @@ export const RouteManagerContext = React.createContext<RouteManagerState<any>>({
   },
   state: {},
   allowedRouteBySymbol: () => null,
+  redirectCheck: () => {
+    //
+  },
 });
 
 export const RouteManagerConsumer = RouteManagerContext.Consumer;

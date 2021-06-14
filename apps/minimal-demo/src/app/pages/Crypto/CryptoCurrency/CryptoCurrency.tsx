@@ -17,11 +17,16 @@ const booleanLabel = (b: boolean) => (b ? `Yup` : `Nope`);
 const CryptoCurrency: React.FC = () => {
   const { currency: code } = useParams();
 
+  // TODO: Better state management from router. This page should not be rendering until all its rules pass
   const crypto = useCryptoFromCode(code);
+
+  // if (!crypto) return <p>Loading</p>;
+
   return (
     <div>
       <Heading>
-        Crypto Currency {crypto.details.name} ({code}) Viewer
+        Crypto Currency ({code}) Viewer Crypto Currency {crypto.details.name} (
+        {code}) Viewer
       </Heading>
       <Flex flexDirection={'column'} ml={'1em'}>
         <Text>
