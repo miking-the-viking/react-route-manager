@@ -15,14 +15,15 @@ import { Route } from './types/Route';
  */
 export const RouterMetaWrap = (route: Route<any>, Component: any) => () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  useRouteRedirectCheck(route);
+  const loadingState = useRouteRedirectCheck(route);
 
   const HelmetWrappedComponent = () => (
     <>
       <Helmet>
         <title>{route.name}</title>
       </Helmet>
-      <Component />
+      {/* Must not render the component unless the useRouteRedirectCheck returns true */}
+      {loadingState ? <Component /> : null}
     </>
   );
 
