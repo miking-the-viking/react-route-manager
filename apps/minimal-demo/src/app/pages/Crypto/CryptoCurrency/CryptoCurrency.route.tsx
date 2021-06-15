@@ -3,6 +3,7 @@ import { CryptoState } from '../useCryptoList';
 import { CRYPTO_CURRENCY } from './CryptoCurrency.symbol';
 import { CryptoCurrencyHoldingsRoute } from './CryptoCurrencyHoldings/CryptoCurrencyHoldings.route';
 
+// runtime validation in Route.tsx to check all params from dynamicRoutes and ensure the matched regex params from this path are included.
 const CURRENCY_PATH = ':currency';
 
 export const CryptoCurrencyDynamicRoute = new Route<CryptoState>({
@@ -13,7 +14,7 @@ export const CryptoCurrencyDynamicRoute = new Route<CryptoState>({
   description: 'Crypto Currency Viewer',
   collections: ['nav'],
   // TODO: How to introduce variant rules for the children of a variant route?
-  children: [CryptoCurrencyHoldingsRoute('BTC')], // Children of a variant are a little different than normal children
+  // children: [CryptoCurrencyHoldingsRoute('BTC')], // Children of a variant are a little different than normal children
   dynamicRoutes: ({ cryptos = {} }) => {
     return Object.keys(cryptos).map((key) => {
       const {

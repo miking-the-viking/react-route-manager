@@ -169,7 +169,6 @@ export class Route<
           const { params, ...routeParams } = dynamicConfig;
           const dynamicPath = generatePath(path, dynamicConfig.params);
 
-          console.log(routeParams);
           return new Route({
             key,
             path: dynamicPath,

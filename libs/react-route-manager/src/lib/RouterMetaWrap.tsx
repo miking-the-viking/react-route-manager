@@ -1,5 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router';
+// import { useParams } from 'react-router';
 import { useRouteRedirectCheck } from './hooks';
 import { Route } from './types/Route';
 
@@ -16,6 +18,11 @@ import { Route } from './types/Route';
 export const RouterMetaWrap = (route: Route<any>, Component: any) => () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const loadingState = useRouteRedirectCheck(route);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const params = useParams();
+
+  console.log(route.name, params);
 
   const HelmetWrappedComponent = () => (
     <>

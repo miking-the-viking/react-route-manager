@@ -10,8 +10,8 @@ import {
 import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
 import React from 'react';
 import { useParams } from 'react-router';
-import { CryptoState } from '../../useCryptoList';
-import { useCryptoFromCode } from '../useCryptoFromCode';
+import { useCryptoFromCode } from '../CryptoCurrency/useCryptoFromCode';
+import { CryptoState } from '../useCryptoList';
 
 const booleanLabel = (b: boolean) => (b ? `Yup` : `Nope`);
 
@@ -20,13 +20,7 @@ const CryptoCurrencyHoldings: React.FC = () => {
 
   const crypto = useCryptoFromCode(code);
   const {
-    state: {
-      holdings = {
-        BTC: {
-          amount: 999999,
-        },
-      },
-    },
+    state: { holdings = {} },
   } = useRouteManagerContext<CryptoState>();
 
   const cryptoHoldings = holdings[crypto.details.code];

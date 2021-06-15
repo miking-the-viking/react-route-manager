@@ -23,10 +23,12 @@ export const CryptoCurrencyHoldingsRoute = (code: string) =>
     path: 'hodlings',
     key: CRYPTO_CURRENCY_HOLDINGS,
     importComponent: () => import('./CryptoCurrencyHoldings'),
-    name: 'Crypto Currency',
-    description: 'Crypto Currency Viewer',
+    name: 'Crypto Currency Holdings',
+    description: 'Crypto Currency Holdings',
     collections: ['nav'],
-    rules: [REQUIRES_HOLDINGS_IN_CODE_REDIRECT(code)],
+    rules: [
+      // REQUIRES_HOLDINGS_IN_CODE_REDIRECT(code)
+    ],
   });
 // export const CryptoCurrencyHoldingsRoute = new Route<CryptoState>({
 //   path: 'hodlings',
