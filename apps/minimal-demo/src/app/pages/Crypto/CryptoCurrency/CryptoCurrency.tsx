@@ -21,8 +21,7 @@ const CryptoCurrency: React.FC = () => {
   return (
     <div>
       <Heading>
-        Crypto Currency ({code}) Viewer Crypto Currency {crypto.details.name} (
-        {code}) Viewer
+        Crypto Currency {crypto.details.name} ({code}) Viewer
       </Heading>
       <Flex flexDirection={'column'} ml={'1em'}>
         <Text>
