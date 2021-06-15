@@ -12,6 +12,8 @@ export const CryptoCurrencyDynamicRoute = new Route<CryptoState>({
   name: 'Crypto Currency',
   description: 'Crypto Currency Viewer',
   collections: ['nav'],
+  // TODO: How to introduce variant rules for the children of a variant route?
+  children: [CryptoCurrencyHoldingsRoute('BTC')], // Children of a variant are a little different than normal children
   dynamicRoutes: ({ cryptos = {} }) => {
     return Object.keys(cryptos).map((key) => {
       const {

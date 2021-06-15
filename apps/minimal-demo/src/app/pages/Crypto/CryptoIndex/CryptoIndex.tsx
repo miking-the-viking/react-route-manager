@@ -16,8 +16,11 @@ import {
 } from '@chakra-ui/react';
 import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
 import React, { useState } from 'react';
-import { Outlet } from 'react-router';
+import { generatePath, Outlet } from 'react-router';
 import { CryptoState, useCryptoList } from '../useCryptoList';
+import { Link } from 'react-router-dom';
+import { Link as L } from '@chakra-ui/react';
+import { CRYPTO_CURRENCY_HOLDINGS } from '../CryptoCurrency/CryptoCurrencyHoldings/CryptoCurrencyHoldings.symbol';
 
 const CryptoIndex: React.FC = () => {
   useCryptoList();
@@ -25,12 +28,31 @@ const CryptoIndex: React.FC = () => {
   const {
     state: { cryptos = {}, holdings = {} },
     setVariantState,
+    allowedRouteBySymbol,
   } = useRouteManagerContext<CryptoState>();
 
   const holdingKeys = Object.keys(holdings);
 
   const [holdingKey, setHoldingKey] = useState<string | null>(null);
   const [holdingQuantity, setHoldingQuantity] = useState<number | null>(null);
+
+  console.log(
+    allowedRouteBySymbol(CRYPTO_CURRENCY_HOLDINGS, {
+      currency: holdingKey,
+    })
+  );
+  const holdingsPath = allowedRouteBySymbol(CRYPTO_CURRENCY_HOLDINGS, {
+    currency: holdingKey,
+  })?.absolutePath;
+
+  const withParams =
+    holdingKey && holdingsPath
+      ? generatePath(holdingsPath, {
+          currency: holdingKey,
+        })
+      : '';
+
+  console.log('STATE', holdingKey, holdingsPath, withParams);
 
   return (
     <div>
@@ -99,6 +121,16 @@ const CryptoIndex: React.FC = () => {
         >
           Click to save holdings
         </Button>
+        {holdingsPath && (
+          <L as={Link} to={holdingsPath}>
+            Go to your holdings of {holdingKey}
+          </L>
+        )}
+        {holdingsPath && (
+          <L as={Link} to={withParams}>
+            Go to your holdings of {holdingKey}
+          </L>
+        )}
         <Outlet />
       </Flex>
     </div>
