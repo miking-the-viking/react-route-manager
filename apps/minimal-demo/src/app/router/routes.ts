@@ -11,8 +11,8 @@ import { WELCOME_ROUTE } from '../pages/Welcome/Welcome.route';
  * https://github.com/miking-the-viking/react-route-manager/issues/19
  */
 export const routes: Route[] = [
-  ABOUT_ROUTE,
+  // ABOUT_ROUTE,
   WELCOME_ROUTE,
-  GAME_ROUTE,
+  // GAME_ROUTE,
   CRYPTO_ROUTE,
 ];

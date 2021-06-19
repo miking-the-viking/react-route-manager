@@ -242,7 +242,8 @@ export class Route<
             importComponent: componentImportFunction,
             description: '',
             rules: rules,
-            children: undefined,
+            // children: undefined,
+            children: children ? children.map((c) => ({...c, path: dynamicPath + c.path, absolutePath: dynamicPath + c.path})) : undefined,
             ...routeParams,
           });
         });
