@@ -6,6 +6,27 @@ import { generatePath } from 'react-router';
 import { RouterMetaWrap } from '../RouterMetaWrap';
 import { ProcessedRouteConfig } from './ProcessedRoute';
 import { RouteRule } from './RouteRule';
+import flatten from 'lodash/flatten'
+
+
+/**
+ * A dynamic route has defined slugs which have matching keys in the params object.
+ * 
+ * For each key, "key" in the params object for a route, a corresponding ":key" must be present in the `path` string
+ */
+ type DynamicParam<S extends string> = `:${S}`;
+
+ /**
+  * A route can support additional strings, divided by '/' around the dynamic parameter slug.
+  */
+ type DynamicParamRoute<T extends string> = (T extends any ? (x:
+   `${string}/${DynamicParam<T>}/${string}` | 
+   `${DynamicParam<T>}/${string}` | 
+   `${string}/${DynamicParam<T>}` | 
+   `${DynamicParam<T>}`
+ ) => void : never) extends ((x: infer I) => void) ? I : never;
+ 
+
 
 export type RouteConfigInput<RouterState extends Record<string, any>> = {
   /**
@@ -106,6 +127,62 @@ export type RouteConfigInput<RouterState extends Record<string, any>> = {
     name: string;
   }[];
 };
+
+// type ParamsKeys<
+//   K extends (
+//     state: any
+//   ) => {
+//     params: Record<string, string>;
+//     name: string;
+//   }[]
+// > = keyof ReturnType<K>[number]['params'] extends string ?  keyof ReturnType<K>[number]['params'] : never;
+
+
+/**
+ * React Route Manager
+ */
+export const RRM = {
+  RouteOld: <RouterState extends Record<string, any>, ParamKeys extends string,>({path, dynamicRoutes}: {path: DynamicParamRoute<ParamKeys>, dynamicRoutes: (state: RouterState) => {name: string; params: Record<ParamKeys, string>}[]}) => {
+    return {
+      path,
+      dynamicRoutes
+    }
+  },
+  DynamicRoute: <RouterState extends Record<string, any>, ParamKeys extends string,>({path, dynamicRoutes, ...rest}: {
+    path: DynamicParamRoute<ParamKeys>,
+    dynamicRoutes: (state: RouterState) => {name: string; params: Record<ParamKeys, string>}[]
+  } & RouteConfigInput<RouterState>) => {
+    return new Route({
+      ...rest,
+      path, dynamicRoutes
+    })
+  } 
+} as const
+
+
+type SampleUser = {
+  id: string
+  name: string
+  sports: ('basketball' | 'football' | 'pingpong' | 'hockey' | 'golf')[]
+}
+
+type SampleDynamicState = {
+  users: SampleUser[]
+}
+
+
+RRM.RouteOld({
+  path: ':id',
+  dynamicRoutes: ({ users }: SampleDynamicState) => {
+    return users.map((u) => ({
+      name: `${u.name} Profile`,
+      params: {
+        id: u.id
+      }
+    }))
+  }
+})
+
 
 export class Route<
   RouterState extends Record<string, any> = Record<string, any>

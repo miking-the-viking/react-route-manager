@@ -1,4 +1,4 @@
-import { Route } from '@react-route-manager/react-route-manager';
+import { Route, RRM } from '@react-route-manager/react-route-manager';
 import { CryptoState } from '../useCryptoList';
 import { CRYPTO_CURRENCY } from './CryptoCurrency.symbol';
 import { CryptoCurrencyHoldingsRoute } from './CryptoCurrencyHoldings/CryptoCurrencyHoldings.route';
@@ -42,6 +42,29 @@ export const CryptoCurrencyDynamicRoute = new Route<CryptoState>({
           // TODO: see if can be typed better
           // potentially with template literal type?
           currency: code,
+        },
+      };
+    });
+  },
+});
+
+const CryptoCurrencyDynamicRoute2 = RRM.DynamicRoute({
+  path: ':flexing/:color/middle-stuff/:currency/suffix/route',
+  key: CRYPTO_CURRENCY,
+  importComponent: () => import('./CryptoCurrency'),
+  name: 'Crypto Currency',
+  description: 'Crypto Currency Viewer',
+  collections: ['nav'],
+  dynamicRoutes: ({ cryptos = {} }) => {
+    return Object.keys(cryptos).map((key) => {
+      const { code, name } = cryptos[key].details;
+
+      return {
+        name,
+        params: {
+          currency: code,
+          color: 'red',
+          flexing: 'yup-i-am',
         },
       };
     });
