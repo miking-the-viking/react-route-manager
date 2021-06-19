@@ -36,14 +36,11 @@ const CryptoIndex: React.FC = () => {
   const [holdingKey, setHoldingKey] = useState<string | null>(null);
   const [holdingQuantity, setHoldingQuantity] = useState<number | null>(null);
 
-  console.log(
-    allowedRouteBySymbol(CRYPTO_CURRENCY_HOLDINGS, {
-      currency: holdingKey,
-    })
-  );
-  const holdingsPath = allowedRouteBySymbol(CRYPTO_CURRENCY_HOLDINGS, {
+  const allowedHoldingsRoute = allowedRouteBySymbol(CRYPTO_CURRENCY_HOLDINGS, {
     currency: holdingKey,
-  })?.absolutePath;
+  });
+
+  const holdingsPath = allowedHoldingsRoute?.absolutePath;
 
   const withParams =
     holdingKey && holdingsPath
@@ -51,8 +48,6 @@ const CryptoIndex: React.FC = () => {
           currency: holdingKey,
         })
       : '';
-
-  console.log('STATE', holdingKey, holdingsPath, withParams);
 
   return (
     <div>
