@@ -1,9 +1,9 @@
 import { faBlind } from '@fortawesome/free-solid-svg-icons';
-import { Route } from '@react-route-manager/react-route-manager';
+import { RRM } from '@react-route-manager/react-route-manager';
 import { GAME } from './Game.symbol';
 import { TROPHY_ROUTE } from './Trophy/Trophy.route';
 
-export const GAME_ROUTE = new Route({
+export const GAME_ROUTE = RRM.Route({
   key: GAME,
   path: 'game',
   importComponent: () => import('./Game'),

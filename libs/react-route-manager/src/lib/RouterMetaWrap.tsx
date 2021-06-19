@@ -20,9 +20,7 @@ export const RouterMetaWrap = (route: Route<any>, Component: any) => () => {
   const loadingState = useRouteRedirectCheck(route);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const params = useParams();
-
-  console.log(route.name, params);
+  // const params = useParams();
 
   const HelmetWrappedComponent = () => (
     <>

@@ -1,8 +1,8 @@
 import { faBlind } from '@fortawesome/free-solid-svg-icons';
-import { Route } from '@react-route-manager/react-route-manager';
+import { Route, RRM } from '@react-route-manager/react-route-manager';
 import { WELCOME } from './Welcome.symbol';
 
-export const WELCOME_ROUTE = new Route({
+export const WELCOME_ROUTE = RRM.Route({
   key: WELCOME,
   path: '/',
   importComponent: () => import('./Welcome'),

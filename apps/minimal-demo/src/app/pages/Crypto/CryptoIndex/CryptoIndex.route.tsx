@@ -1,8 +1,8 @@
 import { faBlind } from '@fortawesome/free-solid-svg-icons';
-import { Route } from '@react-route-manager/react-route-manager';
+import { RRM } from '@react-route-manager/react-route-manager';
 import { CRYPTO_INDEX } from './CryptoIndex.symbol';
 
-export const CRYPTO_INDEX_ROUTE = new Route({
+export const CRYPTO_INDEX_ROUTE = RRM.Route({
   key: CRYPTO_INDEX,
   path: '',
   importComponent: () => import('./CryptoIndex'),
