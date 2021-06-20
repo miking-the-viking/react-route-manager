@@ -32,7 +32,7 @@ export function useCryptoList() {
       setLoading(true);
       const currenciesArray = await getCurrencies();
       const currenciesObj = currenciesArray
-        .filter((c) => c.is_crypto)
+        .filter((c) => c.is_crypto && ['BTC', 'XRP'].includes(c.code))
         .reduce((acc, curr: CryptoCurrencyListItem) => {
           return {
             ...acc,
@@ -42,11 +42,11 @@ export function useCryptoList() {
             },
           };
         }, {} as { [k: string]: CryptoCurrencyData });
-      const pairs = await getPairs();
+      // const pairs = await getPairs();
 
-      pairs.forEach((pair) => {
-        currenciesObj[pair.base].pairs.push(pair);
-      });
+      // pairs.forEach((pair) => {
+      //   currenciesObj[pair.base].pairs.push(pair);
+      // });
 
       setVariantState('cryptos', currenciesObj);
 

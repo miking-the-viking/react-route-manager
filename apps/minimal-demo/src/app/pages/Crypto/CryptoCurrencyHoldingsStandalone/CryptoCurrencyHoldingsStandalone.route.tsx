@@ -22,12 +22,12 @@ const REQUIRES_HOLDINGS_FOR_CODE = (code: string): RouteRule<CryptoState> => [
   CRYPTO,
 ];
 
-export const CryptoCurrencyHoldingsRoute = new Route<CryptoState>({
-  path: ':currency/holdings',
+export const CryptoCurrencyHoldingsRouteStandalone = new Route<CryptoState>({
+  path: ':currency/holdings-standalone',
   key: CRYPTO_CURRENCY_HOLDINGS,
   importComponent: () => import('./CryptoCurrencyHoldings'),
-  name: 'Crypto Currency Holdings',
-  description: 'Crypto Currency Holdings',
+  name: 'Crypto Currency Holdings Standalone',
+  description: 'Crypto Currency Holdings Standalone',
   collections: ['nav'],
   // rules: [
   //   REQUIRES_HOLDINGS_IN_CODE_REDIRECT

@@ -3,7 +3,7 @@ import {
   Code,
   Flex,
   Heading,
-  List,
+  Link as L,
   ListItem,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -16,11 +16,11 @@ import {
 } from '@chakra-ui/react';
 import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
 import React, { useState } from 'react';
-import { generatePath, Outlet } from 'react-router';
-import { CryptoState, useCryptoList } from '../useCryptoList';
+import { Outlet } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Link as L } from '@chakra-ui/react';
+import { CRYPTO_CURRENCY } from '../CryptoCurrency/CryptoCurrency.symbol';
 import { CRYPTO_CURRENCY_HOLDINGS } from '../CryptoCurrency/CryptoCurrencyHoldings/CryptoCurrencyHoldings.symbol';
+import { CryptoState, useCryptoList } from '../useCryptoList';
 
 const CryptoIndex: React.FC = () => {
   useCryptoList();
@@ -40,14 +40,9 @@ const CryptoIndex: React.FC = () => {
     currency: holdingKey,
   });
 
-  const holdingsPath = allowedHoldingsRoute?.absolutePath;
-
-  const withParams =
-    holdingKey && holdingsPath
-      ? generatePath(holdingsPath, {
-          currency: holdingKey,
-        })
-      : '';
+  const currencyRoute = allowedRouteBySymbol(CRYPTO_CURRENCY, {
+    currency: holdingKey,
+  });
 
   return (
     <div>
@@ -116,14 +111,14 @@ const CryptoIndex: React.FC = () => {
         >
           Click to save holdings
         </Button>
-        {holdingsPath && (
-          <L as={Link} to={holdingsPath}>
+        {holdingKey && allowedHoldingsRoute && (
+          <L as={Link} to={allowedHoldingsRoute.absolutePath}>
             Go to your holdings of {holdingKey}
           </L>
         )}
-        {holdingsPath && (
-          <L as={Link} to={withParams}>
-            Go to your holdings of {holdingKey}
+        {currencyRoute && (
+          <L as={Link} to={currencyRoute?.absolutePath}>
+            Go to the currency page of {holdingKey}
           </L>
         )}
         <Outlet />

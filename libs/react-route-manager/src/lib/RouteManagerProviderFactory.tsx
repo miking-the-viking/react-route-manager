@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router';
+import { useNavigate, useLocation, generatePath } from 'react-router';
 import { BrowserProvider } from './BrowserProvider';
 import { IndexRouter } from './IndexRouter';
 import { RouteManagerContext } from './RouteManagerContext';
+import { ProcessedRouteConfig } from './types';
 import { Route } from './types/Route';
 import { RouteManagerProviderProps } from './types/RouteManagerProviderProps';
 import { RouteManagerState } from './types/RouteManagerState';
@@ -76,15 +77,39 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
 
     const allowedRouteBySymbol = useCallback(
       (key: symbol, params?: Record<string, unknown>) => {
-        const resolvedRoute = keyMapping[key];
+        const resolvedRoute = keyMapping[key] as ProcessedRouteConfig<Ri>;
         if (!resolvedRoute) return null;
 
         // if a variant, then we need to retrieve the correct variant.
         if (resolvedRoute.variantFilter) {
-          return resolvedRoute.variantFilter(
+          const resolvedVariantRoute = resolvedRoute.variantFilter(
             resolvedRoute.processedVariants,
             params
           );
+
+          if (!params || !resolvedVariantRoute) return resolvedVariantRoute; // TODO: This is likely an error state
+
+          return resolvedVariantRoute;
+        }
+
+        if (
+          resolvedRoute.absolutePath.indexOf(':') >= 0 &&
+          params &&
+          Object.keys(params).length > 0
+        ) {
+          try {
+            const generatedPath = generatePath(
+              resolvedRoute.absolutePath,
+              params as any
+            );
+            return {
+              ...resolvedRoute,
+              absolutePath: generatedPath,
+              path: generatedPath,
+            };
+          } catch (e) {
+            return resolvedRoute;
+          }
         }
         return resolvedRoute;
       },

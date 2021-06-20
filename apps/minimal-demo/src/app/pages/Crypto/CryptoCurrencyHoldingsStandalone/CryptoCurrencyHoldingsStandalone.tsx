@@ -15,7 +15,7 @@ import { CryptoState } from '../useCryptoList';
 
 const booleanLabel = (b: boolean) => (b ? `Yup` : `Nope`);
 
-const CryptoCurrencyHoldings: React.FC = () => {
+const CryptoCurrencyHoldingsStandalone: React.FC = () => {
   const { currency: code } = useParams();
 
   const crypto = useCryptoFromCode(code);
@@ -37,4 +37,4 @@ const CryptoCurrencyHoldings: React.FC = () => {
   );
 };
 
-export default CryptoCurrencyHoldings;
+export default CryptoCurrencyHoldingsStandalone;

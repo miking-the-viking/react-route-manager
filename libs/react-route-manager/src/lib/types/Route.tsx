@@ -5,8 +5,9 @@ import React, { lazy } from 'react';
 import { generatePath } from 'react-router';
 import { RouterMetaWrap } from '../RouterMetaWrap';
 import { ProcessedRouteConfig } from './ProcessedRoute';
-import { RouteRule } from './RouteRule';
+import { RouteRule, RouteRuleGen } from './RouteRule';
 import flatten from 'lodash/flatten';
+import { RuleGenerator } from './RouteRuleEvaluator';
 
 
 
@@ -83,7 +84,7 @@ export type RouteConfigInput<RouterState extends Record<string, any>> = {
    *   - Fallback path
    *
    */
-  rules?: RouteRule<RouterState>[];
+  rules?: (RouteRule<RouterState> | RouteRuleGen<RouterState, any>)[];
 
   /**
    * Child routes
@@ -158,12 +159,14 @@ export const RRM = {
   >({
     path,
     dynamicRoutes,
+    // rules,
     ...rest
   }: {
     path: DynamicParamRoute<ParamKeys>;
     dynamicRoutes: (
       state: RouterState
     ) => { name: string; params: Record<ParamKeys, string> }[];
+    // rules: RouteRule<RouterState>[];
   } & RouteConfigInput<RouterState>) => {
     return new Route({
       ...rest,
@@ -210,7 +213,8 @@ export class Route<
     this.name = name;
     this.description = description;
     this.collections = collections;
-    this.rules = rules;
+    this.rules = rules as RouteRule<RouterState>[] | undefined;
+    // this.rules = rules?.filter((r) => typeof (r[0] instanceof Array ? r[0][0]: r[0] ) !== 'function') as RouteRule<RouterState>[] | undefined;
     this.children = children;
     this.absolutePath = absolutePath;
 
@@ -232,9 +236,11 @@ export class Route<
         const config = dynamicRoutes(state);
 
         const dynamicVariants = config.map((dynamicConfig) => {
+          console.log('processing dynamicConfig', dynamicConfig)
           const { params, ...routeParams } = dynamicConfig;
+          console.log('generating path with', path, params, routeParams)
           const dynamicPath = generatePath(path, dynamicConfig.params);
-
+          console.log(dynamicPath)
           return new Route({
             key,
             path: dynamicPath,
@@ -243,7 +249,30 @@ export class Route<
             description: '',
             rules: rules,
             // children: undefined,
-            children: children ? children.map((c) => ({...c, path: dynamicPath + c.path, absolutePath: dynamicPath + c.path})) : undefined,
+            children: children ? children.map((c) => 
+            {
+              const childPath = dynamicPath + '/' + c.path
+              console.log(`dynamicRoute, children path = ${childPath}`, c)
+              return {
+                ...c,
+                path: childPath,
+                absolutePath: childPath,
+                rules: c.rules ? c.rules.map((cRule) => {
+                  //  TODO: handle array of rules, cRule[0][n]
+                  if (typeof cRule[0] === 'function' && typeof cRule[0]({} as any) === 'function') {
+                    const standAloneDynamicRules = cRule as any as RouteRuleGen<RouterState, any>
+                    console.log('cRule[0] is a function and a rule generator')
+
+                    const standAloneDynamicRule = standAloneDynamicRules[0] as RuleGenerator<RouterState, any>
+                    const rule: RouteRule<RouterState> = [standAloneDynamicRule(params), cRule[1]]
+                    console.log(rule)
+                    return rule
+                  }
+                  console.log(cRule)
+                  return cRule
+                }).filter((rule) => rule !== undefined) : []
+              }
+            }) : undefined,
             ...routeParams,
           });
         });
@@ -255,9 +284,14 @@ export class Route<
     if (this.variants) {
       this.variantFilter = (variants, params: Record<string, string>) => {
         const matchedVariant = variants.find((v) => {
-          const generatedPath = generatePath(path, params);
-          const matchesPath = v.path === generatedPath;
-          return matchesPath;
+          try {
+            const generatedPath = generatePath(path, params);
+            const matchesPath = v.path === generatedPath;
+            return matchesPath;
+          } catch (e) {
+            // console.log('Error generating path in variantFilter ', e)
+            return null
+          }
         });
 
         return matchedVariant;

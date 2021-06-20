@@ -10,8 +10,8 @@ import { TROPHY } from '../Game/Trophy/Trophy.symbol';
 const Welcome: React.FC = () => {
   const { allowedRouteBySymbol } = useRouteManagerContext<ClicksState>();
 
-  const aboutUrl = allowedRouteBySymbol(ABOUT);
-  const trophyRoute = allowedRouteBySymbol(TROPHY);
+  // const aboutUrl = allowedRouteBySymbol(ABOUT);
+  // const trophyRoute = allowedRouteBySymbol(TROPHY);
   const cryptoUrl = allowedRouteBySymbol(CRYPTO);
   return (
     <Flex justifyContent="space-between" flexDir="column" minH="100vh">
@@ -23,12 +23,12 @@ const Welcome: React.FC = () => {
         </Box>
         <Box id="content" background={'cornflowerblue'} p="0" m="0">
           <Box p="0" m="0" minW="10rem" px="6" py="6" color="white">
-            <Text>
+            {/* <Text>
               <L as={Link} to={aboutUrl.absolutePath}>
                 CLICK HERE
               </L>{' '}
               to navigate to the always accessible About page
-            </Text>
+            </Text> */}
             <Divider mt={10} mb={10} />
             <Text>
               <L as={Link} to={cryptoUrl.absolutePath}>
@@ -41,7 +41,7 @@ const Welcome: React.FC = () => {
               To demonstrate the implicit ACL nature of the route
               configurations:
             </Text>
-            <Text>
+            {/* <Text>
               <L as={Link} to={'/game'}>
                 CLICK HERE
               </L>{' '}
@@ -54,7 +54,7 @@ const Welcome: React.FC = () => {
               {trophyRoute
                 ? `You CAN ACCESS the trophy route subroute.`
                 : `You CANNOT ACCESS to the trophy route. Even via programmatic navigation you'll be redirected to /game.`}
-            </Text>
+            </Text> */}
           </Box>
         </Box>
       </Box>
