@@ -121,6 +121,10 @@ const CryptoIndex: React.FC = () => {
             Go to the currency page of {holdingKey}
           </L>
         )}
+        <L as={Link} to={'/crypto/BTC/hodlings'}>
+          Try to go to BTC holdings
+        </L>
+
         <Outlet />
       </Flex>
     </div>

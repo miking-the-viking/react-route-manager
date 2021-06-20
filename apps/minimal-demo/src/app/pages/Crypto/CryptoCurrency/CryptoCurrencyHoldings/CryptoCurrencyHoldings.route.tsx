@@ -1,9 +1,5 @@
 import { RRM } from '@react-route-manager/react-route-manager';
-import {
-  RequiresHoldingsInCrypto,
-  REQUIRES_HOLDINGS_IN_CRYPTO_REDIRECT,
-} from '../../../../router/rules/RequiresHoldingsInCrypto/RequiresHoldingsInCrypto';
-import { CRYPTO } from '../../Crypto.symbol';
+import { RequiresHoldingsInCryptoRedirectRule } from '../../../../router/rules/RequiresHoldingsInCrypto/RequiresHoldingsInCrypto';
 import { CRYPTO_CURRENCY_HOLDINGS } from './CryptoCurrencyHoldings.symbol';
 
 export const CryptoCurrencyHoldingsRoute = RRM.Route({
@@ -13,5 +9,5 @@ export const CryptoCurrencyHoldingsRoute = RRM.Route({
   name: 'Holdings',
   description: 'Holdings for crypto',
   collections: ['nav'],
-  rules: [[RequiresHoldingsInCrypto, CRYPTO]],
+  rules: [RequiresHoldingsInCryptoRedirectRule],
 });

@@ -15,6 +15,7 @@ import { Link as L } from '@chakra-ui/react';
 import { CRYPTO_CURRENCY_HOLDINGS } from './CryptoCurrencyHoldings/CryptoCurrencyHoldings.symbol';
 import { useRouteManagerContext } from '@react-route-manager/react-route-manager';
 import { CryptoState } from '../useCryptoList';
+import { CRYPTO } from '../Crypto.symbol';
 
 const booleanLabel = (b: boolean) => (b ? `Yup` : `Nope`);
 
@@ -63,12 +64,10 @@ const CryptoCurrency: React.FC = () => {
         ) : (
           <Heading variant="h4">No pairs</Heading>
         )}
-        {/* <L
-          as={Link}
-          to={allowedRouteBySymbol(CRYPTO_CURRENCY_HOLDINGS).absolutePath}
-        >
-          Go to your holdings of {code}
-        </L> */}
+
+        <L as={Link} to={allowedRouteBySymbol(CRYPTO).absolutePath}>
+          Go Crypto Home
+        </L>
         <Outlet />
       </Flex>
     </div>

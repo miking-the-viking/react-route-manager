@@ -236,11 +236,8 @@ export class Route<
         const config = dynamicRoutes(state);
 
         const dynamicVariants = config.map((dynamicConfig) => {
-          console.log('processing dynamicConfig', dynamicConfig)
           const { params, ...routeParams } = dynamicConfig;
-          console.log('generating path with', path, params, routeParams)
           const dynamicPath = generatePath(path, dynamicConfig.params);
-          console.log(dynamicPath)
           return new Route({
             key,
             path: dynamicPath,
@@ -252,7 +249,6 @@ export class Route<
             children: children ? children.map((c) => 
             {
               const childPath = dynamicPath + '/' + c.path
-              console.log(`dynamicRoute, children path = ${childPath}`, c)
               return {
                 ...c,
                 path: childPath,
@@ -261,14 +257,11 @@ export class Route<
                   //  TODO: handle array of rules, cRule[0][n]
                   if (typeof cRule[0] === 'function' && typeof cRule[0]({} as any) === 'function') {
                     const standAloneDynamicRules = cRule as any as RouteRuleGen<RouterState, any>
-                    console.log('cRule[0] is a function and a rule generator')
 
                     const standAloneDynamicRule = standAloneDynamicRules[0] as RuleGenerator<RouterState, any>
                     const rule: RouteRule<RouterState> = [standAloneDynamicRule(params), cRule[1]]
-                    console.log(rule)
                     return rule
                   }
-                  console.log(cRule)
                   return cRule
                 }).filter((rule) => rule !== undefined) : []
               }
