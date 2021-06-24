@@ -13,15 +13,8 @@ export const CryptoCurrencyDynamicRoute = RRM.DynamicRoute({
   dynamicRoutes: ({ cryptos = {} }) => {
     return Object.keys(cryptos).map((key) => {
       const { code, name } = cryptos[key].details;
-
       return {
         name,
-        // rules: [
-        // TODO: this rule is superfluous and doesn't work.
-        // REQUIRES_REAL_CRYPTO_CURRENCY(code),
-        // ],
-        // TODO: Make the children of variants work
-        // children: [CryptoCurrencyHoldingsRoute],
         params: {
           currency: code,
         },

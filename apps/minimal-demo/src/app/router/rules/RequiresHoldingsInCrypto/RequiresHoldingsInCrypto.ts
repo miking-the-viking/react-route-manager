@@ -12,7 +12,7 @@ export const RequiresHoldingsInCrypto: RuleGenerator<
   {
     currency?: string;
   }
-> = ({ currency = undefined }) => ({ cryptos, holdings }) => {
+> = ({ currency = undefined }) => ({ holdings }) => {
   if (!currency || !holdings) return false;
   return !!holdings[currency] && holdings[currency].amount > 0;
 };

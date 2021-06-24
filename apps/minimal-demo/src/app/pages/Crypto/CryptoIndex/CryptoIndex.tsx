@@ -36,11 +36,11 @@ const CryptoIndex: React.FC = () => {
   const [holdingKey, setHoldingKey] = useState<string | null>(null);
   const [holdingQuantity, setHoldingQuantity] = useState<number | null>(null);
 
-  const allowedHoldingsRoute = allowedRouteBySymbol(CRYPTO_CURRENCY_HOLDINGS, {
+  const currencyRoute = allowedRouteBySymbol(CRYPTO_CURRENCY, {
     currency: holdingKey,
   });
 
-  const currencyRoute = allowedRouteBySymbol(CRYPTO_CURRENCY, {
+  const holdingsRoute = allowedRouteBySymbol(CRYPTO_CURRENCY_HOLDINGS, {
     currency: holdingKey,
   });
 
@@ -99,20 +99,25 @@ const CryptoIndex: React.FC = () => {
         </NumberInput>
         <Button
           onClick={() => {
-            setVariantState('holdings', {
+            const newVariantState = {
               ...holdings,
               [holdingKey]: {
                 amount: holdingQuantity,
               },
-            });
+            };
+            setVariantState('holdings', newVariantState);
+            localStorage.setItem(
+              'stored-crypto',
+              JSON.stringify(newVariantState)
+            );
             setHoldingQuantity(null);
             setHoldingKey(null);
           }}
         >
           Click to save holdings
         </Button>
-        {holdingKey && allowedHoldingsRoute && (
-          <L as={Link} to={allowedHoldingsRoute.absolutePath}>
+        {holdingKey && holdingsRoute && (
+          <L as={Link} to={holdingsRoute.absolutePath}>
             Go to your holdings of {holdingKey}
           </L>
         )}
@@ -121,9 +126,9 @@ const CryptoIndex: React.FC = () => {
             Go to the currency page of {holdingKey}
           </L>
         )}
-        <L as={Link} to={'/crypto/BTC/hodlings'}>
+        {/* <L as={Link} to={'/crypto/BTC/hodlings'}>
           Try to go to BTC holdings
-        </L>
+        </L> */}
 
         <Outlet />
       </Flex>

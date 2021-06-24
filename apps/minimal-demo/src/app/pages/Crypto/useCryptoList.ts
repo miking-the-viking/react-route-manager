@@ -18,12 +18,15 @@ export type CryptoCurrencyData = {
   details: CryptoCurrencyListItem;
   pairs: CryptoCurrencyPair[];
 };
+
+const stored = JSON.parse(localStorage.getItem('stored-crypto') ?? '{}');
+
 export function useCryptoList() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const {
     setVariantState,
-    state: { cryptos },
+    state: { cryptos, holdings = stored },
   } = useRouteManagerContext<CryptoState>();
 
   useEffect(() => {
@@ -49,6 +52,7 @@ export function useCryptoList() {
       // });
 
       setVariantState('cryptos', currenciesObj);
+      setVariantState('holdings', holdings);
 
       setLoading(false);
     })();

@@ -147,12 +147,11 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
 
     const redirectCheck = useCallback(
       (route: Route, params: Record<string, any>) => {
-        console.log('redirectCheck', route, params);
         const resolvedRoute = keyMapping[route.key] as ProcessedRouteConfig<Ri>;
-
-        console.log('resolved route', resolvedRoute);
+        console.log('redirectCheck', route, params, resolvedRoute);
 
         if (resolvedRoute.variants) {
+          console.log('Route has variants');
           const dynamicRoute = resolvedRoute.variants({
             ...state,
             ...variantState,
@@ -173,38 +172,45 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
             navigate('/');
           }
           console.log('filtered variant found!', filteredVariant);
+
+          // now what?
+        } else if (
+          resolvedRoute.absolutePath.indexOf(':') >= 0 &&
+          params &&
+          Object.keys(params).length > 0
+        ) {
+          const rules = resolvedRoute.rules ?? [];
+          // run rules if defined here as it is contextual to the params
+          if (rules.length > 0) {
+            const contextualRules = (rules.map((ruleTuple) => {
+              const [ruleOrRules, redirect] = ruleTuple;
+              if (typeof ruleOrRules === 'function') {
+                return [ruleOrRules(params as any) as any, redirect];
+              }
+              return [
+                (ruleOrRules.map((rule) =>
+                  rule(params as any)
+                ) as any) as RouteRuleEvaluator<Ri>[],
+                redirect,
+              ];
+            }) as any) as RouteRule<Ri>[];
+
+            const rulesResult = processRules(
+              { ...state, ...variantState },
+              contextualRules
+            );
+            if (typeof rulesResult === 'symbol') {
+              const route = allowedRouteBySymbol(rulesResult);
+
+              if (!route) {
+                navigate('/');
+                return;
+              }
+              navigate(route.absolutePath);
+              return;
+            }
+          }
         }
-
-        //
-        //
-        /
-        /
-        /  This is where I'm currently at. Trying to get the redirect rule to process on a variant using the same logic that is in allowedRouteBySymbol
-        /
-        /
-        /
-
-        // TODO: move (+variant) redirect check to RouteManagerProviderFactory - will potentially require params as argument to invoke from here
-        // if (route.variants) {
-        //   // has variants
-        //   const dynamicRoute = route.variants({
-        //     ...state,
-        //     ...variantState,
-        //   });
-        //   const filteredVariant = route.variantFilter(dynamicRoute, params);
-
-        //   // if there is no filteredVariant for the given params at the given route, then we redirect
-        //   if (!filteredVariant) {
-        //     // redirect to parent of route
-        //     console.log(
-        //       route.name +
-        //         ' No filtered variant matched for this dynamic route, navigating up a level'
-        //     );
-        //     // TODO: Navigate to the parent of the route
-        //     navigate('/');
-        //   }
-        //   console.log('filtered variant found!', filteredVariant);
-        // }
 
         const redirectRouteOrPath: string | symbol | null = processRules(
           {
