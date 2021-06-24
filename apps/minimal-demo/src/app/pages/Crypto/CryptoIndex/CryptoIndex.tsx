@@ -99,6 +99,7 @@ const CryptoIndex: React.FC = () => {
         </NumberInput>
         <Button
           onClick={() => {
+            if (!holdingKey) return;
             const newVariantState = {
               ...holdings,
               [holdingKey]: {

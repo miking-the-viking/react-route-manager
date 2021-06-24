@@ -10,7 +10,8 @@ export const NavRoute: React.FC<{
   handleDrawerClose: () => void;
 }> = ({ navItem, handleDrawerClose }) => {
   if (navItem.processedVariants && navItem.processedVariants.length > 0) {
-    // console.log('navItem has processedVariants', navItem);
+    console.log('navItem has processedVariants', navItem);
+
     return (
       <NavRouteWithDynamicViews
         handleDrawerClose={handleDrawerClose}
@@ -24,7 +25,7 @@ export const NavRoute: React.FC<{
   }
   if (navItem.children && navItem.children.length > 0) {
     // if there are variants, we actually want to list the variants and have them list the NavRouteWithChildren
-    // console.log('navItem has children: ', navItem);
+    console.log('navItem has children: ', navItem);
     return (
       <NavRouteWithChildren
         handleDrawerClose={handleDrawerClose}

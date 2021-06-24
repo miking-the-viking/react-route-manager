@@ -1,4 +1,4 @@
-import { Route } from '../types';
+import { Route, RouteRuleGen } from '../types';
 import { ProcessedRouteConfig } from '../types/ProcessedRoute';
 import { processRules } from './processRules';
 
@@ -30,16 +30,21 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
           : '/');
 
       // TODO: parent path needs to be included in route creation or by using parent route object's absolute path
-      const processedVariants = route.variants
+      const parentPrependedVariants = route.variants
         ? recursivelyPrependParentPathToVariantRoutes(
             route.variants(state) as any,
             parentPath
           )
         : [];
 
+      // TODO: Brainstorm autoresolving the necessary parameters
+      const processedVariants = parentPrependedVariants;
+
+      console.log(`processing ${route.name} children with ${absolutePath}`);
       const [childrenMapping, processedChildren] = route.children
         ? processRoutes<StateType>(route.children, state, absolutePath)
         : [{}, undefined];
+      console.log(processedChildren);
 
       const processedRoute = {
         ...route,

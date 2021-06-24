@@ -147,11 +147,14 @@ export type RouteConfigInput<RouterState extends Record<string, any>> = {
  */
 export const RRM = {
   /**
-   * A Route that does not contain any dynamic slugs
+   * A Route that does not contain any dynamic slugs, may still be a descendant of a dynamic slug route.
    */
   Route: <RouterState extends Record<string, any>>(routeProps: RouteConfigInput<RouterState> & {dynamicRoutes?: undefined; path: string;}) => new Route(routeProps),
   /**
-   * A Route that contains one or more dynamic slugs `:slug`
+   * A Route that contains one or more dynamic slugs `:slug` in the path.
+   * 
+   * - populate the `dynamicRoutes` key with a RouteRule to produce what are the valid slugs for the application in its given state
+   * - populate the `children` with any child routes
    */
   DynamicRoute: <
     RouterState extends Record<string, any>,
@@ -282,7 +285,6 @@ export class Route<
             const matchesPath = v.path === generatedPath;
             return matchesPath;
           } catch (e) {
-            // console.log('Error generating path in variantFilter ', e)
             return null
           }
         });

@@ -9,7 +9,7 @@ export const CryptoCurrencyDynamicRoute = RRM.DynamicRoute({
   name: 'Crypto Currency',
   description: 'Crypto Currency Viewer',
   collections: ['nav'],
-  children: [CryptoCurrencyHoldingsRoute as any], // TODO: when this is not `any` the `dynamicRoutes` throws a type error :/
+  children: [CryptoCurrencyHoldingsRoute],
   dynamicRoutes: ({ cryptos = {} }) => {
     return Object.keys(cryptos).map((key) => {
       const { code, name } = cryptos[key].details;

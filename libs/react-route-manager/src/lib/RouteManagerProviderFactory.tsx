@@ -148,66 +148,60 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
     const redirectCheck = useCallback(
       (route: Route, params: Record<string, any>) => {
         const resolvedRoute = keyMapping[route.key] as ProcessedRouteConfig<Ri>;
-        console.log('redirectCheck', route, params, resolvedRoute);
 
-        if (resolvedRoute.variants) {
-          console.log('Route has variants');
-          const dynamicRoute = resolvedRoute.variants({
-            ...state,
-            ...variantState,
-          });
-          const filteredVariant = resolvedRoute.variantFilter(
-            dynamicRoute,
-            params
-          );
-
-          // if there is no filteredVariant for the given params at the given route, then we redirect
-          if (!filteredVariant) {
-            // redirect to parent of route
-            console.log(
-              resolvedRoute.name +
-                ' No filtered variant matched for this dynamic route, navigating up a level'
+        if (resolvedRoute) {
+          if (resolvedRoute.variants) {
+            const dynamicRoute = resolvedRoute.variants({
+              ...state,
+              ...variantState,
+            });
+            const filteredVariant = resolvedRoute.variantFilter(
+              dynamicRoute,
+              params
             );
-            // TODO: Navigate to the parent of the route
-            navigate('/');
-          }
-          console.log('filtered variant found!', filteredVariant);
 
-          // now what?
-        } else if (
-          resolvedRoute.absolutePath.indexOf(':') >= 0 &&
-          params &&
-          Object.keys(params).length > 0
-        ) {
-          const rules = resolvedRoute.rules ?? [];
-          // run rules if defined here as it is contextual to the params
-          if (rules.length > 0) {
-            const contextualRules = (rules.map((ruleTuple) => {
-              const [ruleOrRules, redirect] = ruleTuple;
-              if (typeof ruleOrRules === 'function') {
-                return [ruleOrRules(params as any) as any, redirect];
-              }
-              return [
-                (ruleOrRules.map((rule) =>
-                  rule(params as any)
-                ) as any) as RouteRuleEvaluator<Ri>[],
-                redirect,
-              ];
-            }) as any) as RouteRule<Ri>[];
+            // if there is no filteredVariant for the given params at the given route, then we redirect
+            if (!filteredVariant) {
+              // TODO: Navigate to the parent of the route
+              navigate('/');
+            }
+            // console.log('filtered variant found!', filteredVariant);
+            // now what?
+          } else if (
+            resolvedRoute.absolutePath.indexOf(':') >= 0 &&
+            params &&
+            Object.keys(params).length > 0
+          ) {
+            const rules = resolvedRoute.rules ?? [];
+            // run rules if defined here as it is contextual to the params
+            if (rules.length > 0) {
+              const contextualRules = (rules.map((ruleTuple) => {
+                const [ruleOrRules, redirect] = ruleTuple;
+                if (typeof ruleOrRules === 'function') {
+                  return [ruleOrRules(params as any) as any, redirect];
+                }
+                return [
+                  (ruleOrRules.map((rule) =>
+                    rule(params as any)
+                  ) as any) as RouteRuleEvaluator<Ri>[],
+                  redirect,
+                ];
+              }) as any) as RouteRule<Ri>[];
 
-            const rulesResult = processRules(
-              { ...state, ...variantState },
-              contextualRules
-            );
-            if (typeof rulesResult === 'symbol') {
-              const route = allowedRouteBySymbol(rulesResult);
+              const rulesResult = processRules(
+                { ...state, ...variantState },
+                contextualRules
+              );
+              if (typeof rulesResult === 'symbol') {
+                const route = allowedRouteBySymbol(rulesResult);
 
-              if (!route) {
-                navigate('/');
+                if (!route) {
+                  navigate('/');
+                  return;
+                }
+                navigate(route.absolutePath);
                 return;
               }
-              navigate(route.absolutePath);
-              return;
             }
           }
         }

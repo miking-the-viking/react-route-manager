@@ -1,5 +1,4 @@
 import {
-  RouteRule,
   RouteRuleGen,
   RuleGenerator,
 } from '@react-route-manager/react-route-manager';
