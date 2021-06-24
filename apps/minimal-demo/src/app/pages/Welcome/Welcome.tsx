@@ -10,7 +10,6 @@ import { TROPHY } from '../Game/Trophy/Trophy.symbol';
 const Welcome: React.FC = () => {
   const { allowedRouteBySymbol } = useRouteManagerContext<ClicksState>();
 
-  // const aboutUrl = allowedRouteBySymbol(ABOUT);
   // const trophyRoute = allowedRouteBySymbol(TROPHY);
   const cryptoUrl = allowedRouteBySymbol(CRYPTO);
   return (
@@ -23,33 +22,29 @@ const Welcome: React.FC = () => {
         </Box>
         <Box id="content" background={'cornflowerblue'} p="0" m="0">
           <Box p="0" m="0" minW="10rem" px="6" py="6" color="white">
-            {/* <Text>
-              <L as={Link} to={aboutUrl.absolutePath}>
-                CLICK HERE
-              </L>{' '}
-              to navigate to the always accessible About page
-            </Text> */}
             <Divider mt={10} mb={10} />
             <Text>
               <L as={Link} to={cryptoUrl.absolutePath}>
                 CLICK HERE
               </L>{' '}
-              to navigate to the always accessible Crypto page
+              to navigate to the Crypto Dashboard. This will load
+              cryptocurrencies from a public API and dynamically create new
+              routes.
             </Text>
             <Divider mt={10} mb={10} />
             <Text mb={3}>
               To demonstrate the implicit ACL nature of the route
               configurations:
             </Text>
-            {/* <Text>
-              <L as={Link} to={'/game'}>
+            <Text>
+              <L as={Link} to={'/game/trophy'}>
                 CLICK HERE
               </L>{' '}
               to try to go to the /trophy restricted child route of /game. The
               redirect will ensure that you're taken to /game unless you have
               the prerequisite clicks.
             </Text>
-            <Text mt={4}>
+            {/* <Text mt={4}>
               <strong>ACL: </strong>
               {trophyRoute
                 ? `You CAN ACCESS the trophy route subroute.`

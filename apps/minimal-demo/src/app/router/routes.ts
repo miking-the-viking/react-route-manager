@@ -13,6 +13,6 @@ import { WELCOME_ROUTE } from '../pages/Welcome/Welcome.route';
 export const routes: Route[] = [
   // ABOUT_ROUTE,
   WELCOME_ROUTE,
-  GAME_ROUTE,
+  // GAME_ROUTE,
   CRYPTO_ROUTE,
 ];
