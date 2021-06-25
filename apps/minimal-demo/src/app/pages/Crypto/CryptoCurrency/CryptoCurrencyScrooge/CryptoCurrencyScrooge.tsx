@@ -12,15 +12,14 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { CryptoState } from '../../useCryptoList';
 import { useCryptoFromCode } from '../useCryptoFromCode';
-
-const booleanLabel = (b: boolean) => (b ? `Yup` : `Nope`);
+import scrooge from '../../../../../assets/scrooge.gif';
 
 const CryptoCurrencyHoldings: React.FC = () => {
   const { currency: code } = useParams();
 
   const crypto = useCryptoFromCode(code);
   const {
-    state: { holdings },
+    state: { holdings, cryptos },
   } = useRouteManagerContext<CryptoState>();
 
   const cryptoHoldings = holdings[crypto.details.code];
@@ -28,13 +27,11 @@ const CryptoCurrencyHoldings: React.FC = () => {
   return (
     <div>
       <Heading>
-        Crypto Currency {crypto.details.name} ({code}) Holdings
+        You have mad holdings in {crypto.details.name} ({code}) worth: $
+        {holdings[code].amount * crypto.price} USD
       </Heading>
       <Flex flexDirection={'column'} ml={'1em'}>
-        <Text>
-          You have hodlings? {cryptoHoldings.amount} worth $
-          {crypto.price * cryptoHoldings.amount} USD
-        </Text>
+        <img src={scrooge} width={'100%'} />
       </Flex>
     </div>
   );

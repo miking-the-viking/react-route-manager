@@ -1,4 +1,4 @@
-import { faBlind } from '@fortawesome/free-solid-svg-icons';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { RRM } from '@react-route-manager/react-route-manager';
 import { CRYPTO_INDEX } from './CryptoIndex.symbol';
 
@@ -8,6 +8,6 @@ export const CRYPTO_INDEX_ROUTE = RRM.Route({
   importComponent: () => import('./CryptoIndex'),
   name: 'Crypto Dashboard',
   description: 'Cryptocurrency Dashboard',
-  icon: faBlind,
+  icon: faHome,
   collections: ['nav'],
 });

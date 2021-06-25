@@ -30,6 +30,7 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
           : '/');
 
       // TODO: parent path needs to be included in route creation or by using parent route object's absolute path
+
       const parentPrependedVariants = route.variants
         ? recursivelyPrependParentPathToVariantRoutes(
             route.variants(state) as any,
@@ -40,11 +41,9 @@ export const processRoutes = <StateType extends Record<string, unknown>>(
       // TODO: Brainstorm autoresolving the necessary parameters
       const processedVariants = parentPrependedVariants;
 
-      console.log(`processing ${route.name} children with ${absolutePath}`);
       const [childrenMapping, processedChildren] = route.children
         ? processRoutes<StateType>(route.children, state, absolutePath)
         : [{}, undefined];
-      console.log(processedChildren);
 
       const processedRoute = {
         ...route,
@@ -76,4 +75,10 @@ const recursivelyPrependParentPathToVariantRoutes = (
   variantsArray.map((r) => ({
     ...r,
     absolutePath: `${parentPath}${r.absolutePath}`,
+    children: r.children
+      ? r.children.map((child) => ({
+          ...child,
+          absolutePath: `${parentPath}${child.absolutePath}`,
+        }))
+      : undefined,
   }));

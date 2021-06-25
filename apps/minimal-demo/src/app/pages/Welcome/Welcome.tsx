@@ -10,7 +10,6 @@ import { TROPHY } from '../Game/Trophy/Trophy.symbol';
 const Welcome: React.FC = () => {
   const { allowedRouteBySymbol } = useRouteManagerContext<ClicksState>();
 
-  // const trophyRoute = allowedRouteBySymbol(TROPHY);
   const cryptoUrl = allowedRouteBySymbol(CRYPTO);
   return (
     <Flex justifyContent="space-between" flexDir="column" minH="100vh">
@@ -44,12 +43,6 @@ const Welcome: React.FC = () => {
               redirect will ensure that you're taken to /game unless you have
               the prerequisite clicks.
             </Text>
-            {/* <Text mt={4}>
-              <strong>ACL: </strong>
-              {trophyRoute
-                ? `You CAN ACCESS the trophy route subroute.`
-                : `You CANNOT ACCESS to the trophy route. Even via programmatic navigation you'll be redirected to /game.`}
-            </Text> */}
           </Box>
         </Box>
       </Box>

@@ -221,9 +221,6 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
           const route = allowedRouteBySymbol(redirectRouteOrPath);
 
           if (!route) {
-            console.log(
-              'Did not resolve route as an allowed route, falling back to `/`. This could be a logic error in your ACL or route nesting.'
-            );
             navigate('/');
             return;
           }
