@@ -1,5 +1,6 @@
 import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 import { RRM } from '@react-route-manager/react-route-manager';
+import { CryptoState } from '../useCryptoList';
 import { CRYPTO_CURRENCY } from './CryptoCurrency.symbol';
 import { CryptoCurrencyHoldingsRoute } from './CryptoCurrencyHoldings/CryptoCurrencyHoldings.route';
 import { CryptoCurrencyScroogeRoute } from './CryptoCurrencyScrooge/CryptoCurrencyScrooge.route';
@@ -13,7 +14,7 @@ export const CryptoCurrencyDynamicRoute = RRM.DynamicRoute({
   collections: ['nav'],
   icon: faMoneyBill,
   children: [CryptoCurrencyHoldingsRoute, CryptoCurrencyScroogeRoute],
-  dynamicRoutes: ({ cryptos = {} }) => {
+  dynamicRoutes: ({ cryptos = {} }: CryptoState) => {
     return Object.keys(cryptos).map((key) => {
       const { code, name } = cryptos[key].details;
       return {

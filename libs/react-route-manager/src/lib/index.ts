@@ -5,3 +5,4 @@ export * from './types';
 export * from './RouteManagerContext';
 export * from './BrowserProvider';
 export * from './hooks';
+export * from './RouteRule/RouteRule';

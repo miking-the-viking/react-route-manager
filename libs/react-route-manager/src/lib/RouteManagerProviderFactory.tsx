@@ -111,8 +111,12 @@ export const RouteManagerProviderFactory: <R extends Record<string, unknown>>(
             const rules = resolvedRoute.rules ?? [];
             // run rules if defined here as it is contextual to the params
             if (rules.length > 0) {
-              const contextualRules = (rules.map((ruleTuple) => {
-                const [ruleOrRules, redirect] = ruleTuple;
+              const contextualRules = (rules.map((ruleTupleOrRuleClass) => {
+                console.log('ruleTupleOrRuleClass', ruleTupleOrRuleClass);
+                if (ruleTupleOrRuleClass.ruleTuple) {
+                }
+
+                const [ruleOrRules, redirect] = ruleTupleOrRuleClass;
                 if (typeof ruleOrRules === 'function') {
                   return [ruleOrRules(params as any) as any, redirect];
                 }

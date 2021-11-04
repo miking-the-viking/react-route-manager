@@ -10,7 +10,7 @@ import { TROPHY } from '../Game/Trophy/Trophy.symbol';
 const Welcome: React.FC = () => {
   const { allowedRouteBySymbol } = useRouteManagerContext<ClicksState>();
 
-  const cryptoUrl = allowedRouteBySymbol(CRYPTO);
+  // const cryptoUrl = allowedRouteBySymbol(CRYPTO);
   return (
     <Flex justifyContent="space-between" flexDir="column" minH="100vh">
       <Box>
@@ -22,7 +22,7 @@ const Welcome: React.FC = () => {
         <Box id="content" background={'cornflowerblue'} p="0" m="0">
           <Box p="0" m="0" minW="10rem" px="6" py="6" color="white">
             <Divider mt={10} mb={10} />
-            <Text>
+            {/* <Text>
               <L as={Link} to={cryptoUrl.absolutePath}>
                 CLICK HERE
               </L>{' '}
@@ -30,7 +30,7 @@ const Welcome: React.FC = () => {
               cryptocurrencies from a public API and dynamically create new
               routes.
             </Text>
-            <Divider mt={10} mb={10} />
+            <Divider mt={10} mb={10} /> */}
             <Text mb={3}>
               To demonstrate the implicit ACL nature of the route
               configurations:

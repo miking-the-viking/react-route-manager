@@ -79,7 +79,7 @@ const Trophy: React.FC = () => {
       >
         Reset clicks and lets do that again!
       </Button>
-
+      <br />
       {GodTierLink}
       <Outlet />
     </div>

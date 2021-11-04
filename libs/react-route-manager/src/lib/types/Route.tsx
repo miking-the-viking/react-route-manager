@@ -8,6 +8,7 @@ import { ProcessedRouteConfig } from './ProcessedRoute';
 import { RouteRule, RouteRuleGen } from './RouteRule';
 import flatten from 'lodash/flatten';
 import { RuleGenerator } from './RouteRuleEvaluator';
+import { StaticRouteRule } from '../RouteRule/RouteRule';
 
 
 
@@ -15,12 +16,21 @@ import { RuleGenerator } from './RouteRuleEvaluator';
  * A dynamic route has defined slugs which have matching keys in the params object.
  * 
  * For each key, "key" in the params object for a route, a corresponding ":key" must be present in the `path` string
+ * 
+ * @example
+ * DynamicParam<'stuff'> = ":stuff"
  */
  export type DynamicParam<S extends string> = `:${S}`
 
 
  /**
   * A route can support additional strings, divided by '/' around the dynamic parameter slug.
+  * 
+  * Using Covaraiance and Contravariance (worth really reading up on and getting academic familiarity)
+  * 
+  * @example
+  * DynamicParamRoute<'param1' | 'param2'> = (":param1" | `${string}/:param1/${string}` | `:param1/${string}` | `${string}/:param1`) & (":param2" | `${string}/:param2/${string}` | `:param2/${string}` | `${string}/:param2`)
+  * // Which basically works out to any valid route that inclues both those route parameters
   */
 export type DynamicParamRoute<T extends string> = (
     T extends any
@@ -29,8 +39,27 @@ export type DynamicParamRoute<T extends string> = (
 ) extends ((x: infer I) => void)
     ? I
     : never;
-  
 
+    type AConstructorTypeOf<T> = new (...args: any[]) => T;
+
+/**
+ * RouteConfigInput is the constructor input for a RRM.Route
+ * 
+ * It accepts a generic for application state which is expected to drive route rules
+ * 
+ * @example
+export const CRYPTO_ROUTE = RRM.Route({
+  key: CRYPTO,
+  path: 'crypto',
+  importComponent: () => import('./Crypto'),
+  name: 'Crypto',
+  description: 'Cryptocurrency Viewer',
+  icon: faHome,
+  collections: ['nav'],
+  children: [CRYPTO_INDEX_ROUTE, CryptoCurrencyDynamicRoute],
+});
+
+ */
 export type RouteConfigInput<RouterState extends Record<string, any>> = {
   /**
    * Distinct key for this route which can be used anywhere in the application as distinct identifier
@@ -40,21 +69,13 @@ export type RouteConfigInput<RouterState extends Record<string, any>> = {
    * export const USERS_PROFILE = Symbol('UsersProfile');
    * ```
    *
-   *
    * @todo Used in conjunction with `allowedRouteBySymbol` to immediately retrieve the absolute route for a given route by the rotue symbol and optional parameters
    */
   key: symbol;
 
   /**
    * The relative url path that router should match to
-   *
-   *
-   * @example
-   * ```
-   * export const USERS_PROFILE = Symbol('UsersProfile');
-   * ```
    */
-
   path: string;
 
   /**
@@ -63,15 +84,20 @@ export type RouteConfigInput<RouterState extends Record<string, any>> = {
   name: string;
 
   /**
-   * Description
+   * (optional) Description of the route
    */
-  description: string;
+  description?: string;
 
   /**
-   * A string of collections that the route belongs to,
-   * this is helpful if there are multuple navigation components in an application
+   * (optional) A string of collections that the route belongs to,
+   * this is helpful if there are multiple navigation components in an application
    * that can return the same route for instance. For instance the main nav "home" and an admin's sub-nav
-   *
+   * 
+   * @example
+   * // return all the routes that are accessible and in the "nav" collection
+   * routeByCollection('nav')
+   * 
+   * @todo allow for Symbol here also
    */
   collections?: string[];
 
@@ -84,7 +110,7 @@ export type RouteConfigInput<RouterState extends Record<string, any>> = {
    *   - Fallback path
    *
    */
-  rules?: (RouteRule<RouterState> | RouteRuleGen<RouterState, any>)[];
+  rules?: (RouteRule<RouterState> | RouteRuleGen<RouterState, any> | AConstructorTypeOf<StaticRouteRule<RouterState>>)[];
 
   /**
    * Child routes
@@ -188,7 +214,7 @@ export class Route<
   public name: string;
   public description: string;
   public collections?: string[];
-  public rules?: RouteRule<RouterState>[];
+  public rules?: (RouteRule<RouterState> & StaticRouteRule<RouterState>)[];
   public children?: Route<RouterState>[];
   public lazyLoadedComponent: ReturnType<typeof lazy>;
   public icon: () => JSX.Element;
@@ -216,8 +242,7 @@ export class Route<
     this.name = name;
     this.description = description;
     this.collections = collections;
-    this.rules = rules as RouteRule<RouterState>[] | undefined;
-    // this.rules = rules?.filter((r) => typeof (r[0] instanceof Array ? r[0][0]: r[0] ) !== 'function') as RouteRule<RouterState>[] | undefined;
+    this.rules = rules as (RouteRule<RouterState> & StaticRouteRule<RouterState>)[];
     this.children = children;
     this.absolutePath = absolutePath;
 
@@ -256,6 +281,7 @@ export class Route<
                 ...c,
                 path: childPath,
                 absolutePath: childPath,
+                // this may be able to be torn out with the new generator approach.
                 rules: c.rules ? c.rules.map((cRule) => {
                   //  TODO: handle array of rules, cRule[0][n]
                   if (typeof cRule[0] === 'function' && typeof cRule[0]({} as any) === 'function') {
